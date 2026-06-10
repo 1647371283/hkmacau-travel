@@ -427,14 +427,14 @@ r.setSize(c.clientWidth,c.clientHeight);r.setPixelRatio(Math.min(devicePixelRati
 c.appendChild(r.domElement);
 
 // Main geometry cluster - 24 floating wireframe shapes
-const pool=[new THREE.IcosahedronGeometry(.7,0),new THREE.OctahedronGeometry(.6,0),new THREE.TetrahedronGeometry(.5,0),new THREE.BoxGeometry(.6,.6,.6)];
+const pool=[new THREE.IcosahedronGeometry(.6,0),new THREE.OctahedronGeometry(.5,0),new THREE.TetrahedronGeometry(.4,0)];
 const clrs=[new THREE.Color('#d4a868'),new THREE.Color('#e06040'),new THREE.Color('#ffffff'),new THREE.Color('#c49a6c')];
 const shapes=[];
-for(let i=0;i<24;i++){
+for(let i=0;i<18;i++){
   const g=pool[Math.floor(Math.random()*pool.length)];
   const m=new THREE.MeshBasicMaterial({
     color:clrs[Math.floor(Math.random()*clrs.length)],
-    wireframe:true,transparent:true,opacity:.06+Math.random()*.08
+    wireframe:true,transparent:true,opacity:.03+Math.random()*.03
   });
   const m2=new THREE.Mesh(g,m);
   m2.position.set((Math.random()-.5)*14,(Math.random()-.5)*10,(Math.random()-.5)*6-2);
@@ -449,36 +449,68 @@ for(let i=0;i<24;i++){
   s.add(m2);shapes.push(m2);
 }
 
-// Particle system - 1500 interactive swarm particles
-const pc=1500;
+// Particle system - 2500 glow particles with circular sprite
+const pc=2500;
+
+// Generate a circular glow texture using canvas
+const canvas=document.createElement('canvas');
+canvas.width=64;canvas.height=64;
+const ctx=canvas.getContext('2d');
+const gradient=ctx.createRadialGradient(32,32,0,32,32,32);
+gradient.addColorStop(0,'rgba(255,255,255,1)');
+gradient.addColorStop(0.2,'rgba(255,255,255,0.8)');
+gradient.addColorStop(0.5,'rgba(200,180,140,0.3)');
+gradient.addColorStop(1,'rgba(255,255,255,0)');
+ctx.fillStyle=gradient;ctx.fillRect(0,0,64,64);
+const circleTexture=new THREE.CanvasTexture(canvas);
+
 const pg=new THREE.BufferGeometry;
 const pos=new Float32Array(pc*3);
-const sizes=new Float32Array(pc);
 const colors=new Float32Array(pc*3);
-const vel=[]; // store velocity per particle
+const sizes=new Float32Array(pc);
+// Store each particle's home position for organic movement
+const homeX=new Float32Array(pc);
+const homeY=new Float32Array(pc);
+const homeZ=new Float32Array(pc);
+const speeds=new Float32Array(pc);
+
+const palette=[
+  [.85,.62,.38],[.92,.78,.52],[1,.96,.88],
+  [.75,.55,.35],[.90,.40,.28]
+];
+
 for(let i=0;i<pc;i++){
-  pos[i*3]=(Math.random()-.5)*24;
-  pos[i*3+1]=(Math.random()-.5)*16;
-  pos[i*3+2]=(Math.random()-.5)*10;
-  sizes[i]=.02+Math.random()*.06;
-  const cc=clrs[Math.floor(Math.random()*clrs.length)];
-  colors[i*3]=cc.r;colors[i*3+1]=cc.g;colors[i*3+2]=cc.b;
-  vel.push({x:(Math.random()-.5)*.002,y:(Math.random()-.5)*.002,z:(Math.random()-.5)*.002});
+  // Random spherical distribution
+  const th=Math.random()*Math.PI*2;
+  const ph=Math.acos(2*Math.random()-1);
+  const rd=2.5+Math.random()*5.5;
+
+  homeX[i]=Math.sin(th)*Math.cos(ph)*rd;
+  homeY[i]=Math.sin(th)*Math.sin(ph)*rd*0.55;
+  homeZ[i]=Math.cos(ph)*rd*0.4;
+
+  pos[i*3]=homeX[i];pos[i*3+1]=homeY[i];pos[i*3+2]=homeZ[i];
+
+  const p=palette[Math.floor(Math.random()*palette.length)];
+  colors[i*3]=p[0];colors[i*3+1]=p[1];colors[i*3+2]=p[2];
+
+  sizes[i]=.15+Math.random()*.35;
+  speeds[i]=.003+Math.random()*.008;
 }
 pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
-pg.setAttribute('size',new THREE.BufferAttribute(sizes,1));
 pg.setAttribute('color',new THREE.BufferAttribute(colors,3));
+pg.setAttribute('size',new THREE.BufferAttribute(sizes,1));
 const pm=new THREE.PointsMaterial({
-  size:.04,transparent:true,opacity:.25,
+  size:.15,map:circleTexture,
+  transparent:true,opacity:.6,
   vertexColors:true,blending:THREE.AdditiveBlending,
-  sizeAttenuation:true
+  sizeAttenuation:true,depthWrite:false
 });
 const pts=new THREE.Points(pg,pm);
 s.add(pts);
 
-// Mouse/touch interaction - particles follow like flock
-let mx=0,my=0,throttle=0;
-const target=new THREE.Vector3();
+// Mouse/touch interaction
+let mx=0,my=0;
 document.addEventListener('mousemove',e=>{
   mx=(e.clientX/window.innerWidth-.5)*1.2;
   my=(e.clientY/window.innerHeight-.5)*.8;
@@ -489,9 +521,9 @@ document.addEventListener('touchmove',e=>{
 },{passive:true});
 
 // Connection lines for nearby particles
-const lineMat=new THREE.LineBasicMaterial({color:0xd4a868,transparent:true,opacity:.03});
+const lineMat=new THREE.LineBasicMaterial({color:0xd4a868,transparent:true,opacity:.06});
 const lineGeo=new THREE.BufferGeometry();
-const maxPairs=80;
+const maxPairs=160;
 const linePos=new Float32Array(maxPairs*6);
 const lineIndices=[];
 for(let i=0;i<maxPairs;i++)lineIndices.push(Math.floor(Math.random()*pc),Math.floor(Math.random()*pc));
@@ -515,25 +547,26 @@ ca.position.z=5;
     m.position.y=m.userData.iy+Math.cos(time*1.3+parseInt(m.id))*m.userData.my*30;
   });
 
-  // Interactive particle swarm - follows finger like a living cloud
+  // Particles - orbit around home with gentle mouse influence
   const ppos=pts.geometry.attributes.position.array;
-  const fX=mx*7,fY=-my*4.5;
+  const fX=mx*4,fY=-my*3;
   for(let i=0;i<pc;i++){
     const idx=i*3;
-    // Attraction to finger
-    ppos[idx]+=(fX-ppos[idx])*.005;
-    ppos[idx+1]+=(fY-ppos[idx+1])*.005;
-    // Orbital drift
-    const ang=time*0.4+i*0.07;
-    ppos[idx]+=Math.sin(ang)*.003;
-    ppos[idx+1]+=Math.cos(ang*1.2)*.003;
-    // Push away if too close (hole effect)
-    const dx=ppos[idx]-fX,dy=ppos[idx+1]-fY;
-    const dist=Math.sqrt(dx*dx+dy*dy);
-    if(dist<1.5&&dist>0){const p=(1.5-dist)*.03;ppos[idx]+=(dx/dist)*p;ppos[idx+1]+=(dy/dist)*p;}
-    // Soft bound constraint
-    if(ppos[idx]>10)ppos[idx]-=.03;if(ppos[idx]<-10)ppos[idx]+=.03;
-    if(ppos[idx+1]>7)ppos[idx+1]-=.03;if(ppos[idx+1]<-7)ppos[idx+1]+=.03;
+    // Return toward home position (constant pull)
+    const dxH=homeX[i]-ppos[idx];
+    const dyH=homeY[i]-ppos[idx+1];
+    const dzH=homeZ[i]-ppos[idx+2];
+    ppos[idx]+=dxH*.004;
+    ppos[idx+1]+=dyH*.004;
+    ppos[idx+2]+=dzH*.004;
+    // Gentle mouse attraction (not overpowering)
+    ppos[idx]+=(fX-ppos[idx])*.001;
+    ppos[idx+1]+=(fY-ppos[idx+1])*.001;
+    // Orbital wiggle around home
+    const ang=time*speeds[i];
+    ppos[idx]+=Math.sin(ang)*.008;
+    ppos[idx+1]+=Math.cos(ang*1.3)*.008;
+    ppos[idx+2]+=Math.sin(ang*0.7)*.005;
   }
   pts.geometry.attributes.position.needsUpdate=true;
 
@@ -547,8 +580,8 @@ ca.position.z=5;
   lines.geometry.attributes.position.needsUpdate=true;
 
   // Gentle scene rotation follows cursor
-  s.rotation.y+=((mx*.08-s.rotation.y)*.005);
-  s.rotation.x+=((my*.04-s.rotation.x)*.005);
+  s.rotation.y+=((mx*.06-s.rotation.y)*.003);
+  s.rotation.x+=((my*.03-s.rotation.x)*.003);
 
   r.render(s,ca);
 })();
