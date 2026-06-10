@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<title>娓境 路 浜旀棩</title>
+<title>港澳 · 五日</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:15
 /* Three.js */
 #three{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.55}
 
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?HERO 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+/* ═══════════ HERO ═══════════ */
 .h{position:relative;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding:180px 28px 56px;overflow:hidden;background:var(--bg);margin-bottom:8px}
 .h-amb{position:absolute;inset:-60%;z-index:0;pointer-events:none;background:radial-gradient(ellipse 35% 25% at 20% 25%,rgba(224,96,64,.07) 0%,transparent 50%),radial-gradient(ellipse 30% 20% at 80% 60%,rgba(212,168,104,.03) 0%,transparent 50%);animation:ad 30s ease-in-out infinite alternate}
 @keyframes ad{0%{transform:translate(0,0)}100%{transform:translate(-1.2%,.8%)rotate(-1deg)}}
@@ -52,7 +52,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:15
 .h-d{font-size:13px;color:var(--text2);line-height:1.55;font-weight:300;max-width:380px;margin-top:2px;opacity:0;animation:fu .6s .7s forwards}
 @keyframes fu{to{opacity:1;transform:translateY(0)}}
 
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?TOP TABS 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+/* ═══════════ TOP TABS ═══════════ */
 .tabs{position:sticky;top:0;z-index:100;height:44px;display:flex;background:rgba(7,7,7,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;padding:0 12px;gap:0}
 .tabs::-webkit-scrollbar{display:none}
 .tabs a{flex-shrink:0;text-decoration:none;font-size:11px;font-weight:500;color:var(--text3);padding:0 14px;height:44px;display:flex;align-items:center;position:relative;transition:color .3s;white-space:nowrap;font-family:var(--mono);letter-spacing:.5px}
@@ -60,7 +60,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:15
 .tabs a.active{color:#fff}
 .tabs a.active::after{transform:scaleX(1)}
 
-/* 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?SECTIONS 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?*/
+/* ═══════════ SECTIONS ═══════════ */
 .sec{padding:40px 24px;max-width:640px;margin:0 auto;scroll-margin-top:48px;position:relative}
 .sec+.sec{border-top:1px solid var(--border);margin-top:0}
 .sec-h{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
@@ -183,235 +183,235 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:15
 <body>
 
 <div id="pr"></div>
-<button id="dm" aria-label="鍒囨崲涓婚">馃寵</button>
+<button id="dm" aria-label="切换主题">🌙</button>
 
-<!-- 鈺愨晲鈺?HERO 鈺愨晲鈺?-->
+<!-- ═══ HERO ═══ -->
 <header class="h">
   <div class="h-amb"></div>
   <div class="h-g"></div>
   <div id="three"></div>
   <div class="h-c">
-    <div class="h-r">2026 路 鍏湀</div>
+    <div class="h-r">2026 · 六月</div>
     <div class="h-ln"></div>
     <div class="h-t">
       <div class="row">
-        <span class="ch c1">娓?/span>
-        <span class="ch c2">婢?/span>
+        <span class="ch c1">港</span>
+        <span class="ch c2">澳</span>
       </div>
       <div class="row" style="margin-top:-4px">
-        <span class="dv">鈥?/span>
-        <span class="ch c3">浜?/span>
-        <span class="ch c4">鏃?/span>
+        <span class="dv">—</span>
+        <span class="ch c3">五</span>
+        <span class="ch c4">日</span>
       </div>
     </div>
-    <div class="h-en">Hong Kong 路 Macao</div>
+    <div class="h-en">Hong Kong · Macao</div>
     <div class="h-meta">
-      <span>璧ｅ窞鍑哄彂</span>
-      <span>6.24鈫?.28</span>
-      <span>8:00鎶垫腐</span>
+      <span>赣州出发</span>
+      <span>6.24→6.28</span>
+      <span>8:00抵港</span>
     </div>
-    <p class="h-d">鏃╃彮楂橀搧绾?鐐瑰埌瑗夸節榫欍€傚厛棣欐腐鍚庢境闂ㄣ€?br>鎵€鏈変环鏍兼牳瀹炶嚦2026骞?鏈堛€?/p>
+    <p class="h-d">早班高铁约8点到西九龙。先香港后澳门。<br>所有价格核实至2026年6月。</p>
   </div>
 </header>
 
-<!-- 鈺愨晲鈺?TABS 鈺愨晲鈺?-->
+<!-- ═══ TABS ═══ -->
 <nav class="tabs">
-  <a href="#tools" class="active">宸ュ叿</a>
-  <a href="#d1">琛岀▼</a>
-  <a href="#food">缇庨</a>
-  <a href="#budget">棰勭畻</a>
-  <a href="#tips">璐村＋</a>
-  <a href="#list">娓呭崟</a>
+  <a href="#tools" class="active">工具</a>
+  <a href="#d1">行程</a>
+  <a href="#food">美食</a>
+  <a href="#budget">预算</a>
+  <a href="#tips">贴士</a>
+  <a href="#list">清单</a>
 </nav>
 
-<!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?TOOLS 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?-->
+<!-- ═══════════ TOOLS ═══════════ -->
 <section class="sec" id="tools">
-  <div class="sec-h">宸ュ叿 <span id="cdTimer" style="margin-left:auto;font-size:11px;font-weight:400;font-family:var(--mono);color:var(--gold);letter-spacing:0;text-transform:none">璺濆嚭鍙?--澶?--:--:--</span></div>
+  <div class="sec-h">工具 <span id="cdTimer" style="margin-left:auto;font-size:11px;font-weight:400;font-family:var(--mono);color:var(--gold);letter-spacing:0;text-transform:none">距出发 --天 --:--:--</span></div>
 
   <div class="wx-c r">
     <div class="wx-h">
-      <span class="l">鈽€锔?瀹炴椂澶╂皵</span>
-      <span class="n" id="wxNow">--掳</span>
+      <span class="l">☀️ 实时天气</span>
+      <span class="n" id="wxNow">--°</span>
     </div>
     <div class="wx-g" id="wxGrid">
-      <div class="wx-d active"><div class="wn">浠婂ぉ</div><div class="wi">鈽€锔?/div><div class="wt">--掳</div></div>
-      <div class="wx-d"><div class="wn">鏄庡ぉ</div><div class="wi">鈽€锔?/div><div class="wt">--掳</div></div>
-      <div class="wx-d"><div class="wn">鍚庡ぉ</div><div class="wi">鈽€锔?/div><div class="wt">--掳</div></div>
-      <div class="wx-d"><div class="wn">--</div><div class="wi">鈽€锔?/div><div class="wt">--掳</div></div>
-      <div class="wx-d"><div class="wn">--</div><div class="wi">鈽€锔?/div><div class="wt">--掳</div></div>
+      <div class="wx-d active"><div class="wn">今天</div><div class="wi">☀️</div><div class="wt">--°</div></div>
+      <div class="wx-d"><div class="wn">明天</div><div class="wi">☀️</div><div class="wt">--°</div></div>
+      <div class="wx-d"><div class="wn">后天</div><div class="wi">☀️</div><div class="wt">--°</div></div>
+      <div class="wx-d"><div class="wn">--</div><div class="wi">☀️</div><div class="wt">--°</div></div>
+      <div class="wx-d"><div class="wn">--</div><div class="wi">☀️</div><div class="wt">--°</div></div>
     </div>
   </div>
 
   <div class="cs r">
-    <div class="ci"><span class="ic">馃尅锔?/span> <span id="chipWx">--掳</span></div>
-    <div class="ci"><span class="ic">馃帿</span> 鍏揪閫?HK$50</div>
-    <div class="ci"><span class="ic">馃殺</span> 娓¤疆 HK$209</div>
-    <div class="ci"><span class="ic">馃攲</span> 鑻辨爣涓夎剼</div>
-    <div class="ci"><span class="ic">馃挼</span> 鐜伴噾 HK$2k</div>
-    <div class="ci"><span class="ic">馃摓</span> 999</div>
+    <div class="ci"><span class="ic">🌡️</span> <span id="chipWx">--°</span></div>
+    <div class="ci"><span class="ic">🎫</span> 八达通 HK$50</div>
+    <div class="ci"><span class="ic">🚢</span> 渡轮 HK$209</div>
+    <div class="ci"><span class="ic">🔌</span> 英标三脚</div>
+    <div class="ci"><span class="ic">💵</span> 现金 HK$2k</div>
+    <div class="ci"><span class="ic">📞</span> 999</div>
   </div>
 
   <div class="cv-c r">
     <div class="cv-h">
-      <span class="l">馃挶 姹囩巼鎹㈢畻</span>
-      <span class="r2" id="swapLabel">娓竵 鈫?浜烘皯甯?/span>
+      <span class="l">💱 汇率换算</span>
+      <span class="r2" id="swapLabel">港币 → 人民币</span>
     </div>
     <div class="cv-r">
-      <input type="number" id="fromAmt" placeholder="杈撳叆閲戦" value="100">
+      <input type="number" id="fromAmt" placeholder="输入金额" value="100">
       <span class="cl" id="fromLabel">HKD</span>
     </div>
-    <div style="text-align:center;padding:2px 0;color:var(--text4);font-size:20px;font-family:var(--mono)">鈫?/div>
+    <div style="text-align:center;padding:2px 0;color:var(--text4);font-size:20px;font-family:var(--mono)">↓</div>
     <div class="cv-r" style="margin-bottom:4px">
-      <div style="flex:1;background:var(--surface2);border-radius:8px;padding:12px;font-size:18px;color:var(--gold);font-family:var(--mono);font-weight:500" id="resultDisplay">楼87.0</div>
+      <div style="flex:1;background:var(--surface2);border-radius:8px;padding:12px;font-size:18px;color:var(--gold);font-family:var(--mono);font-weight:500" id="resultDisplay">¥87.0</div>
       <span class="cl" id="toLabel">CNY</span>
     </div>
-    <div class="cv-s" id="swapBtn">馃攧 鍙嶈繃鏉ョ畻</div>
+    <div class="cv-s" id="swapBtn">🔄 反过来算</div>
   </div>
 </section>
 
-<!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?DAY 1 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?-->
+<!-- ═══════════ DAY 1 ═══════════ -->
 <section class="sec" id="d1">
-  <div class="sec-h">琛岀▼ 路 Day 1</div>
-  <div class="dl2"><span class="d">Day One</span><span class="e">6.24 Wed 路 灏栨矙鍜€</span></div>
-  <div class="dt">缁存腐鍒濊</div>
-  <div class="ds">鎶垫腐 路 鏄熷厜澶ч亾 路 澶滄櫙</div>
+  <div class="sec-h">行程 · Day 1</div>
+  <div class="dl2"><span class="d">Day One</span><span class="e">6.24 Wed · 尖沙咀</span></div>
+  <div class="dt">维港初见</div>
+  <div class="ds">抵港 · 星光大道 · 夜景</div>
 
-  <div class="bc"><div class="bt">馃殑 08:00 路 鎶垫腐</div><h4>璧ｅ窞鈫掕タ涔濋緳</h4><p>绾?鐐规姷杈俱€傚嚭鍏虫琛屽埌灏栨矙鍜€銆傜珯鍐呬拱鍏揪閫氾紙鎶奸噾HK$50锛岄娆″厖HK$150锛夈€?/p><div class="rt">馃毝 瑗夸節榫欑珯鈫掑皷娌欏拃 8鍒嗛挓</div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="棣欐腐瑗夸節榫欑珯" onclick="mp(this)"><span class="ic">馃搷</span>瀵艰埅鍒扮珯</span></div></div>
-  <div class="bc"><div class="bt">馃崪 鍗堥</div><h4>鏃鸿鍐板</h4><p><span class="tg f">鑼堕鍘?/span> 婊戣泲铏句粊楗璈K$58路鑿犺悵娌笻K$15銆備汉鍧嘓K$60鈥?0銆?/p><div class="rt">馃毝 灏栨矙鍜€绔橝1鍙?鍒?/div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-copy="灏栨矙鍜€浜氬＋鍘橀亾29-39鍙? onclick="cp(this)"><span class="ic">馃搵</span>澶嶅埗鍦板潃</span><span class="act" data-map="鏃鸿鍐板 灏栨矙鍜€" onclick="mp(this)"><span class="ic">馃搷</span>瀵艰埅</span></div></div>
-  <div class="bc"><div class="bt">馃彌锔?14:00</div><h4>鏄熷厜澶ч亾鈫扠11 MUSEA鈫掓捣娓煄</h4><p>娌跨淮娓极姝ャ€侹11 MUSEA寤虹瓚鍑虹墖銆傜┛杩囨捣娓煄鍒板ぉ鏄熺爜澶淬€?/p><div class="ex"><span class="et">鉁?鎺ㄨ崘</span> 棣欐腐鑹烘湳棣嗗湪鏄熷厜澶ч亾鏃侊紝鍏嶈垂鍏ュ満銆?/div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="鏄熷厜澶ч亾 棣欐腐" onclick="mp(this)"><span class="ic">馃搷</span>瀵艰埅鍒版槦鍏夊ぇ閬?/span></div></div>
-  <div class="bc"><div class="bt">馃寖 20:00</div><h4>骞诲僵鍜忛姹?/h4><p>姣忔櫄8鐐逛寒鐏10鍒嗛挓銆傛槦鍏夊ぇ閬撳厤璐癸紝涓嶉渶棰勭害銆?/p></div>
-  <div class="bc"><div class="bt">馃彯 娣卞</div><h4>搴欒澶滃競</h4><p>娌归夯鍦奥风叢浠旈キ路鐐掕煿路澶ф帓妗ｃ€傚紑鍒板噷鏅?2鐐广€傜幇閲戙€?/p><div class="rt">馃殗 浣愭暒绔橝鍙ｆ琛?鍒?/div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="搴欒澶滃競 棣欐腐" onclick="mp(this)"><span class="ic">馃搷</span>瀵艰埅鍒板簷琛?/span></div></div>
+  <div class="bc"><div class="bt">🚄 08:00 · 抵港</div><h4>赣州→西九龙</h4><p>约8点抵达。出关步行到尖沙咀。站内买八达通（押金HK$50，首次充HK$150）。</p><div class="rt">🚶 西九龙站→尖沙咀 8分钟</div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="香港西九龙站" onclick="mp(this)"><span class="ic">📍</span>导航到站</span></div></div>
+  <div class="bc"><div class="bt">🍜 午餐</div><h4>旺记冰室</h4><p><span class="tg f">茶餐厅</span> 滑蛋虾仁饭HK$58·菠萝油HK$15。人均HK$60–80。</p><div class="rt">🚶 尖沙咀站A1口3分</div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-copy="尖沙咀亚士厘道29-39号" onclick="cp(this)"><span class="ic">📋</span>复制地址</span><span class="act" data-map="旺记冰室 尖沙咀" onclick="mp(this)"><span class="ic">📍</span>导航</span></div></div>
+  <div class="bc"><div class="bt">🏛️ 14:00</div><h4>星光大道→K11 MUSEA→海港城</h4><p>沿维港漫步。K11 MUSEA建筑出片。穿过海港城到天星码头。</p><div class="ex"><span class="et">✦ 推荐</span> 香港艺术馆在星光大道旁，免费入场。</div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="星光大道 香港" onclick="mp(this)"><span class="ic">📍</span>导航到星光大道</span></div></div>
+  <div class="bc"><div class="bt">🌃 20:00</div><h4>幻彩咏香江</h4><p>每晚8点亮灯秀10分钟。星光大道免费，不需预约。</p></div>
+  <div class="bc"><div class="bt">🏮 深夜</div><h4>庙街夜市</h4><p>油麻地·煲仔饭·炒蟹·大排档。开到凌晨12点。现金。</p><div class="rt">🚇 佐敦站A口步行5分</div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="庙街夜市 香港" onclick="mp(this)"><span class="ic">📍</span>导航到庙街</span></div></div>
 </section>
 
 <section class="sec">
-  <div class="dl2"><span class="d">Day Two</span><span class="e">6.25 Thu 路 鍧氬凹鍦板煄</span></div>
-  <div class="dt">娴峰哺鍜栧暋</div>
-  <div class="ds">% Arabica路瑗跨幆娉虫路娓ぇ</div>
-  <div class="bc"><div class="bt">馃 10:00 路 鑷劧閱?/div><h4>婢虫床鐗涘ザ鍏徃</h4><p>浣愭暒鐧藉姞澹47鍙枫€傜倰铔嬪澹獺K$40路鐐栧ザHK$32銆傜幇閲戙€?/p><div class="rt">馃殗 浣愭暒绔機2鍙?鍒?/div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="婢虫床鐗涘ザ鍏徃 棣欐腐浣愭暒" onclick="mp(this)"><span class="ic">馃搷</span>瀵艰埅</span><span class="act" data-copy="浣愭暒鐧藉姞澹47鍙? onclick="cp(this)"><span class="ic">馃搵</span>鍦板潃</span></div></div>
-  <div class="bc"><div class="bt">鈽?13:00</div><h4>% Arabica鈫掕タ鐜吵妫氣啋鐮佸ご</h4><p>馃殗 灏栨矙鍜€鈫掑潥灏煎湴鍩嶤鍙ｏ紝25鍒嗐€傪煋?娴疯竟鐜荤拑灞嬄佛煂?瑗跨幆娉虫路馃摳 鏄ュ▏涓庡織鏄庡彇鏅湴</p></div>
-  <div class="bc"><div class="bt">馃彌锔?16:00</div><h4>棣欐腐澶у/涓北鍏洯鏃ヨ惤</h4><p>姝ヨ涓婂北10鍒嗗埌鐧惧勾鏍″洯锛堝厤璐癸級銆傛垨娴疯竟鐪嬫棩钀姐€?/p></div>
-  <div class="bc"><div class="bt">馃 鏅氶</div><h4>鏂板叴椋熷</h4><p><span class="tg f">瑗跨幆</span> 鍗戣矾涔嶈7鍙枫€傛祦娌欏寘HK$28路铏鹃ズHK$35銆備汉鍧嘓K$80鈥?00銆?/p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="鏂板叴椋熷 棣欐腐瑗跨幆" onclick="mp(this)"><span class="ic">馃搷</span>瀵艰埅</span><span class="act" data-copy="瑗跨幆鍗戣矾涔嶈7鍙? onclick="cp(this)"><span class="ic">馃搵</span>鍦板潃</span></div></div>
-  <div class="bc"><div class="bt">馃С 鏅氫笂</div><h4>鏀舵嬀琛屾潕</h4><p>鏄庢棭鍘绘境闂ㄣ€備綇涓婄幆闄勮繎鍒版腐婢崇爜澶?鍒嗐€傝埞绁ㄦ彁鍓岾look涔般€?/p></div>
+  <div class="dl2"><span class="d">Day Two</span><span class="e">6.25 Thu · 坚尼地城</span></div>
+  <div class="dt">海岸咖啡</div>
+  <div class="ds">% Arabica·西环泳棚·港大</div>
+  <div class="bc"><div class="bt">🥚 10:00 · 自然醒</div><h4>澳洲牛奶公司</h4><p>佐敦白加士街47号。炒蛋多士HK$40·炖奶HK$32。现金。</p><div class="rt">🚇 佐敦站C2口3分</div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="澳洲牛奶公司 香港佐敦" onclick="mp(this)"><span class="ic">📍</span>导航</span><span class="act" data-copy="佐敦白加士街47号" onclick="cp(this)"><span class="ic">📋</span>地址</span></div></div>
+  <div class="bc"><div class="bt">☕ 13:00</div><h4>% Arabica→西环泳棚→码头</h4><p>🚇 尖沙咀→坚尼地城C口，25分。📸 海边玻璃屋·🌊 西环泳棚·📸 春娇与志明取景地</p></div>
+  <div class="bc"><div class="bt">🏛️ 16:00</div><h4>香港大学/中山公园日落</h4><p>步行上山10分到百年校园（免费）。或海边看日落。</p></div>
+  <div class="bc"><div class="bt">🥟 晚餐</div><h4>新兴食家</h4><p><span class="tg f">西环</span> 卑路乍街7号。流沙包HK$28·虾饺HK$35。人均HK$80–100。</p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="新兴食家 香港西环" onclick="mp(this)"><span class="ic">📍</span>导航</span><span class="act" data-copy="西环卑路乍街7号" onclick="cp(this)"><span class="ic">📋</span>地址</span></div></div>
+  <div class="bc"><div class="bt">🧳 晚上</div><h4>收拾行李</h4><p>明早去澳门。住上环附近到港澳码头5分。船票提前Klook买。</p></div>
 </section>
 
 <section class="sec">
-  <div class="dl2"><span class="d">Day Three</span><span class="e">6.26 Fri 路 闀挎床</span></div>
-  <div class="dt">绂诲矝鎱㈡父</div>
-  <div class="ds">楸艰泲路瑗跨摐鍐奥锋棩钀芥浮杞?/div>
-  <div class="bc"><div class="bt">馃殺 09:30</div><h4>涓幆5鍙风爜澶粹啋闀挎床</h4><div class="rt">馃殗 灏栨矙鍜€绔欌啋涓幆绔橝鍙ｂ啋5鍙风爜澶?br>馃殺 蹇埞35鍒咹K$32.9 / 鎱㈣埞55鍒咹K$16.7锛?026.4鏂颁环锛?/div></div>
-  <div class="bc"><div class="bt">馃悷 10:30鈥?6:00</div><h4>闀挎床鑷敱鎺㈢储</h4><p>寰掓鎴栧崟杞︺€傝矾绾匡細鐮佸ご鈫掍笢婀炬吵婊┾啋鍖楀笣搴欌啋寮犱繚浠旀礊鈫掍簲琛岀煶銆?/p><div class="tk">馃崱 鐢樻案娉伴奔铔婬K$15 路 馃崏 瑗跨摐鍐癏K$25 路 馃 娴烽矞HK$150鈥?00<br>馃毑 鍗曡溅HK$40/澶?/div><div class="ex"><span class="et">鉁?鎺ㄨ崘</span> 鏈€鍗楃浜旇鐭虫捣铓€鍦拌矊銆?/div></div>
-  <div class="bc"><div class="bt">馃寘 鍥炵▼</div><h4>鎱㈣埞鍥炰腑鐜?/h4><p>鍚规捣椋庣湅鏃ヨ惤銆傚埌涓幆鍙幓鎽╁ぉ杞紙HK$20锛?5鍒?鍦堬紝5骞翠笉娑ㄤ环锛夈€?/p></div>
-  <div class="bc"><div class="bt">馃 鏅氶</div><h4>涔濊鐗涜叐/涓€涔愮儳楣?/h4><p><span class="tg f">蹇呭悆</span> 涔濊锛堟瓕璧嬭21鍙凤級娓呮堡鐗涜叐浼婇潰HK$68锛岀幇閲戙€備竴涔愶紙澹腹鍒╄34鍙凤級绫冲叾鏋椼€?/p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="涔濊鐗涜叐 棣欐腐涓幆" onclick="mp(this)"><span class="ic">馃搷</span>瀵艰埅鍒颁節璁?/span><span class="act" data-copy="涓幆姝岃祴琛?1鍙? onclick="cp(this)"><span class="ic">馃搵</span>澶嶅埗鍦板潃</span></div></div>
+  <div class="dl2"><span class="d">Day Three</span><span class="e">6.26 Fri · 长洲</span></div>
+  <div class="dt">离岛慢游</div>
+  <div class="ds">鱼蛋·西瓜冰·日落渡轮</div>
+  <div class="bc"><div class="bt">🚢 09:30</div><h4>中环5号码头→长洲</h4><div class="rt">🚇 尖沙咀站→中环站A口→5号码头<br>🚢 快船35分HK$32.9 / 慢船55分HK$16.7（2026.4新价）</div></div>
+  <div class="bc"><div class="bt">🐟 10:30–16:00</div><h4>长洲自由探索</h4><p>徒步或单车。路线：码头→东湾泳滩→北帝庙→张保仔洞→五行石。</p><div class="tk">🍡 甘永泰鱼蛋HK$15 · 🍉 西瓜冰HK$25 · 🦐 海鲜HK$150–200<br>🚲 单车HK$40/天</div><div class="ex"><span class="et">✦ 推荐</span> 最南端五行石海蚀地貌。</div></div>
+  <div class="bc"><div class="bt">🌅 回程</div><h4>慢船回中环</h4><p>吹海风看日落。到中环可去摩天轮（HK$20，15分3圈，5年不涨价）。</p></div>
+  <div class="bc"><div class="bt">🥟 晚餐</div><h4>九记牛腩/一乐烧鹅</h4><p><span class="tg f">必吃</span> 九记（歌赋街21号）清汤牛腩伊面HK$68，现金。一乐（士丹利街34号）米其林。</p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="九记牛腩 香港中环" onclick="mp(this)"><span class="ic">📍</span>导航到九记</span><span class="act" data-copy="中环歌赋街21号" onclick="cp(this)"><span class="ic">📋</span>复制地址</span></div></div>
 </section>
 
 <section class="sec">
-  <div class="dl2"><span class="d">Day Four</span><span class="e">6.27 Sat 路 婢抽棬鍗婂矝</span></div>
-  <div class="dt">涓栭仐钁￠煹</div>
-  <div class="ds">澶т笁宸绰疯泲鎸灺锋柊钁′含</div>
-  <div class="bc"><div class="bt">馃殺 10:00</div><h4>涓婄幆鈫掓境闂?/h4><div class="rt">馃殗 涓婄幆绔橠鍙ｂ啋淇″痉涓績<br>馃殺 閲戝厜椋炶埅绾?h<br>馃帿 2026.4娑ㄤ环 鍛ㄦ湯HK$209/骞虫棩HK$192</div></div>
-  <div class="bc"><div class="bt">馃彌锔?14:00</div><h4>澶т笁宸粹啋鎭嬬埍宸封啋鐜懓鍫傗啋璁簨浜?/h4><p>姝ヨ鍙揪绾?鈥?h銆傚ぇ涓夊反鍏嶈垂路鎭嬬埍宸峰嚭鐗嚶风帿鐟板爞宸存礇鍏嬨€?/p><div class="rt">馃毝 澶栨腐鐮佸ご鈫掑ぇ涓夊反姝ヨ15鍒?/div></div>
-  <div class="bc"><div class="bt">馃ェ 涓嬪崍鑼?/div><h4>鐜涘槈鐑堣泲鎸?/h4><p><span class="tg f">蹇呭悆</span> 鍗楁咕椹粺棰嗚12鍙枫€侶K$15/涓€傜幇閲戙€傚紑鍒?8:00銆?/p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="鐜涘槈鐑堣泲鎸?婢抽棬" onclick="mp(this)"><span class="ic">馃搷</span>瀵艰埅</span><span class="act" data-copy="鍗楁咕椹粺棰嗚12鍙? onclick="cp(this)"><span class="ic">馃搵</span>鍦板潃</span></div></div>
-  <div class="bc"><div class="bt">馃幇 鏅氫笂</div><h4>鏂拌憽浜啋澶т笁宸村鏅?/h4><p>閲戣壊鑾茶姳鏂拌憽浜琛?0鍒嗭紙21鈥撶鍏ワ級銆傚ぇ涓夊反澶滄櫙浜哄皯濂芥媿銆?/p></div>
-  <div class="bc"><div class="bt">馃崨 鏅氶</div><h4>鐣寗灞嬭憽鍥介</h4><p><span class="tg f">婢宠憽鑿?/span> 鏂伴┈璺繛瀹夊贩3鍙枫€傝憽鍥介浮HK$128路椹粙浼戠悆HK$68銆備汉鍧嘓K$150鈥?00銆?/p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="鐣寗灞嬭憽鍥介 婢抽棬" onclick="mp(this)"><span class="ic">馃搷</span>瀵艰埅</span><span class="act" data-copy="鏂伴┈璺繛瀹夊贩3鍙? onclick="cp(this)"><span class="ic">馃搵</span>鍦板潃</span></div></div>
+  <div class="dl2"><span class="d">Day Four</span><span class="e">6.27 Sat · 澳门半岛</span></div>
+  <div class="dt">世遗葡韵</div>
+  <div class="ds">大三巴·蛋挞·新葡京</div>
+  <div class="bc"><div class="bt">🚢 10:00</div><h4>上环→澳门</h4><div class="rt">🚇 上环站D口→信德中心<br>🚢 金光飞航约1h<br>🎫 2026.4涨价 周末HK$209/平日HK$192</div></div>
+  <div class="bc"><div class="bt">🏛️ 14:00</div><h4>大三巴→恋爱巷→玫瑰堂→议事亭</h4><p>步行可达约2–3h。大三巴免费·恋爱巷出片·玫瑰堂巴洛克。</p><div class="rt">🚶 外港码头→大三巴步行15分</div></div>
+  <div class="bc"><div class="bt">🥧 下午茶</div><h4>玛嘉烈蛋挞</h4><p><span class="tg f">必吃</span> 南湾马统领街12号。HK$15/个。现金。开到18:00。</p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="玛嘉烈蛋挞 澳门" onclick="mp(this)"><span class="ic">📍</span>导航</span><span class="act" data-copy="南湾马统领街12号" onclick="cp(this)"><span class="ic">📋</span>地址</span></div></div>
+  <div class="bc"><div class="bt">🎰 晚上</div><h4>新葡京→大三巴夜景</h4><p>金色莲花新葡京步行10分（21–禁入）。大三巴夜景人少好拍。</p></div>
+  <div class="bc"><div class="bt">🍛 晚餐</div><h4>番茄屋葡国餐</h4><p><span class="tg f">澳葡菜</span> 新马路连安巷3号。葡国鸡HK$128·马介休球HK$68。人均HK$150–200。</p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="番茄屋葡国餐 澳门" onclick="mp(this)"><span class="ic">📍</span>导航</span><span class="act" data-copy="新马路连安巷3号" onclick="cp(this)"><span class="ic">📋</span>地址</span></div></div>
 </section>
 
 <section class="sec">
-  <div class="dl2"><span class="d">Day Five</span><span class="e">6.28 Sun 路 姘逛粩</span></div>
-  <div class="dt">姘逛粩褰掗€?/div>
-  <div class="ds">濞佸凹鏂汉路瀹樹篃琛椔峰洖璧ｅ窞</div>
-  <div class="bc"><div class="bt">馃彴 10:00</div><h4>濞佸凹鏂汉路宸撮粠浜郝蜂鸡鏁︿汉</h4><div class="rt">馃殨 鍗婂矝鎵撹溅HK$80 / 馃殞 鏂拌憽浜厤璐瑰彂璐㈣溅<br>馃帿 鍏嶈垂路馃浂 璐″鎷塇K$150路馃椉 宸撮粠浜?妤煎厤璐?/div></div>
-  <div class="bc"><div class="bt">馃嵈 鍗堥</div><h4>瀹樹篃琛楀悆閫忛€?/h4><p>姝ヨ10鍒嗐€傪煃?澶у埄鏉ヨ鐚墥鍖匟K$45 路 馃崷 鑾箟璁版Υ鑾查洩绯旽K$38 路 馃 姘磋煿绮?/p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="瀹樹篃琛?婢抽棬" onclick="mp(this)"><span class="ic">馃搷</span>瀵艰埅鍒板畼涔熻</span></div></div>
-  <div class="bc"><div class="bt">馃殑 14:00</div><h4>婢抽棬鈫掔彔娴封啋璧ｅ窞</h4><div class="rt">鈶?姘逛粩鎵撹溅鈫掓嫳鍖桯K$60 15鍒?鈶?杩囧叧20鈥?0鍒?鈶?姝ヨ鍒扮彔娴风珯10鍒?br>鈶?鐝犳捣鈫掑箍宸炲崡鈫掕担宸炶タ锛堜腑杞級绾?h 楼311鈥?74</div></div>
+  <div class="dl2"><span class="d">Day Five</span><span class="e">6.28 Sun · 氹仔</span></div>
+  <div class="dt">氹仔归途</div>
+  <div class="ds">威尼斯人·官也街·回赣州</div>
+  <div class="bc"><div class="bt">🏰 10:00</div><h4>威尼斯人·巴黎人·伦敦人</h4><div class="rt">🚕 半岛打车HK$80 / 🚌 新葡京免费发财车<br>🎫 免费·🛶 贡多拉HK$150·🗼 巴黎人7楼免费</div></div>
+  <div class="bc"><div class="bt">🍴 午餐</div><h4>官也街吃透透</h4><p>步行10分。🍔 大利来记猪扒包HK$45 · 🍦 莫义记榴莲雪糕HK$38 · 🦀 水蟹粥</p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="官也街 澳门" onclick="mp(this)"><span class="ic">📍</span>导航到官也街</span></div></div>
+  <div class="bc"><div class="bt">🚄 14:00</div><h4>澳门→珠海→赣州</h4><div class="rt">① 氹仔打车→拱北HK$60 15分 ② 过关20–30分 ③ 步行到珠海站10分<br>④ 珠海→广州南→赣州西（中转）约5h ¥311–374</div></div>
 </section>
 
-<!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?FOOD 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?-->
+<!-- ═══════════ FOOD ═══════════ -->
 <section class="sec" id="food">
-  <div class="sec-h">缇庨</div>
+  <div class="sec-h">美食</div>
   <div class="fg">
-    <div class="fc r"><h3>馃嚟馃嚢 棣欐腐</h3>
-      <div class="fi"><span class="nm">娣诲ソ杩?/span><span class="nt">閰ョ毊鍙夌儳鍖?/span></div>
-      <div class="fi"><span class="nm">涔濊鐗涜叐</span><span class="nt">娓呮堡路鐜伴噾路涓婄幆</span></div>
-      <div class="fi"><span class="nm">鍗庡珎鍐板</span><span class="nt">鑿犺悵娌孤峰皷娌欏拃</span></div>
-      <div class="fi"><span class="nm">鍏拌姵鍥?/span><span class="nt">涓濊濂惰尪路涓幆</span></div>
-      <div class="fi"><span class="nm">婢虫床鐗涘ザ鍏徃</span><span class="nt">鐐掕泲路鐜伴噾路浣愭暒</span></div>
-      <div class="fi"><span class="nm">涓€涔愮儳楣?/span><span class="nt">绫冲叾鏋椔蜂腑鐜?/span></div>
-      <div class="fi"><span class="nm">涔夐『鐗涘ザ鍏徃</span><span class="nt">鍙岀毊濂堵烽摐閿ｆ咕</span></div>
-      <div class="fi"><span class="nm">鏂板叴椋熷</span><span class="nt">鐐瑰績路瑗跨幆</span></div>
+    <div class="fc r"><h3>🇭🇰 香港</h3>
+      <div class="fi"><span class="nm">添好运</span><span class="nt">酥皮叉烧包</span></div>
+      <div class="fi"><span class="nm">九记牛腩</span><span class="nt">清汤·现金·上环</span></div>
+      <div class="fi"><span class="nm">华嫂冰室</span><span class="nt">菠萝油·尖沙咀</span></div>
+      <div class="fi"><span class="nm">兰芳园</span><span class="nt">丝袜奶茶·中环</span></div>
+      <div class="fi"><span class="nm">澳洲牛奶公司</span><span class="nt">炒蛋·现金·佐敦</span></div>
+      <div class="fi"><span class="nm">一乐烧鹅</span><span class="nt">米其林·中环</span></div>
+      <div class="fi"><span class="nm">义顺牛奶公司</span><span class="nt">双皮奶·铜锣湾</span></div>
+      <div class="fi"><span class="nm">新兴食家</span><span class="nt">点心·西环</span></div>
     </div>
-    <div class="fc r"><h3>馃嚥馃嚧 婢抽棬</h3>
-      <div class="fi"><span class="nm">瀹夊痉椴佽泲鎸?/span><span class="nt">濞佸凹鏂汉鏈夊簵</span></div>
-      <div class="fi"><span class="nm">鐜涘槈鐑堣泲鎸?/span><span class="nt">鐜伴噾路寮€鍒?8鐐?/span></div>
-      <div class="fi"><span class="nm">澶у埄鏉ヨ</span><span class="nt">鐚墥鍖吢峰畼涔熻</span></div>
-      <div class="fi"><span class="nm">鑾箟璁?/span><span class="nt">姒磋幉闆硶路瀹樹篃琛?/span></div>
-      <div class="fi"><span class="nm">鏌犳杞﹂湶</span><span class="nt">鎰忓紡闆硶路澶т笁宸?/span></div>
-      <div class="fi"><span class="nm">鐣寗灞嬭憽鍥介</span><span class="nt">钁″浗楦÷锋柊椹矾</span></div>
-      <div class="fi"><span class="nm">璇氭槍楗簵</span><span class="nt">姘磋煿绮ヂ峰畼涔熻</span></div>
-      <div class="fi"><span class="nm">榛勬灊璁?/span><span class="nt">浜戝悶闈⒙疯浜嬩涵</span></div>
+    <div class="fc r"><h3>🇲🇴 澳门</h3>
+      <div class="fi"><span class="nm">安德鲁蛋挞</span><span class="nt">威尼斯人有店</span></div>
+      <div class="fi"><span class="nm">玛嘉烈蛋挞</span><span class="nt">现金·开到18点</span></div>
+      <div class="fi"><span class="nm">大利来记</span><span class="nt">猪扒包·官也街</span></div>
+      <div class="fi"><span class="nm">莫义记</span><span class="nt">榴莲雪糕·官也街</span></div>
+      <div class="fi"><span class="nm">柠檬车露</span><span class="nt">意式雪糕·大三巴</span></div>
+      <div class="fi"><span class="nm">番茄屋葡国餐</span><span class="nt">葡国鸡·新马路</span></div>
+      <div class="fi"><span class="nm">诚昌饭店</span><span class="nt">水蟹粥·官也街</span></div>
+      <div class="fi"><span class="nm">黄枝记</span><span class="nt">云吞面·议事亭</span></div>
     </div>
   </div>
 </section>
 
-<!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?BUDGET 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?-->
+<!-- ═══════════ BUDGET ═══════════ -->
 <section class="sec" id="budget">
-  <div class="sec-h">棰勭畻</div>
+  <div class="sec-h">预算</div>
   <div class="bw r">
     <table class="bt">
-      <thead><tr><th>椤圭洰</th><th>缁忔祹 楼</th><th>鑸掗€?楼</th></tr></thead>
+      <thead><tr><th>项目</th><th>经济 ¥</th><th>舒适 ¥</th></tr></thead>
       <tbody>
-        <tr><td>馃殑 璧ｅ窞鈫旈娓珮閾?/td><td class="mo">700</td><td class="mo">800</td></tr>
-        <tr><td>馃彣 浣忓4鏅?/td><td class="mo">1,600</td><td class="mo">3,600</td></tr>
-        <tr><td>馃殺 娓境娓¤疆</td><td class="mo">182</td><td class="mo">182</td></tr>
-        <tr><td>馃殗 甯傚唴浜ら€?鑸?/td><td class="mo">300</td><td class="mo">600</td></tr>
-        <tr><td>馃帿 闂ㄧエ</td><td class="mo">200</td><td class="mo">500</td></tr>
-        <tr><td>馃崪 椁愰ギ5澶?/td><td class="mo">1,500</td><td class="mo">3,000</td></tr>
-        <tr><td>馃泹锔?鎵嬩俊</td><td class="mo">500</td><td class="mo">2,000</td></tr>
-        <tr><td>馃摫 鍏朵粬</td><td class="mo">200</td><td class="mo">400</td></tr>
-        <tr class="t"><td>鎬昏</td><td class="mo">鈮?,182</td><td class="mo">鈮?1,082</td></tr>
+        <tr><td>🚄 赣州↔香港高铁</td><td class="mo">700</td><td class="mo">800</td></tr>
+        <tr><td>🏨 住宿4晚</td><td class="mo">1,600</td><td class="mo">3,600</td></tr>
+        <tr><td>🚢 港澳渡轮</td><td class="mo">182</td><td class="mo">182</td></tr>
+        <tr><td>🚇 市内交通+船</td><td class="mo">300</td><td class="mo">600</td></tr>
+        <tr><td>🎫 门票</td><td class="mo">200</td><td class="mo">500</td></tr>
+        <tr><td>🍜 餐饮5天</td><td class="mo">1,500</td><td class="mo">3,000</td></tr>
+        <tr><td>🛍️ 手信</td><td class="mo">500</td><td class="mo">2,000</td></tr>
+        <tr><td>📱 其他</td><td class="mo">200</td><td class="mo">400</td></tr>
+        <tr class="t"><td>总计</td><td class="mo">≈5,182</td><td class="mo">≈11,082</td></tr>
       </tbody>
     </table>
   </div>
-  <p style="font-size:10px;color:var(--text3);margin-top:6px">鍏湀鏃哄路1HK$鈮埪?.87</p>
+  <p style="font-size:10px;color:var(--text3);margin-top:6px">六月旺季·1HK$≈¥0.87</p>
 </section>
 
-<!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?TIPS 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?-->
+<!-- ═══════════ TIPS ═══════════ -->
 <section class="sec" id="tips">
-  <div class="sec-h">璐村＋</div>
-  <div class="tc r"><h3>馃殗 浜ら€?/h3><ul><li><strong>鍏揪閫?/strong> 鎶奸噾HK$50路閫€鍗℃墸~HK$11路鍦伴搧宸村＋閫氱敤</li><li><strong>娓境鑸?/strong> 2026.4娑ㄤ环路鍛ㄦ湯HK$209/骞虫棩HK$192</li><li>婢抽棬鍙戣储杞﹀厤璐瑰潗锛屼笉璧屼篃琛?/li></ul></div>
-  <div class="tc i r"><h3>馃摫 閫氳</h3><ul><li>娓境娴侀噺鍗÷?0鈥?0/5澶┞峰HK$2000鐜伴噾</li><li>姹囩巼 <strong>1HK$鈮埪?.87</strong>锛?026.6锛?/li></ul></div>
-  <div class="tc w r"><h3>鈿狅笍 閲嶈</h3><ul><li><span class="tg w">閲嶈</span> 娓境閫氳璇?绛炬敞锛堥娓竴娆?婢抽棬涓€娆★級</li><li><span class="tg w">閲嶈</span> 寰俊"娴峰叧鏃呭鎸囧皷鏈嶅姟"鎻愬墠濉敵鎶?/li><li>鑻辨爣杞崲鎻掑ご路璧屽満21鈥撀烽鍘?0%鏈嶅姟璐?/li></ul></div>
-  <div class="tc e r"><h3>馃啒 绱ф€?/h3><p>棣欐腐 <strong onclick="dl('999')" style="cursor:pointer;color:var(--accent)">999</strong> 路 婢抽棬 <strong onclick="dl('999')" style="cursor:pointer;color:var(--accent)">999</strong>/<strong onclick="dl('110')" style="cursor:pointer;color:var(--accent)">110</strong> 路 澶栦氦閮?<strong onclick="dl('+861012308')" style="cursor:pointer;color:var(--accent)">+86 10 12308</strong> <span style="font-size:10px;color:var(--text4);font-family:var(--mono)">鐐瑰嚮鎷ㄦ墦</span></p></div>
+  <div class="sec-h">贴士</div>
+  <div class="tc r"><h3>🚇 交通</h3><ul><li><strong>八达通</strong> 押金HK$50·退卡扣~HK$11·地铁巴士通用</li><li><strong>港澳船</strong> 2026.4涨价·周末HK$209/平日HK$192</li><li>澳门发财车免费坐，不赌也行</li></ul></div>
+  <div class="tc i r"><h3>📱 通讯</h3><ul><li>港澳流量卡¥30–50/5天·备HK$2000现金</li><li>汇率 <strong>1HK$≈¥0.87</strong>（2026.6）</li></ul></div>
+  <div class="tc w r"><h3>⚠️ 重要</h3><ul><li><span class="tg w">重要</span> 港澳通行证+签注（香港一次+澳门一次）</li><li><span class="tg w">重要</span> 微信"海关旅客指尖服务"提前填申报</li><li>英标转换插头·赌场21–·餐厅10%服务费</li></ul></div>
+  <div class="tc e r"><h3>🆘 紧急</h3><p>香港 <strong onclick="dl('999')" style="cursor:pointer;color:var(--accent)">999</strong> · 澳门 <strong onclick="dl('999')" style="cursor:pointer;color:var(--accent)">999</strong>/<strong onclick="dl('110')" style="cursor:pointer;color:var(--accent)">110</strong> · 外交部 <strong onclick="dl('+861012308')" style="cursor:pointer;color:var(--accent)">+86 10 12308</strong> <span style="font-size:10px;color:var(--text4);font-family:var(--mono)">点击拨打</span></p></div>
 </section>
 
-<!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?CHECKLIST 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?-->
+<!-- ═══════════ CHECKLIST ═══════════ -->
 <section class="sec" id="list">
-  <div class="sec-h">娓呭崟</div>
+  <div class="sec-h">清单</div>
   <div class="cw r">
-    <div class="ci"><span>鑷姩淇濆瓨</span><span id="cp" style="font-family:var(--mono);color:var(--gold)">0/15</span></div>
-    <label><input type="checkbox" data-i="1"><span>娓境閫氳璇?鏈夋晥绛炬敞</span></label>
-    <label><input type="checkbox" data-i="2"><span>韬唤璇?/span></label>
-    <label><input type="checkbox" data-i="3"><span>娴峰叧鐢虫姤鎴浘</span></label>
-    <label><input type="checkbox" data-i="4"><span>娓境娴侀噺鍗?/span></label>
-    <label><input type="checkbox" data-i="5"><span>鑻辨爣杞崲鎻掑ご</span></label>
-    <label><input type="checkbox" data-i="6"><span>鍏呯數瀹?/span></label>
-    <label><input type="checkbox" data-i="7"><span>娓竵鐜伴噾HK$2000</span></label>
-    <label><input type="checkbox" data-i="8"><span>闃叉檼闇?澧ㄩ暅+浼?/span></label>
-    <label><input type="checkbox" data-i="9"><span>闃茶殜鍠烽浘</span></label>
-    <label><input type="checkbox" data-i="10"><span>鑸掗€傛琛岄瀷</span></label>
-    <label><input type="checkbox" data-i="11"><span>钖勫濂楋紙鍐锋皵瓒筹級</span></label>
-    <label><input type="checkbox" data-i="12"><span>鎷栭瀷锛堥暱娲茶俯姘达級</span></label>
-    <label><input type="checkbox" data-i="13"><span>甯哥敤鑽?/span></label>
-    <label><input type="checkbox" data-i="14"><span>閰掑簵/鑸圭エ纭鍗?/span></label>
-    <label><input type="checkbox" data-i="15"><span>绂荤嚎鍦板浘</span></label>
+    <div class="ci"><span>自动保存</span><span id="cp" style="font-family:var(--mono);color:var(--gold)">0/15</span></div>
+    <label><input type="checkbox" data-i="1"><span>港澳通行证+有效签注</span></label>
+    <label><input type="checkbox" data-i="2"><span>身份证</span></label>
+    <label><input type="checkbox" data-i="3"><span>海关申报截图</span></label>
+    <label><input type="checkbox" data-i="4"><span>港澳流量卡</span></label>
+    <label><input type="checkbox" data-i="5"><span>英标转换插头</span></label>
+    <label><input type="checkbox" data-i="6"><span>充电宝</span></label>
+    <label><input type="checkbox" data-i="7"><span>港币现金HK$2000</span></label>
+    <label><input type="checkbox" data-i="8"><span>防晒霜+墨镜+伞</span></label>
+    <label><input type="checkbox" data-i="9"><span>防蚊喷雾</span></label>
+    <label><input type="checkbox" data-i="10"><span>舒适步行鞋</span></label>
+    <label><input type="checkbox" data-i="11"><span>薄外套（冷气足）</span></label>
+    <label><input type="checkbox" data-i="12"><span>拖鞋（长洲踩水）</span></label>
+    <label><input type="checkbox" data-i="13"><span>常用药</span></label>
+    <label><input type="checkbox" data-i="14"><span>酒店/船票确认单</span></label>
+    <label><input type="checkbox" data-i="15"><span>离线地图</span></label>
   </div>
 </section>
 
-<!-- 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?BOTTOM NAV 鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺愨晲鈺?-->
+<!-- ═══════════ BOTTOM NAV ═══════════ -->
 <footer class="btm">
-  <a href="#tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6" rx="1" opacity=".5"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span class="bl">宸ュ叿</span></a>
-  <a href="#d1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="bl">琛岀▼</span></a>
-  <a href="#food"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8h1a4 4 0 1 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg><span class="bl">缇庨</span></a>
-  <a href="#budget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/></svg><span class="bl">棰勭畻</span></a>
-  <a href="#list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="bl">娓呭崟</span></a>
+  <a href="#tools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="6" height="6" rx="1" opacity=".5"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span class="bl">工具</span></a>
+  <a href="#d1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="bl">行程</span></a>
+  <a href="#food"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8h1a4 4 0 1 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg><span class="bl">美食</span></a>
+  <a href="#budget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/></svg><span class="bl">预算</span></a>
+  <a href="#list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="bl">清单</span></a>
 </footer>
 
 <script type="importmap">
@@ -449,7 +449,7 @@ for(let i=0;i<24;i++){
   s.add(m2);shapes.push(m2);
 }
 
-// Particle system - 600 particles with mouse interaction
+// Particle system - 1500 interactive swarm particles
 const pc=1500;
 const pg=new THREE.BufferGeometry;
 const pos=new Float32Array(pc*3);
@@ -491,7 +491,7 @@ document.addEventListener('touchmove',e=>{
 // Connection lines for nearby particles
 const lineMat=new THREE.LineBasicMaterial({color:0xd4a868,transparent:true,opacity:.03});
 const lineGeo=new THREE.BufferGeometry();
-const maxPairs=150;
+const maxPairs=80;
 const linePos=new Float32Array(maxPairs*6);
 const lineIndices=[];
 for(let i=0;i<maxPairs;i++)lineIndices.push(Math.floor(Math.random()*pc),Math.floor(Math.random()*pc));
@@ -543,6 +543,12 @@ ca.position.z=5;
     const a=lineIndices[i*2]*3,b=lineIndices[i*2+1]*3;
     lp[i*6]=ppos[a];lp[i*6+1]=ppos[a+1];lp[i*6+2]=ppos[a+2];
     lp[i*6+3]=ppos[b];lp[i*6+4]=ppos[b+1];lp[i*6+5]=ppos[b+2];
+  }
+  lines.geometry.attributes.position.needsUpdate=true;
+
+  // Gentle scene rotation follows cursor
+  s.rotation.y+=((mx*.08-s.rotation.y)*.005);
+  s.rotation.x+=((my*.04-s.rotation.x)*.005);
 
   r.render(s,ca);
 })();
@@ -559,27 +565,27 @@ window.addEventListener('resize',()=>{
 const pr=document.getElementById('pr');
 window.addEventListener('scroll',()=>{const h=document.body.scrollHeight-window.innerHeight;pr.style.width=h>0?(window.scrollY/h)*100+'%':'0%'},{passive:true});
 
-function td(){document.body.classList.toggle('light');const l=document.body.classList.contains('light');document.getElementById('dm').textContent=l?'鈽€锔?:'馃寵';localStorage.setItem('lm',l);document.querySelector('meta[name="theme-color"]').content=l?'#eeebe3':'#070707'}
+function td(){document.body.classList.toggle('light');const l=document.body.classList.contains('light');document.getElementById('dm').textContent=l?'☀️':'🌙';localStorage.setItem('lm',l);document.querySelector('meta[name="theme-color"]').content=l?'#eeebe3':'#070707'}
 document.getElementById('dm').addEventListener('click',td);
-if(localStorage.getItem('lm')==='true'){document.body.classList.add('light');document.querySelector('meta[name="theme-color"]').content='#eeebe3';document.getElementById('dm').textContent='鈽€锔?}
+if(localStorage.getItem('lm')==='true'){document.body.classList.add('light');document.querySelector('meta[name="theme-color"]').content='#eeebe3';document.getElementById('dm').textContent='☀️'}
 
 /* Currency */
 const rv=.87;
 const fA=document.getElementById('fromAmt'),res=document.getElementById('resultDisplay');
 const fL=document.getElementById('fromLabel'),tL=document.getElementById('toLabel'),sL=document.getElementById('swapLabel');
 let iH=true;
-fA.addEventListener('input',()=>{const v=parseFloat(fA.value)||0;res.textContent=iH?'楼'+(v*rv).toFixed(1):'HK$'+(v/rv).toFixed(1)});
-document.getElementById('swapBtn').addEventListener('click',()=>{iH=!iH;fA.value='';res.textContent='--';fL.textContent=iH?'HKD':'CNY';tL.textContent=iH?'CNY':'HKD';sL.textContent=iH?'娓竵 鈫?浜烘皯甯?:'浜烘皯甯?鈫?娓竵';fA.focus()});
+fA.addEventListener('input',()=>{const v=parseFloat(fA.value)||0;res.textContent=iH?'¥'+(v*rv).toFixed(1):'HK$'+(v/rv).toFixed(1)});
+document.getElementById('swapBtn').addEventListener('click',()=>{iH=!iH;fA.value='';res.textContent='--';fL.textContent=iH?'HKD':'CNY';tL.textContent=iH?'CNY':'HKD';sL.textContent=iH?'港币 → 人民币':'人民币 → 港币';fA.focus()});
 fA.dispatchEvent(new Event('input'));
 
 /* Weather */
 (async()=>{
   try{
     const r2=await fetch('https://api.open-meteo.com/v1/forecast?latitude=22.3193&longitude=114.1694&current=temperature_2m,weathercode&daily=temperature_2m_max,weathercode&timezone=Asia/Hong_Kong&forecast_days=7');
-    const d=await r2.json();const map={0:'鈽€锔?,1:'馃尋',2:'鉀?,3:'鈽侊笍',45:'馃尗',48:'馃尗',51:'馃對',53:'馃對',55:'馃對',61:'馃導',63:'馃導',65:'馃導',80:'馃對',81:'馃導',82:'馃導',95:'鉀?,96:'鉀?,99:'鉀?};
+    const d=await r2.json();const map={0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',51:'🌦',53:'🌦',55:'🌦',61:'🌧',63:'🌧',65:'🌧',80:'🌦',81:'🌧',82:'🌧',95:'⛈',96:'⛈',99:'⛈'};
     const now=d.current;
-    document.getElementById('wxNow').textContent=Math.round(now.temperature_2m)+'掳 '+(map[now.weathercode]||'鈽€锔?);
-    const cw=document.getElementById('chipWx');if(cw)cw.textContent=Math.round(now.temperature_2m)+'掳';
+    document.getElementById('wxNow').textContent=Math.round(now.temperature_2m)+'° '+(map[now.weathercode]||'☀️');
+    const cw=document.getElementById('chipWx');if(cw)cw.textContent=Math.round(now.temperature_2m)+'°';
     const trip=[24,25,26,27,28];const today=new Date().getDate();
     const wx=document.getElementById('wxGrid');wx.innerHTML='';
     let found=0;
@@ -588,15 +594,15 @@ fA.dispatchEvent(new Event('input'));
       if(trip.includes(dd)&&found<5){
         const isT=dd===today;
         let lb='';
-        if(isT)lb='浠婂ぉ';
-        else if(dd===today+1)lb='鏄庡ぉ';
-        else if(dd===today+2)lb='鍚庡ぉ';
+        if(isT)lb='今天';
+        else if(dd===today+1)lb='明天';
+        else if(dd===today+2)lb='后天';
         else lb=dt.getMonth()+1+'/'+dd;
-        wx.innerHTML+=`<div class="wx-d${isT?' active':''}"><div class="wn">${lb}</div><div class="wi">${map[d.daily.weathercode[i]]||'鈽€锔?}</div><div class="wt">${Math.round(d.daily.temperature_2m_max[i])}掳</div></div>`;
+        wx.innerHTML+=`<div class="wx-d${isT?' active':''}"><div class="wn">${lb}</div><div class="wi">${map[d.daily.weathercode[i]]||'☀️'}</div><div class="wt">${Math.round(d.daily.temperature_2m_max[i])}°</div></div>`;
         found++;
       }
     });
-    if(!found)d.daily.time.forEach((t,i)=>{if(i<5){const dt=new Date(t+'T12:00');wx.innerHTML+=`<div class="wx-d"><div class="wn">${dt.getMonth()+1+'/'+dt.getDate()}</div><div class="wi">${map[d.daily.weathercode[i]]||'鈽€锔?}</div><div class="wt">${Math.round(d.daily.temperature_2m_max[i])}掳</div></div>`}});
+    if(!found)d.daily.time.forEach((t,i)=>{if(i<5){const dt=new Date(t+'T12:00');wx.innerHTML+=`<div class="wx-d"><div class="wn">${dt.getMonth()+1+'/'+dt.getDate()}</div><div class="wi">${map[d.daily.weathercode[i]]||'☀️'}</div><div class="wt">${Math.round(d.daily.temperature_2m_max[i])}°</div></div>`}});
   }catch(e){}
 })();
 
@@ -623,8 +629,8 @@ function cd(){
   const t=new Date('2026-06-24T08:00:00+08:00').getTime()-Date.now();
   const el=document.getElementById('cdTimer');
   if(!el)return;
-  if(t>0){const d=Math.floor(t/864e5),h=Math.floor((t%864e5)/36e5),m=Math.floor((t%36e5)/6e4),s=Math.floor((t%6e4)/1e3);el.textContent='璺濆嚭鍙?'+d+'澶?'+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
-  else el.textContent='馃帀 鏃呴€旀剦蹇紒'
+  if(t>0){const d=Math.floor(t/864e5),h=Math.floor((t%864e5)/36e5),m=Math.floor((t%36e5)/6e4),s=Math.floor((t%6e4)/1e3);el.textContent='距出发 '+d+'天 '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+  else el.textContent='🎉 旅途愉快！'
 }
 cd();setInterval(cd,1000);
 
@@ -632,7 +638,7 @@ cd();setInterval(cd,1000);
 const hf=(n)=>{try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}};
 function cp(el){
   const t=el.dataset.copy||el.textContent;
-  if(navigator.clipboard){navigator.clipboard.writeText(t).then(()=>{el.textContent='鉁?宸插鍒?;hf();setTimeout(()=>{el.innerHTML='<span class="ic">馃搵</span>澶嶅埗鍦板潃'},1500)})}
+  if(navigator.clipboard){navigator.clipboard.writeText(t).then(()=>{el.textContent='✓ 已复制';hf();setTimeout(()=>{el.innerHTML='<span class="ic">📋</span>复制地址'},1500)})}
 }
 function mp(el){
   const q=el.dataset.map||'';
