@@ -251,19 +251,18 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:15
   <div class="cv-c r">
     <div class="cv-h">
       <span class="l">💱 汇率换算</span>
-      <span class="r2">1 HKD ≈ <span id="rateShow">0.87</span> CNY</span>
+      <span class="r2" id="swapLabel">港币 → 人民币</span>
     </div>
     <div class="cv-r">
-      <input type="number" id="hkdAmt" placeholder="0" value="100">
-      <span class="cl">HKD</span>
-      <span class="rv" id="cnyOut">¥87.0</span>
+      <input type="number" id="fromAmt" placeholder="输入金额" value="100">
+      <span class="cl" id="fromLabel">HKD</span>
     </div>
-    <div class="cv-s" id="swapBtn">🔄 互换币种</div>
-    <div class="cv-r">
-      <input type="number" id="cnyAmt" placeholder="0" value="87">
-      <span class="cl">CNY</span>
-      <span class="rv" id="hkdOut">HK$100</span>
+    <div style="text-align:center;padding:2px 0;color:var(--text4);font-size:20px;font-family:var(--mono)">↓</div>
+    <div class="cv-r" style="margin-bottom:4px">
+      <div style="flex:1;background:var(--surface2);border-radius:8px;padding:12px;font-size:18px;color:var(--gold);font-family:var(--mono);font-weight:500" id="resultDisplay">¥87.0</div>
+      <span class="cl" id="toLabel">CNY</span>
     </div>
+    <div class="cv-s" id="swapBtn">🔄 反过来算</div>
   </div>
 </section>
 
@@ -457,13 +456,12 @@ if(localStorage.getItem('lm')==='true'){document.body.classList.add('light');doc
 
 /* Currency */
 const rv=.87;
-const hA=document.getElementById('hkdAmt'),cA=document.getElementById('cnyAmt');
-const cO=document.getElementById('cnyOut'),hO=document.getElementById('hkdOut');
-document.getElementById('rateShow').textContent=rv;
-hA.addEventListener('input',()=>{const v=parseFloat(hA.value)||0;cO.textContent='¥'+(v*rv).toFixed(1);cA.value=(v*rv).toFixed(1)});
-cA.addEventListener('input',()=>{const v=parseFloat(cA.value)||0;hO.textContent='HK$'+(v/rv).toFixed(1);hA.value=(v/rv).toFixed(1)});
-document.getElementById('swapBtn').addEventListener('click',()=>{const a=hA.value,b=cA.value;hA.value=b;cA.value=a;hA.dispatchEvent(new Event('input'))});
-hA.dispatchEvent(new Event('input'));
+const fA=document.getElementById('fromAmt'),res=document.getElementById('resultDisplay');
+const fL=document.getElementById('fromLabel'),tL=document.getElementById('toLabel'),sL=document.getElementById('swapLabel');
+let iH=true;
+fA.addEventListener('input',()=>{const v=parseFloat(fA.value)||0;res.textContent=iH?'¥'+(v*rv).toFixed(1):'HK$'+(v/rv).toFixed(1)});
+document.getElementById('swapBtn').addEventListener('click',()=>{iH=!iH;fA.value='';res.textContent='--';fL.textContent=iH?'HKD':'CNY';tL.textContent=iH?'CNY':'HKD';sL.textContent=iH?'港币 → 人民币':'人民币 → 港币';fA.focus()});
+fA.dispatchEvent(new Event('input'));
 
 /* Weather */
 (async()=>{
