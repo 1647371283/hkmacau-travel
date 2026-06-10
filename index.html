@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -547,26 +547,26 @@ ca.position.z=5;
     m.position.y=m.userData.iy+Math.cos(time*1.3+parseInt(m.id))*m.userData.my*30;
   });
 
-  // Particles - orbit around home with gentle mouse influence
+  // Particles - orbit around home with very subtle mouse influence
   const ppos=pts.geometry.attributes.position.array;
-  const fX=mx*4,fY=-my*3;
+  const fX=mx*1.2,fY=-my*0.8;
   for(let i=0;i<pc;i++){
     const idx=i*3;
-    // Return toward home position (constant pull)
+    // Strong return toward home
     const dxH=homeX[i]-ppos[idx];
     const dyH=homeY[i]-ppos[idx+1];
     const dzH=homeZ[i]-ppos[idx+2];
-    ppos[idx]+=dxH*.004;
-    ppos[idx+1]+=dyH*.004;
-    ppos[idx+2]+=dzH*.004;
-    // Gentle mouse attraction (not overpowering)
-    ppos[idx]+=(fX-ppos[idx])*.001;
-    ppos[idx+1]+=(fY-ppos[idx+1])*.001;
-    // Orbital wiggle around home
+    ppos[idx]+=dxH*.015;
+    ppos[idx+1]+=dyH*.015;
+    ppos[idx+2]+=dzH*.015;
+    // Very subtle mouse attraction
+    ppos[idx]+=(fX-ppos[idx])*.0002;
+    ppos[idx+1]+=(fY-ppos[idx+1])*.0002;
+    // Gentle orbital wiggle
     const ang=time*speeds[i];
-    ppos[idx]+=Math.sin(ang)*.008;
-    ppos[idx+1]+=Math.cos(ang*1.3)*.008;
-    ppos[idx+2]+=Math.sin(ang*0.7)*.005;
+    ppos[idx]+=Math.sin(ang)*.005;
+    ppos[idx+1]+=Math.cos(ang*1.3)*.005;
+    ppos[idx+2]+=Math.sin(ang*0.7)*.003;
   }
   pts.geometry.attributes.position.needsUpdate=true;
 
@@ -579,9 +579,9 @@ ca.position.z=5;
   }
   lines.geometry.attributes.position.needsUpdate=true;
 
-  // Gentle scene rotation follows cursor
-  s.rotation.y+=((mx*.06-s.rotation.y)*.003);
-  s.rotation.x+=((my*.03-s.rotation.x)*.003);
+  // Gentle scene rotation (very subtle, barely perceptible)
+  s.rotation.y+=((mx*.02-s.rotation.y)*.001);
+  s.rotation.x+=((my*.01-s.rotation.x)*.001);
 
   r.render(s,ca);
 })();
