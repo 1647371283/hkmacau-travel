@@ -417,178 +417,44 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:15
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}
 </script>
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}
+</script>
 <script type="module">
 import*as THREE from'three';
 (()=>{
 const c=document.getElementById('three');if(!c)return;
-const s=new THREE.Scene(),ca=new THREE.PerspectiveCamera(60,c.clientWidth/c.clientHeight,.1,1e3);
+const W=c.clientWidth,H=c.clientHeight;
+const s=new THREE.Scene(),ca=new THREE.PerspectiveCamera(50,W/H,.1,1e3);
 const r=new THREE.WebGLRenderer({alpha:true,antialias:true});
-r.setSize(c.clientWidth,c.clientHeight);r.setPixelRatio(Math.min(devicePixelRatio,2));
+r.setSize(W,H);r.setPixelRatio(Math.min(devicePixelRatio,2));
 c.appendChild(r.domElement);
 
-// Main geometry cluster - 24 floating wireframe shapes
-const pool=[new THREE.IcosahedronGeometry(.6,0),new THREE.OctahedronGeometry(.5,0),new THREE.TetrahedronGeometry(.4,0)];
-const clrs=[new THREE.Color('#d4a868'),new THREE.Color('#e06040'),new THREE.Color('#ffffff'),new THREE.Color('#c49a6c')];
-const shapes=[];
-for(let i=0;i<18;i++){
-  const g=pool[Math.floor(Math.random()*pool.length)];
-  const m=new THREE.MeshBasicMaterial({
-    color:clrs[Math.floor(Math.random()*clrs.length)],
-    wireframe:true,transparent:true,opacity:.03+Math.random()*.03
-  });
-  const m2=new THREE.Mesh(g,m);
-  m2.position.set((Math.random()-.5)*14,(Math.random()-.5)*10,(Math.random()-.5)*6-2);
-  m2.rotation.set(Math.random()*6,Math.random()*6,Math.random()*6);
-  m2.userData={
-    rx:(.001+Math.random()*.004),
-    ry:(.002+Math.random()*.005),
-    rz:(.001+Math.random()*.003),
-    ix:m2.position.x,iy:m2.position.y,iz:m2.position.z,
-    mx:(Math.random()-.5)*.006,my:(Math.random()-.5)*.006
-  };
-  s.add(m2);shapes.push(m2);
-}
+// Ocean wave
+const seg=64;
+const geo=new THREE.PlaneGeometry(20,12,seg,seg);
+geo.rotateX(-Math.PI/2);
+const orgPos=geo.attributes.position.array.slice();
+const wd=[];for(let i=0;i<orgPos.length/3;i++){wd.push({x:orgPos[i*3],z:orgPos[i*3+2],s1:.3+Math.random()*.4,s2:.5+Math.random()*.6,s3:.2+Math.random()*.3,a1:.08+Math.random()*.12,a2:.04+Math.random()*.08,a3:.02+Math.random()*.04,p1:Math.random()*6,p2:Math.random()*6,p3:Math.random()*6})}
 
-// Particle system - 1200 glow particles
-const pc=1200;
+const ocean=new THREE.Mesh(geo,new THREE.MeshBasicMaterial({color:new THREE.Color('#2a5a6a'),transparent:true,opacity:.25,side:THREE.DoubleSide}));
+ocean.position.y=-2.5;s.add(ocean);
+const wire=new THREE.Mesh(geo.clone(),new THREE.MeshBasicMaterial({color:0xd4a868,wireframe:true,transparent:true,opacity:.04}));
+wire.position.y=-2.5;s.add(wire);
+const ocean2=new THREE.Mesh(geo.clone(),new THREE.MeshBasicMaterial({color:new THREE.Color('#1a4a5a'),transparent:true,opacity:.1,side:THREE.DoubleSide}));
+ocean2.position.y=-2.8;s.add(ocean2);
 
-// Circular glow texture
-const canvas=document.createElement('canvas');
-canvas.width=32;canvas.height=32;
-const ctx=canvas.getContext('2d');
-const gradient=ctx.createRadialGradient(16,16,0,16,16,16);
-gradient.addColorStop(0,'rgba(255,255,255,1)');
-gradient.addColorStop(0.3,'rgba(255,255,255,0.6)');
-gradient.addColorStop(0.7,'rgba(200,180,140,0.15)');
-gradient.addColorStop(1,'rgba(255,255,255,0)');
-ctx.fillStyle=gradient;ctx.fillRect(0,0,32,32);
-const circleTexture=new THREE.CanvasTexture(canvas);
+const shapes=[];const sPool=[new THREE.IcosahedronGeometry(.4,0),new THREE.OctahedronGeometry(.3,0)];
+const sClrs=[new THREE.Color('#d4a868'),new THREE.Color('#e06040'),new THREE.Color('#c49a6c')];
+for(let i=0;i<5;i++){const g=sPool[Math.floor(Math.random()*sPool.length)];const m2=new THREE.MeshBasicMaterial({color:sClrs[Math.floor(Math.random()*sClrs.length)],wireframe:true,transparent:true,opacity:.05+Math.random()*.05});const ms=new THREE.Mesh(g,m2);ms.position.set((Math.random()-.5)*8,.5+Math.random()*2,(Math.random()-.5)*3);ms.rotation.set(Math.random()*6,Math.random()*6,Math.random()*6);ms.userData={rx:.001+Math.random()*.003,ry:.002+Math.random()*.004,rz:.001+Math.random()*.002};s.add(ms);shapes.push(ms)}
 
-const pg=new THREE.BufferGeometry;
-const pos=new Float32Array(pc*3);
-const colors=new Float32Array(pc*3);
-const sizes=new Float32Array(pc);
-const homeX=new Float32Array(pc);
-const homeY=new Float32Array(pc);
-const homeZ=new Float32Array(pc);
-const speeds=new Float32Array(pc);
-
-const palette=[
-  [.85,.62,.38],[.92,.78,.52],[1,.96,.88],
-  [.75,.55,.35],[.90,.40,.28]
-];
-
-for(let i=0;i<pc;i++){
-  const th=Math.random()*Math.PI*2;
-  const ph=Math.acos(2*Math.random()-1);
-  const rd=3+Math.random()*4.5;
-
-  homeX[i]=Math.sin(th)*Math.cos(ph)*rd;
-  homeY[i]=Math.sin(th)*Math.sin(ph)*rd*0.55;
-  homeZ[i]=Math.cos(ph)*rd*0.4;
-
-  pos[i*3]=homeX[i];pos[i*3+1]=homeY[i];pos[i*3+2]=homeZ[i];
-
-  const p=palette[Math.floor(Math.random()*palette.length)];
-  colors[i*3]=p[0];colors[i*3+1]=p[1];colors[i*3+2]=p[2];
-
-  sizes[i]=.06+Math.random()*.12;
-  speeds[i]=.005+Math.random()*.015;
-}
-pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
-pg.setAttribute('color',new THREE.BufferAttribute(colors,3));
-pg.setAttribute('size',new THREE.BufferAttribute(sizes,1));
-const pm=new THREE.PointsMaterial({
-  size:.08,map:circleTexture,
-  transparent:true,opacity:.7,
-  vertexColors:true,blending:THREE.AdditiveBlending,
-  sizeAttenuation:true,depthWrite:false
-});
-const pts=new THREE.Points(pg,pm);
-s.add(pts);
-
-// Mouse/touch interaction
+ca.position.set(0,1,6);ca.lookAt(0,-1,0);
 let mx=0,my=0;
-document.addEventListener('mousemove',e=>{
-  mx=(e.clientX/window.innerWidth-.5)*1.2;
-  my=(e.clientY/window.innerHeight-.5)*.8;
-});
-document.addEventListener('touchmove',e=>{
-  const t=e.touches[0];mx=(t.clientX/window.innerWidth-.5)*1.2;
-  my=(t.clientY/window.innerHeight-.5)*.8;
-},{passive:true});
+document.addEventListener('mousemove',e=>{mx=(e.clientX/W-.5)*.5;my=(e.clientY/H-.5)*.3});
+document.addEventListener('touchmove',e=>{const t=e.touches[0];mx=(t.clientX/W-.5)*.5;my=(t.clientY/H-.5)*.3},{passive:true});
 
-// Connection lines for nearby particles
-const lineMat=new THREE.LineBasicMaterial({color:0xd4a868,transparent:true,opacity:.06});
-const lineGeo=new THREE.BufferGeometry();
-const maxPairs=160;
-const linePos=new Float32Array(maxPairs*6);
-const lineIndices=[];
-for(let i=0;i<maxPairs;i++)lineIndices.push(Math.floor(Math.random()*pc),Math.floor(Math.random()*pc));
-lineGeo.setAttribute('position',new THREE.BufferAttribute(linePos,3));
-const lines=new THREE.LineSegments(lineGeo,lineMat);
-s.add(lines);
-
-ca.position.z=5;
-
-(function a(){
-  requestAnimationFrame(a);
-  const time=Date.now()*.0005;
-
-  // Rotate geometric shapes
-  shapes.forEach(m=>{
-    m.rotation.x+=m.userData.rx;
-    m.rotation.y+=m.userData.ry;
-    m.rotation.z+=m.userData.rz;
-    // Gentle floating
-    m.position.x=m.userData.ix+Math.sin(time+parseInt(m.id))*m.userData.mx*30;
-    m.position.y=m.userData.iy+Math.cos(time*1.3+parseInt(m.id))*m.userData.my*30;
-  });
-
-  // Particles - flow toward finger with organic home pull
-  const ppos=pts.geometry.attributes.position.array;
-  const fX=mx*3.5,fY=-my*2.5;
-  for(let i=0;i<pc;i++){
-    const idx=i*3;
-    // Gentle home pull (keeps shape)
-    const dxH=homeX[i]-ppos[idx];
-    const dyH=homeY[i]-ppos[idx+1];
-    const dzH=homeZ[i]-ppos[idx+2];
-    ppos[idx]+=dxH*.006;
-    ppos[idx+1]+=dyH*.006;
-    ppos[idx+2]+=dzH*.006;
-    // Mouse attraction - visible but not overwhelming
-    ppos[idx]+=(fX-ppos[idx])*.002;
-    ppos[idx+1]+=(fY-ppos[idx+1])*.002;
-    // Gentle orbital wiggle
-    const ang=time*speeds[i];
-    ppos[idx]+=Math.sin(ang)*.004;
-    ppos[idx+1]+=Math.cos(ang*1.3)*.004;
-    ppos[idx+2]+=Math.sin(ang*0.7)*.002;
-  }
-  pts.geometry.attributes.position.needsUpdate=true;
-
-  // Connection lines
-  const lp=lines.geometry.attributes.position.array;
-  for(let i=0;i<maxPairs;i++){
-    const a=lineIndices[i*2]*3,b=lineIndices[i*2+1]*3;
-    lp[i*6]=ppos[a];lp[i*6+1]=ppos[a+1];lp[i*6+2]=ppos[a+2];
-    lp[i*6+3]=ppos[b];lp[i*6+4]=ppos[b+1];lp[i*6+5]=ppos[b+2];
-  }
-  lines.geometry.attributes.position.needsUpdate=true;
-
-  // Gentle scene rotation follows cursor
-  s.rotation.y+=((mx*.04-s.rotation.y)*.002);
-  s.rotation.x+=((my*.02-s.rotation.x)*.002);
-
-  r.render(s,ca);
-})();
-
-window.addEventListener('resize',()=>{
-  ca.aspect=c.clientWidth/c.clientHeight;
-  ca.updateProjectionMatrix();
-  r.setSize(c.clientWidth,c.clientHeight);
-});
+(function loop(){requestAnimationFrame(loop);const t=Date.now()*.0007;const p=ocean.geometry.attributes.position.array;const p2=ocean2.geometry.attributes.position.array;const wp=wire.geometry.attributes.position.array;for(let i=0;i<orgPos.length/3;i++){const w=wd[i];const y=Math.sin(w.x*.8+t*w.s1+w.p1)*w.a1+Math.sin(w.z*1.2+t*w.s2+w.p2)*w.a2+Math.sin((w.x+w.z)*.6+t*w.s3+w.p3)*w.a3;p[i*3+1]=y;p2[i*3+1]=y*.6+Math.sin(t*.4+i)*.03;wp[i*3+1]=y}ocean.geometry.attributes.position.needsUpdate=true;ocean2.geometry.attributes.position.needsUpdate=true;wire.geometry.attributes.position.needsUpdate=true;shapes.forEach(m=>{m.rotation.x+=m.userData.rx;m.rotation.y+=m.userData.ry;m.rotation.z+=m.userData.rz});ca.position.x+=(mx*.3-ca.position.x)*.005;ca.position.y+=(1+my*.2-ca.position.y)*.005;ca.lookAt(0,-1,0);r.render(s,ca)})();
+window.addEventListener('resize',()=>{ca.aspect=c.clientWidth/c.clientHeight;ca.updateProjectionMatrix();r.setSize(c.clientWidth,c.clientHeight)});
 })();
 </script>
 
