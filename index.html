@@ -425,27 +425,133 @@ const s=new THREE.Scene(),ca=new THREE.PerspectiveCamera(60,c.clientWidth/c.clie
 const r=new THREE.WebGLRenderer({alpha:true,antialias:true});
 r.setSize(c.clientWidth,c.clientHeight);r.setPixelRatio(Math.min(devicePixelRatio,2));
 c.appendChild(r.domElement);
-const pool=[new THREE.IcosahedronGeometry(.5,0),new THREE.OctahedronGeometry(.4,0),new THREE.TetrahedronGeometry(.35,0)];
-const clrs=[new THREE.Color('#d4a868'),new THREE.Color('#e06040'),new THREE.Color('#ffffff')];
-for(let i=0;i<10;i++){
-  const g=pool[Math.floor(Math.random()*pool.length)],m=new THREE.MeshBasicMaterial({color:clrs[Math.floor(Math.random()*clrs.length)],wireframe:true,transparent:true,opacity:.04+Math.random()*.04});
+
+// Main geometry cluster - 24 floating wireframe shapes
+const pool=[new THREE.IcosahedronGeometry(.7,0),new THREE.OctahedronGeometry(.6,0),new THREE.TetrahedronGeometry(.5,0),new THREE.BoxGeometry(.6,.6,.6)];
+const clrs=[new THREE.Color('#d4a868'),new THREE.Color('#e06040'),new THREE.Color('#ffffff'),new THREE.Color('#c49a6c')];
+const shapes=[];
+for(let i=0;i<24;i++){
+  const g=pool[Math.floor(Math.random()*pool.length)];
+  const m=new THREE.MeshBasicMaterial({
+    color:clrs[Math.floor(Math.random()*clrs.length)],
+    wireframe:true,transparent:true,opacity:.06+Math.random()*.08
+  });
   const m2=new THREE.Mesh(g,m);
-  m2.position.set((Math.random()-.5)*10,(Math.random()-.5)*6,(Math.random()-.5)*4-1);
+  m2.position.set((Math.random()-.5)*14,(Math.random()-.5)*10,(Math.random()-.5)*6-2);
   m2.rotation.set(Math.random()*6,Math.random()*6,Math.random()*6);
-  m2.userData={rx:.001+Math.random()*.002,ry:.002+Math.random()*.003,rz:.001+Math.random()*.002};
-  s.add(m2);
+  m2.userData={
+    rx:(.001+Math.random()*.004),
+    ry:(.002+Math.random()*.005),
+    rz:(.001+Math.random()*.003),
+    ix:m2.position.x,iy:m2.position.y,iz:m2.position.z,
+    mx:(Math.random()-.5)*.006,my:(Math.random()-.5)*.006
+  };
+  s.add(m2);shapes.push(m2);
 }
-const pn=80,pg=new THREE.BufferGeometry,pa=new Float32Array(pn*3);
-for(let i=0;i<pn*3;i++)pa[i]=(Math.random()-.5)*20;
-pg.setAttribute('position',new THREE.BufferAttribute(pa,3));
-const pm=new THREE.PointsMaterial({color:0xd4a868,size:.02,transparent:true,opacity:.08});
-s.add(new THREE.Points(pg,pm));
-ca.position.z=4;
-let mx=0,my=0;
-document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*.5;my=(e.clientY/window.innerHeight-.5)*.3});
-document.addEventListener('touchmove',e=>{const t=e.touches[0];mx=(t.clientX/window.innerWidth-.5)*.5;my=(t.clientY/window.innerHeight-.5)*.3},{passive:true});
-(function a(){requestAnimationFrame(a);s.children.forEach(ch=>{if(ch.isMesh){ch.rotation.x+=ch.userData.rx;ch.rotation.y+=ch.userData.ry;ch.rotation.z+=ch.userData.rz}});s.rotation.y+=((mx*.3-s.rotation.y)*.02);s.rotation.x+=((my*.15-s.rotation.x)*.02);r.render(s,ca)})();
-window.addEventListener('resize',()=>{ca.aspect=c.clientWidth/c.clientHeight;ca.updateProjectionMatrix();r.setSize(c.clientWidth,c.clientHeight)});
+
+// Particle system - 600 particles with mouse interaction
+const pc=600;
+const pg=new THREE.BufferGeometry;
+const pos=new Float32Array(pc*3);
+const sizes=new Float32Array(pc);
+const colors=new Float32Array(pc*3);
+const vel=[]; // store velocity per particle
+for(let i=0;i<pc;i++){
+  pos[i*3]=(Math.random()-.5)*24;
+  pos[i*3+1]=(Math.random()-.5)*16;
+  pos[i*3+2]=(Math.random()-.5)*10;
+  sizes[i]=.02+Math.random()*.06;
+  const cc=clrs[Math.floor(Math.random()*clrs.length)];
+  colors[i*3]=cc.r;colors[i*3+1]=cc.g;colors[i*3+2]=cc.b;
+  vel.push({x:(Math.random()-.5)*.002,y:(Math.random()-.5)*.002,z:(Math.random()-.5)*.002});
+}
+pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+pg.setAttribute('size',new THREE.BufferAttribute(sizes,1));
+pg.setAttribute('color',new THREE.BufferAttribute(colors,3));
+const pm=new THREE.PointsMaterial({
+  size:.04,transparent:true,opacity:.25,
+  vertexColors:true,blending:THREE.AdditiveBlending,
+  sizeAttenuation:true
+});
+const pts=new THREE.Points(pg,pm);
+s.add(pts);
+
+// Mouse/touch interaction - particles follow like flock
+let mx=0,my=0,throttle=0;
+const target=new THREE.Vector3();
+document.addEventListener('mousemove',e=>{
+  mx=(e.clientX/window.innerWidth-.5)*1.2;
+  my=(e.clientY/window.innerHeight-.5)*.8;
+});
+document.addEventListener('touchmove',e=>{
+  const t=e.touches[0];mx=(t.clientX/window.innerWidth-.5)*1.2;
+  my=(t.clientY/window.innerHeight-.5)*.8;
+},{passive:true});
+
+// Connection lines for nearby particles
+const lineMat=new THREE.LineBasicMaterial({color:0xd4a868,transparent:true,opacity:.03});
+const lineGeo=new THREE.BufferGeometry();
+const maxPairs=80;
+const linePos=new Float32Array(maxPairs*6);
+const lineIndices=[];
+for(let i=0;i<maxPairs;i++)lineIndices.push(Math.floor(Math.random()*pc),Math.floor(Math.random()*pc));
+lineGeo.setAttribute('position',new THREE.BufferAttribute(linePos,3));
+const lines=new THREE.LineSegments(lineGeo,lineMat);
+s.add(lines);
+
+ca.position.z=5;
+
+(function a(){
+  requestAnimationFrame(a);
+  const time=Date.now()*.0005;
+
+  // Rotate geometric shapes
+  shapes.forEach(m=>{
+    m.rotation.x+=m.userData.rx;
+    m.rotation.y+=m.userData.ry;
+    m.rotation.z+=m.userData.rz;
+    // Gentle floating
+    m.position.x=m.userData.ix+Math.sin(time+parseInt(m.id))*m.userData.mx*30;
+    m.position.y=m.userData.iy+Math.cos(time*1.3+parseInt(m.id))*m.userData.my*30;
+  });
+
+  // Particle flocking toward mouse
+  const ppos=pts.geometry.attributes.position.array;
+  const px=mx*8,py=-my*5;
+  for(let i=0;i<pc;i++){
+    const idx=i*3;
+    // Move toward mouse position with easing
+    ppos[idx]+=(px-ppos[idx])*.003+vel[i].x;
+    ppos[idx+1]+=(py-ppos[idx+1])*.003+vel[i].y;
+    // Constrain to bounds
+    if(ppos[idx]>12)ppos[idx]=-12;if(ppos[idx]<-12)ppos[idx]=12;
+    if(ppos[idx+1]>8)ppos[idx+1]=-8;if(ppos[idx+1]<-8)ppos[idx+1]=8;
+  }
+  pts.geometry.attributes.position.needsUpdate=true;
+
+  // Update connection lines (every other frame for perf)
+  if(!(Math.floor(time*100)%2)){
+    const lp=lines.geometry.attributes.position.array;
+    for(let i=0;i<maxPairs;i++){
+      const a=lineIndices[i*2]*3,b=lineIndices[i*2+1]*3;
+      lp[i*6]=ppos[a];lp[i*6+1]=ppos[a+1];lp[i*6+2]=ppos[a+2];
+      lp[i*6+3]=ppos[b];lp[i*6+4]=ppos[b+1];lp[i*6+5]=ppos[b+2];
+    }
+    lines.geometry.attributes.position.needsUpdate=true;
+  }
+
+  // Gentle scene rotation follows cursor
+  s.rotation.y+=((mx*.2-s.rotation.y)*.015);
+  s.rotation.x+=((my*.1-s.rotation.x)*.015);
+
+  r.render(s,ca);
+})();
+
+window.addEventListener('resize',()=>{
+  ca.aspect=c.clientWidth/c.clientHeight;
+  ca.updateProjectionMatrix();
+  r.setSize(c.clientWidth,c.clientHeight);
+});
 })();
 </script>
 
