@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#070707">
+<title>港澳 · 五日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#070707;--surface:#111;--surface2:#1a1a1a;--border:#1e1e1e;--text:#ece8e2;--text2:#7a746c;--text3:#565048;--text4:#3c3834;--accent:#e06040;--accent-dim:rgba(224,96,64,.08);--gold:#d4a868;--gold-dim:rgba(212,168,104,.06);--serif:'Noto Serif SC','Playfair Display',serif;--serif-en:'Playfair Display',serif;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;--st:env(safe-area-inset-top,20px);--sb:env(safe-area-inset-bottom,20px)}
+html{overflow-x:hidden;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;padding-top:var(--st);padding-bottom:80px}
+::selection{background:rgba(224,96,64,.25);color:#fff}
+
+/* Progress */
+#pr{position:fixed;top:0;left:0;z-index:9999;height:1.5px;background:linear-gradient(90deg,var(--accent),var(--gold) 40%,transparent);width:0;transition:width .15s}
+
+/* DM */
+#dm{position:fixed;top:calc(14px+var(--st));right:14px;z-index:9998;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.3);backdrop-filter:blur(12px);color:var(--text3);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;opacity:.5}
+#dm:hover{opacity:1}#dm:active{transform:scale(.85)}
+.light #dm{background:rgba(255,255,255,.5);color:var(--text3);opacity:.6}
+
+/* Three.js */
+#three{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.55}
+
+/* ═══════════ HERO ═══════════ */
+.h{position:relative;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;padding:180px 28px 56px;overflow:hidden;background:var(--bg);margin-bottom:8px}
+.h-amb{position:absolute;inset:-60%;z-index:0;pointer-events:none;background:radial-gradient(ellipse 35% 25% at 20% 25%,rgba(224,96,64,.07) 0%,transparent 50%),radial-gradient(ellipse 30% 20% at 80% 60%,rgba(212,168,104,.03) 0%,transparent 50%);animation:ad 30s ease-in-out infinite alternate}
+@keyframes ad{0%{transform:translate(0,0)}100%{transform:translate(-1.2%,.8%)rotate(-1deg)}}
+.h-g{position:absolute;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.003) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.003) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 55% 40% at 50% 50%,black 10%,transparent 70%)}
+.h-c{position:relative;z-index:2}
+.h-r{font-family:var(--mono);font-size:8px;font-weight:500;letter-spacing:5px;text-transform:uppercase;color:var(--text3);margin-bottom:20px;opacity:0;animation:fu .6s .1s forwards}
+.h-ln{width:28px;height:.5px;background:var(--gold);opacity:.6;margin-bottom:18px;opacity:0;animation:fu .6s .18s forwards}
+.h-t{position:relative}
+.h-t .row{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 10px}
+.h-t .ch{font-family:var(--serif);font-weight:900;letter-spacing:-.04em;display:inline-block;opacity:0;transform:translateY(32px);animation:ci .5s forwards}
+.h-t .c1{font-size:clamp(88px,26vw,180px);line-height:1.05;animation-delay:.2s}
+.h-t .c2{font-size:clamp(88px,26vw,180px);line-height:1.05;animation-delay:.28s;background:linear-gradient(135deg,var(--gold) 20%,#e8c888);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.h-t .c3{font-size:clamp(44px,13vw,80px);line-height:1.1;animation-delay:.36s}
+.h-t .c4{font-size:clamp(44px,13vw,80px);line-height:1.1;animation-delay:.44s}
+.h-t .dv{font-family:var(--serif-en);font-style:normal;font-weight:400;font-size:clamp(18px,5vw,32px);color:var(--text4);line-height:.8;display:inline-block;animation:ci .5s .32s forwards;opacity:0;transform:translateY(32px)}
+@keyframes ci{to{opacity:1;transform:translateY(0)}}
+.h-en{font-family:var(--serif-en);font-style:italic;font-weight:400;font-size:clamp(11px,2.5vw,15px);color:var(--text3);letter-spacing:4px;text-transform:uppercase;margin-top:8px;opacity:0;animation:fu .6s .5s forwards}
+.h-meta{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;opacity:0;animation:fu .6s .6s forwards}
+.h-meta span{font-family:var(--mono);font-size:7px;padding:3px 10px;border-radius:100px;border:1px solid var(--border);color:var(--text3);letter-spacing:.5px}
+.h-d{font-size:13px;color:var(--text2);line-height:1.55;font-weight:300;max-width:380px;margin-top:2px;opacity:0;animation:fu .6s .7s forwards}
+@keyframes fu{to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════ TOP TABS ═══════════ */
+.tabs{position:sticky;top:0;z-index:100;height:44px;display:flex;background:rgba(7,7,7,.72);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;padding:0 12px;gap:0}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex-shrink:0;text-decoration:none;font-size:11px;font-weight:500;color:var(--text3);padding:0 14px;height:44px;display:flex;align-items:center;position:relative;transition:color .3s;white-space:nowrap;font-family:var(--mono);letter-spacing:.5px}
+.tabs a::after{content:'';position:absolute;bottom:0;left:14px;right:14px;height:1.5px;border-radius:1px;background:var(--accent);transform:scaleX(0);transition:transform .35s}
+.tabs a.active{color:#fff}
+.tabs a.active::after{transform:scaleX(1)}
+
+/* ═══════════ SECTIONS ═══════════ */
+.sec{padding:40px 24px;max-width:640px;margin:0 auto;scroll-margin-top:48px;position:relative}
+.sec+.sec{border-top:1px solid var(--border);margin-top:0}
+.sec-h{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.sec-h::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.r{opacity:0;transform:translateY(16px);transition:all .5s cubic-bezier(.22,1,.36,1)}
+.r.v{opacity:1;transform:translateY(0)}
+
+/* Weather card */
+.wx-c{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:12px}
+.wx-h{display:flex;align-items:center;margin-bottom:12px}
+.wx-h .l{font-size:9px;color:var(--text4);font-family:var(--mono);letter-spacing:1px}
+.wx-h .n{font-family:var(--mono);font-size:20px;color:var(--gold);font-weight:500;margin-left:auto}
+.wx-g{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.wx-d{text-align:center;padding:8px 2px;border-radius:8px;background:var(--surface2)}
+.wx-d .wn{font-family:var(--mono);font-size:7px;color:var(--text4);letter-spacing:.3px}
+.wx-d .wi{font-size:18px;margin:2px 0;line-height:1}
+.wx-d .wt{font-family:var(--mono);font-size:11px;color:var(--gold)}
+.wx-d.active{background:var(--accent-dim);border:1px solid rgba(224,96,64,.12)}
+.wx-d.active .wt{color:var(--accent)}
+
+/* Currency card */
+.cv-c{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:12px}
+.cv-h{display:flex;align-items:center;margin-bottom:14px}
+.cv-h .l{font-size:9px;color:var(--text4);font-family:var(--mono);letter-spacing:1px}
+.cv-h .r2{font-family:var(--mono);font-size:11px;color:var(--text3);margin-left:auto}
+.cv-r{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.cv-r:last-child{margin-bottom:0}
+.cv-r input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;font-size:18px;color:var(--text);font-family:var(--mono);outline:none;min-width:0;transition:border-color .25s}
+.cv-r input:focus{border-color:var(--gold)}
+.cv-r input::placeholder{color:var(--text4)}
+.cv-r .cl{font-size:12px;color:var(--text3);flex-shrink:0;font-family:var(--mono);width:44px;text-align:right}
+.cv-r .rv{font-family:var(--mono);font-size:18px;color:var(--gold);min-width:60px;text-align:right;font-weight:500}
+.cv-s{display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;padding:5px;border-radius:6px;color:var(--text4);margin:8px 0;font-family:var(--mono);font-size:9px;border:1px dashed var(--border);transition:all .2s}
+.cv-s:active{color:var(--gold);border-color:var(--gold-dim)}
+
+/* Chips inline */
+.cs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px}
+.cs::-webkit-scrollbar{display:none}
+.ci{flex-shrink:0;display:flex;align-items:center;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px 14px;font-size:11px;color:var(--text2);white-space:nowrap;font-family:var(--mono)}
+.ci .ic{font-size:12px;opacity:.7}
+
+/* Day cards list */
+.dl2{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.dl2 .d{font-family:var(--mono);font-size:9px;font-weight:500;color:var(--text4);letter-spacing:1.5px}
+.dl2 .e{font-family:var(--serif-en);font-style:italic;font-weight:400;font-size:11px;color:var(--text3)}
+.dt{font-family:var(--serif);font-size:clamp(24px,6.5vw,32px);font-weight:900;line-height:.9;letter-spacing:-.02em;margin-bottom:1px}
+.ds{font-size:12px;color:var(--text2);margin-bottom:14px;font-weight:300}
+
+.bc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:8px}
+.bc .bt{font-family:var(--mono);font-size:8px;color:var(--text4);letter-spacing:.8px;text-transform:uppercase;margin-bottom:2px}
+.bc h4{font-size:15px;font-weight:600;margin-bottom:1px;line-height:1.25;letter-spacing:-.01em}
+.bc p{font-size:13px;color:var(--text2);line-height:1.6;font-weight:300}
+.bc p strong{color:var(--text);font-weight:500}
+.bc .rt{background:var(--gold-dim);border-radius:6px;padding:6px 10px;margin:6px 0;font-size:11px;color:var(--gold);line-height:1.55;border-left:2px solid var(--gold)}
+.bc .tk{background:var(--accent-dim);border-radius:6px;padding:6px 10px;margin:5px 0;font-size:11px;color:var(--accent);line-height:1.55;border-left:2px solid var(--accent)}
+.bc .ex{background:rgba(255,255,255,.02);border-radius:6px;padding:6px 10px;margin:5px 0;font-size:11px;color:var(--text2);line-height:1.55;border:1px dashed var(--border)}
+.bc .ex .et{color:var(--gold);font-size:8px;text-transform:uppercase;letter-spacing:1px;font-family:var(--mono)}
+.bm{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.bm .bb{background:var(--surface2);padding:2px 7px;border-radius:4px;font-family:var(--mono);font-size:8px;color:var(--text3)}
+.act{display:inline-flex;align-items:center;gap:3px;background:var(--surface2);padding:4px 10px;border-radius:6px;font-family:var(--mono);font-size:9px;color:var(--text2);cursor:pointer;transition:all .2s;touch-action:manipulation}
+.act:active{background:var(--accent-dim);color:var(--accent);transform:scale(.95)}
+.act .ic{font-size:11px}
+.tg{display:inline-block;padding:1px 7px;border-radius:4px;font-family:var(--mono);font-size:8px;font-weight:500;margin-right:2px}
+.tg.f{background:var(--gold-dim);color:var(--gold)}
+.tg.w{background:rgba(239,68,68,.07);color:#ef4444}
+
+/* Food */
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.fc{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px}
+.fc h3{font-family:var(--serif);font-size:14px;font-weight:700;margin-bottom:8px}
+.fi{font-size:12px;color:var(--text2);padding:4px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between}
+.fi:last-child{border-bottom:none}.fi .nm{color:var(--text);font-weight:500}.fi .nt{color:var(--text3);font-family:var(--mono);font-size:9px}
+
+/* Budget */
+.bw{border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.bt{width:100%;border-collapse:collapse;font-size:12px}
+.bt th{padding:10px 14px;text-align:left;font-family:var(--mono);font-size:8px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--text3);background:var(--surface2);border-bottom:1px solid var(--border)}
+.bt td{padding:8px 14px;border-bottom:1px solid var(--border);color:var(--text2);font-weight:300}
+.bt .mo{font-family:var(--mono);font-size:12px;color:var(--text);font-variant-numeric:tabular-nums}
+.bt .t td{background:linear-gradient(135deg,var(--accent-dim),transparent);font-weight:500}
+.bt .t .mo{color:var(--accent);font-weight:600}
+
+/* Tips */
+.tc{border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:6px;background:var(--surface)}
+.tc h3{font-size:11px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:4px;text-transform:uppercase;letter-spacing:.5px;color:var(--text);font-family:var(--mono)}
+.tc ul{padding-left:12px}.tc li{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:2px}
+.tc p{font-size:12px;color:var(--text2);line-height:1.6}
+.tc.w{border-left:3px solid #ef4444}.tc.i{border-left:3px solid var(--gold)}.tc.e{border-left:3px solid var(--accent)}
+
+/* Checklist */
+.cw{border:1px solid var(--border);border-radius:12px;padding:18px}
+.cw .ci{font-size:11px;color:var(--text3);margin-bottom:8px;display:flex;justify-content:space-between}
+.cw label{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;cursor:pointer;min-height:38px}
+.cw label:last-child{border-bottom:none}
+.cw input[type="checkbox"]{width:16px;height:16px;flex-shrink:0;margin-top:2px;accent-color:var(--accent);border-radius:4px;cursor:pointer}
+.cw input:checked+span{text-decoration:line-through;opacity:.35;transition:all .3s}
+
+/* Bottom */
+.btm{position:fixed;bottom:0;left:0;right:0;z-index:99;display:flex;gap:0;padding:6px 12px;padding-bottom:calc(6px+var(--sb));background:rgba(7,7,7,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--border)}
+.btm a{flex:1;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border-radius:8px;color:var(--text3);transition:all .2s;font-family:var(--sans);-webkit-tap-highlight-color:transparent}
+.btm a:active{background:var(--surface2)}
+.btm a svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btm a .bl{font-size:8px;font-weight:500;letter-spacing:.3px;font-family:var(--mono)}
+.btm a.active{color:var(--accent)}
+.light .btm{background:rgba(246,244,238,.85);border-color:rgba(0,0,0,.04)}
+
+/* Light */
+.light{--bg:#eeebe3;--surface:#f8f6f0;--surface2:#ece8e0;--border:#d8d4c8;--text:#1a1814;--text2:#6e6760;--text3:#9e968a;--text4:#b8b0a4}
+.light .tabs{background:rgba(238,235,227,.72)}
+.light .btm{background:rgba(246,244,238,.85)}
+.light .h-t .c2{background:linear-gradient(135deg,var(--accent) 20%,#d48840);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.light .h-t .c1,.light .h-t .c3,.light .h-t .c4{background:linear-gradient(180deg,#1a1814 20%,var(--accent) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+@media(max-width:420px){.fg{grid-template-columns:1fr}}
+@media(min-width:640px){.sec{padding:48px 32px}}
+@media(display-mode:standalone){.h{padding-top:200px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0ms!important;transition-duration:0ms!important}.h-t .ch{opacity:1;transform:none}.h-r,.h-en,.h-meta,.h-d{opacity:1!important;transform:none!important}}
+</style>
+</head>
+<body>
+
+<div id="pr"></div>
+<button id="dm" aria-label="切换主题">🌙</button>
+
+<!-- ═══ HERO ═══ -->
+<header class="h">
+  <div class="h-amb"></div>
+  <div class="h-g"></div>
+  <div id="three"></div>
+  <div class="h-c">
+    <div class="h-r">2026 · 六月</div>
+    <div class="h-ln"></div>
+    <div class="h-t">
+      <div class="row">
+        <span class="ch c1">港</span>
+        <span class="ch c2">澳</span>
+      </div>
+      <div class="row" style="margin-top:-4px">
+        <span class="dv">—</span>
+        <span class="ch c3">五</span>
+        <span class="ch c4">日</span>
+      </div>
+    </div>
+    <div class="h-en">Hong Kong · Macao</div>
+    <div class="h-meta">
+      <span>赣州出发</span>
+      <span>6.24→6.28</span>
+      <span>8:00抵港</span>
+    </div>
+    <p class="h-d">早班高铁约8点到西九龙。先香港后澳门。<br>所有价格核实至2026年6月。</p>
+  </div>
+</header>
+
+<!-- ═══ TABS ═══ -->
+<nav class="tabs">
+  <a href="#tools" class="active">工具</a>
+  <a href="#d1">行程</a>
+  <a href="#food">美食</a>
+  <a href="#budget">预算</a>
+  <a href="#tips">贴士</a>
+  <a href="#list">清单</a>
+</nav>
+
+<!-- ═══════════ TOOLS ═══════════ -->
+<section class="sec" id="tools">
+  <div class="sec-h">工具 <span id="cdTimer" style="margin-left:auto;font-size:11px;font-weight:400;font-family:var(--mono);color:var(--gold);letter-spacing:0;text-transform:none">距出发 --天 --:--:--</span></div>
+
+  <div class="wx-c r">
+    <div class="wx-h">
+      <span class="l">☀️ 实时天气</span>
+      <span class="n" id="wxNow">--°</span>
+    </div>
+    <div class="wx-g" id="wxGrid">
+      <div class="wx-d active"><div class="wn">今天</div><div class="wi">☀️</div><div class="wt">--°</div></div>
+      <div class="wx-d"><div class="wn">明天</div><div class="wi">☀️</div><div class="wt">--°</div></div>
+      <div class="wx-d"><div class="wn">后天</div><div class="wi">☀️</div><div class="wt">--°</div></div>
+      <div class="wx-d"><div class="wn">--</div><div class="wi">☀️</div><div class="wt">--°</div></div>
+      <div class="wx-d"><div class="wn">--</div><div class="wi">☀️</div><div class="wt">--°</div></div>
+    </div>
+  </div>
+
+  <div class="cs r">
+    <div class="ci"><span class="ic">🌡️</span> <span id="chipWx">--°</span></div>
+    <div class="ci"><span class="ic">🎫</span> 八达通 HK$50</div>
+    <div class="ci"><span class="ic">🚢</span> 渡轮 HK$209</div>
+    <div class="ci"><span class="ic">🔌</span> 英标三脚</div>
+    <div class="ci"><span class="ic">💵</span> 现金 HK$2k</div>
+    <div class="ci"><span class="ic">📞</span> 999</div>
+  </div>
+
+  <div class="cv-c r">
+    <div class="cv-h">
+      <span class="l">💱 汇率换算</span>
+      <span class="r2">1 HKD ≈ <span id="rateShow">0.87</span> CNY</span>
+    </div>
+    <div class="cv-r">
+      <input type="number" id="hkdAmt" placeholder="0" value="100">
+      <span class="cl">HKD</span>
+      <span class="rv" id="cnyOut">¥87.0</span>
+    </div>
+    <div class="cv-s" id="swapBtn">⇅ 互换</div>
+    <div class="cv-r">
+      <input type="number" id="cnyAmt" placeholder="0" value="87">
+      <span class="cl">CNY</span>
+      <span class="rv" id="hkdOut">HK$100</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ DAY 1 ═══════════ -->
+<section class="sec" id="d1">
+  <div class="sec-h">行程 · Day 1</div>
+  <div class="dl2"><span class="d">Day One</span><span class="e">6.24 Wed · 尖沙咀</span></div>
+  <div class="dt">维港初见</div>
+  <div class="ds">抵港 · 星光大道 · 夜景</div>
+
+  <div class="bc"><div class="bt">🚄 08:00 · 抵港</div><h4>赣州→西九龙</h4><p>约8点抵达。出关步行到尖沙咀。站内买八达通（押金HK$50，首次充HK$150）。</p><div class="rt">🚶 西九龙站→尖沙咀 8分钟</div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="香港西九龙站" onclick="mp(this)"><span class="ic">📍</span>导航到站</span></div></div>
+  <div class="bc"><div class="bt">🍜 午餐</div><h4>旺记冰室</h4><p><span class="tg f">茶餐厅</span> 滑蛋虾仁饭HK$58·菠萝油HK$15。人均HK$60–80。</p><div class="rt">🚶 尖沙咀站A1口3分</div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-copy="尖沙咀亚士厘道29-39号" onclick="cp(this)"><span class="ic">📋</span>复制地址</span><span class="act" data-map="旺记冰室 尖沙咀" onclick="mp(this)"><span class="ic">📍</span>导航</span></div></div>
+  <div class="bc"><div class="bt">🏛️ 14:00</div><h4>星光大道→K11 MUSEA→海港城</h4><p>沿维港漫步。K11 MUSEA建筑出片。穿过海港城到天星码头。</p><div class="ex"><span class="et">✦ 推荐</span> 香港艺术馆在星光大道旁，免费入场。</div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="星光大道 香港" onclick="mp(this)"><span class="ic">📍</span>导航到星光大道</span></div></div>
+  <div class="bc"><div class="bt">🌃 20:00</div><h4>幻彩咏香江</h4><p>每晚8点亮灯秀10分钟。星光大道免费，不需预约。</p></div>
+  <div class="bc"><div class="bt">🏮 深夜</div><h4>庙街夜市</h4><p>油麻地·煲仔饭·炒蟹·大排档。开到凌晨12点。现金。</p><div class="rt">🚇 佐敦站A口步行5分</div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="庙街夜市 香港" onclick="mp(this)"><span class="ic">📍</span>导航到庙街</span></div></div>
+</section>
+
+<section class="sec">
+  <div class="dl2"><span class="d">Day Two</span><span class="e">6.25 Thu · 长洲</span></div>
+  <div class="dt">离岛慢游</div>
+  <div class="ds">鱼蛋·西瓜冰·日落渡轮</div>
+  <div class="bc"><div class="bt">🚢 09:30</div><h4>中环5号码头→长洲</h4><div class="rt">🚇 尖沙咀站→中环站A口→5号码头<br>🚢 快船35分HK$32.9 / 慢船55分HK$16.7（2026.4新价）</div></div>
+  <div class="bc"><div class="bt">🐟 10:30–16:00</div><h4>长洲自由探索</h4><p>徒步或单车。路线：码头→东湾泳滩→北帝庙→张保仔洞→五行石。</p><div class="tk">🍡 甘永泰鱼蛋HK$15 · 🍉 西瓜冰HK$25 · 🦐 海鲜HK$150–200<br>🚲 单车HK$40/天</div><div class="ex"><span class="et">✦ 推荐</span> 最南端五行石海蚀地貌。</div></div>
+  <div class="bc"><div class="bt">🌅 回程</div><h4>慢船回中环</h4><p>吹海风看日落。到中环可去摩天轮（HK$20，15分3圈，5年不涨价）。</p></div>
+  <div class="bc"><div class="bt">🥟 晚餐</div><h4>九记牛腩/一乐烧鹅</h4><p><span class="tg f">必吃</span> 九记（歌赋街21号）清汤牛腩伊面HK$68，现金。一乐（士丹利街34号）米其林。</p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="九记牛腩 香港中环" onclick="mp(this)"><span class="ic">📍</span>导航到九记</span><span class="act" data-copy="中环歌赋街21号" onclick="cp(this)"><span class="ic">📋</span>复制地址</span></div></div>
+</section>
+
+<section class="sec">
+  <div class="dl2"><span class="d">Day Three</span><span class="e">6.26 Fri · 西环</span></div>
+  <div class="dt">海岸咖啡</div>
+  <div class="ds">% Arabica·西环泳棚·港大</div>
+  <div class="bc"><div class="bt">🥚 10:00 · 自然醒</div><h4>澳洲牛奶公司</h4><p>佐敦白加士街47号。炒蛋多士HK$40·炖奶HK$32。现金。</p><div class="rt">🚇 佐敦站C2口3分</div><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="澳洲牛奶公司 香港佐敦" onclick="mp(this)"><span class="ic">📍</span>导航</span><span class="act" data-copy="佐敦白加士街47号" onclick="cp(this)"><span class="ic">📋</span>地址</span></div></div>
+  <div class="bc"><div class="bt">☕ 13:00</div><h4>% Arabica→西环泳棚→码头</h4><p>🚇 尖沙咀→坚尼地城C口，25分。📸 海边玻璃屋·🌊 西环泳棚·📸 春娇与志明取景地</p></div>
+  <div class="bc"><div class="bt">🏛️ 16:00</div><h4>香港大学/中山公园日落</h4><p>步行上山10分到百年校园（免费）。或海边看日落。</p></div>
+  <div class="bc"><div class="bt">🥟 晚餐</div><h4>新兴食家</h4><p><span class="tg f">西环</span> 卑路乍街7号。流沙包HK$28·虾饺HK$35。人均HK$80–100。</p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="新兴食家 香港西环" onclick="mp(this)"><span class="ic">📍</span>导航</span><span class="act" data-copy="西环卑路乍街7号" onclick="cp(this)"><span class="ic">📋</span>地址</span></div></div>
+  <div class="bc"><div class="bt">🧳 晚上</div><h4>收拾行李</h4><p>明早去澳门。住上环附近到港澳码头5分。船票提前Klook买。</p></div>
+</section>
+
+<section class="sec">
+  <div class="dl2"><span class="d">Day Four</span><span class="e">6.27 Sat · 澳门半岛</span></div>
+  <div class="dt">世遗葡韵</div>
+  <div class="ds">大三巴·蛋挞·新葡京</div>
+  <div class="bc"><div class="bt">🚢 10:00</div><h4>上环→澳门</h4><div class="rt">🚇 上环站D口→信德中心<br>🚢 金光飞航约1h<br>🎫 2026.4涨价 周末HK$209/平日HK$192</div></div>
+  <div class="bc"><div class="bt">🏛️ 14:00</div><h4>大三巴→恋爱巷→玫瑰堂→议事亭</h4><p>步行可达约2–3h。大三巴免费·恋爱巷出片·玫瑰堂巴洛克。</p><div class="rt">🚶 外港码头→大三巴步行15分</div></div>
+  <div class="bc"><div class="bt">🥧 下午茶</div><h4>玛嘉烈蛋挞</h4><p><span class="tg f">必吃</span> 南湾马统领街12号。HK$15/个。现金。开到18:00。</p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="玛嘉烈蛋挞 澳门" onclick="mp(this)"><span class="ic">📍</span>导航</span><span class="act" data-copy="南湾马统领街12号" onclick="cp(this)"><span class="ic">📋</span>地址</span></div></div>
+  <div class="bc"><div class="bt">🎰 晚上</div><h4>新葡京→大三巴夜景</h4><p>金色莲花新葡京步行10分（21–禁入）。大三巴夜景人少好拍。</p></div>
+  <div class="bc"><div class="bt">🍛 晚餐</div><h4>番茄屋葡国餐</h4><p><span class="tg f">澳葡菜</span> 新马路连安巷3号。葡国鸡HK$128·马介休球HK$68。人均HK$150–200。</p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="番茄屋葡国餐 澳门" onclick="mp(this)"><span class="ic">📍</span>导航</span><span class="act" data-copy="新马路连安巷3号" onclick="cp(this)"><span class="ic">📋</span>地址</span></div></div>
+</section>
+
+<section class="sec">
+  <div class="dl2"><span class="d">Day Five</span><span class="e">6.28 Sun · 氹仔</span></div>
+  <div class="dt">氹仔归途</div>
+  <div class="ds">威尼斯人·官也街·回赣州</div>
+  <div class="bc"><div class="bt">🏰 10:00</div><h4>威尼斯人·巴黎人·伦敦人</h4><div class="rt">🚕 半岛打车HK$80 / 🚌 新葡京免费发财车<br>🎫 免费·🛶 贡多拉HK$150·🗼 巴黎人7楼免费</div></div>
+  <div class="bc"><div class="bt">🍴 午餐</div><h4>官也街吃透透</h4><p>步行10分。🍔 大利来记猪扒包HK$45 · 🍦 莫义记榴莲雪糕HK$38 · 🦀 水蟹粥</p><div style="display:flex;gap:6px;margin-top:6px"><span class="act" data-map="官也街 澳门" onclick="mp(this)"><span class="ic">📍</span>导航到官也街</span></div></div>
+  <div class="bc"><div class="bt">🚄 14:00</div><h4>澳门→珠海→赣州</h4><div class="rt">① 氹仔打车→拱北HK$60 15分 ② 过关20–30分 ③ 步行到珠海站10分<br>④ 珠海→广州南→赣州西（中转）约5h ¥311–374</div></div>
+</section>
+
+<!-- ═══════════ FOOD ═══════════ -->
+<section class="sec" id="food">
+  <div class="sec-h">美食</div>
+  <div class="fg">
+    <div class="fc r"><h3>🇭🇰 香港</h3>
+      <div class="fi"><span class="nm">添好运</span><span class="nt">酥皮叉烧包</span></div>
+      <div class="fi"><span class="nm">九记牛腩</span><span class="nt">清汤·现金·上环</span></div>
+      <div class="fi"><span class="nm">华嫂冰室</span><span class="nt">菠萝油·尖沙咀</span></div>
+      <div class="fi"><span class="nm">兰芳园</span><span class="nt">丝袜奶茶·中环</span></div>
+      <div class="fi"><span class="nm">澳洲牛奶公司</span><span class="nt">炒蛋·现金·佐敦</span></div>
+      <div class="fi"><span class="nm">一乐烧鹅</span><span class="nt">米其林·中环</span></div>
+      <div class="fi"><span class="nm">义顺牛奶公司</span><span class="nt">双皮奶·铜锣湾</span></div>
+      <div class="fi"><span class="nm">新兴食家</span><span class="nt">点心·西环</span></div>
+    </div>
+    <div class="fc r"><h3>🇲🇴 澳门</h3>
+      <div class="fi"><span class="nm">安德鲁蛋挞</span><span class="nt">威尼斯人有店</span></div>
+      <div class="fi"><span class="nm">玛嘉烈蛋挞</span><span class="nt">现金·开到18点</span></div>
+      <div class="fi"><span class="nm">大利来记</span><span class="nt">猪扒包·官也街</span></div>
+      <div class="fi"><span class="nm">莫义记</span><span class="nt">榴莲雪糕·官也街</span></div>
+      <div class="fi"><span class="nm">柠檬车露</span><span class="nt">意式雪糕·大三巴</span></div>
+      <div class="fi"><span class="nm">番茄屋葡国餐</span><span class="nt">葡国鸡·新马路</span></div>
+      <div class="fi"><span class="nm">诚昌饭店</span><span class="nt">水蟹粥·官也街</span></div>
+      <div class="fi"><span class="nm">黄枝记</span><span class="nt">云吞面·议事亭</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ BUDGET ═══════════ -->
+<section class="sec" id="budget">
+  <div class="sec-h">预算</div>
+  <div class="bw r">
+    <table class="bt">
+      <thead><tr><th>项目</th><th>经济 ¥</th><th>舒适 ¥</th></tr></thead>
+      <tbody>
+        <tr><td>🚄 赣州↔香港高铁</td><td class="mo">700</td><td class="mo">800</td></tr>
+        <tr><td>🏨 住宿4晚</td><td class="mo">1,600</td><td class="mo">3,600</td></tr>
+        <tr><td>🚢 港澳渡轮</td><td class="mo">182</td><td class="mo">182</td></tr>
+        <tr><td>🚇 市内交通+船</td><td class="mo">300</td><td class="mo">600</td></tr>
+        <tr><td>🎫 门票</td><td class="mo">200</td><td class="mo">500</td></tr>
+        <tr><td>🍜 餐饮5天</td><td class="mo">1,500</td><td class="mo">3,000</td></tr>
+        <tr><td>🛍️ 手信</td><td class="mo">500</td><td class="mo">2,000</td></tr>
+        <tr><td>📱 其他</td><td class="mo">200</td><td class="mo">400</td></tr>
+        <tr class="t"><td>总计</td><td class="mo">≈5,182</td><td class="mo">≈11,082</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:10px;color:var(--text3);margin-top:6px">六月旺季·1HK$≈¥0.87</p>
+</section>
+
+<!-- ═══════════ TIPS ═══════════ -->
+<section class="sec" id="tips">
+  <div class="sec-h">贴士</div>
+  <div class="tc r"><h3>🚇 交通</h3><ul><li><strong>八达通</strong> 押金HK$50·退卡扣~HK$11·地铁巴士通用</li><li><strong>港澳船</strong> 2026.4涨价·周末HK$209/平日HK$192</li><li>澳门发财车免费坐，不赌也行</li></ul></div>
+  <div class="tc i r"><h3>📱 通讯</h3><ul><li>港澳流量卡¥30–50/5天·备HK$2000现金</li><li>汇率 <strong>1HK$≈¥0.87</strong>（2026.6）</li></ul></div>
+  <div class="tc w r"><h3>⚠️ 重要</h3><ul><li><span class="tg w">重要</span> 港澳通行证+签注（香港一次+澳门一次）</li><li><span class="tg w">重要</span> 微信"海关旅客指尖服务"提前填申报</li><li>英标转换插头·赌场21–·餐厅10%服务费</li></ul></div>
+  <div class="tc e r"><h3>🆘 紧急</h3><p>香港 <strong onclick="dl('999')" style="cursor:pointer;color:var(--accent)">999</strong> · 澳门 <strong onclick="dl('999')" style="cursor:pointer;color:var(--accent)">999</strong>/<strong onclick="dl('110')" style="cursor:pointer;color:var(--accent)">110</strong> · 外交部 <strong onclick="dl('+861012308')" style="cursor:pointer;color:var(--accent)">+86 10 12308</strong> <span style="font-size:10px;color:var(--text4);font-family:var(--mono)">点击拨打</span></p></div>
+</section>
+
+<!-- ═══════════ CHECKLIST ═══════════ -->
+<section class="sec" id="list">
+  <div class="sec-h">清单</div>
+  <div class="cw r">
+    <div class="ci"><span>自动保存</span><span id="cp" style="font-family:var(--mono);color:var(--gold)">0/15</span></div>
+    <label><input type="checkbox" data-i="1"><span>港澳通行证+有效签注</span></label>
+    <label><input type="checkbox" data-i="2"><span>身份证</span></label>
+    <label><input type="checkbox" data-i="3"><span>海关申报截图</span></label>
+    <label><input type="checkbox" data-i="4"><span>港澳流量卡</span></label>
+    <label><input type="checkbox" data-i="5"><span>英标转换插头</span></label>
+    <label><input type="checkbox" data-i="6"><span>充电宝</span></label>
+    <label><input type="checkbox" data-i="7"><span>港币现金HK$2000</span></label>
+    <label><input type="checkbox" data-i="8"><span>防晒霜+墨镜+伞</span></label>
+    <label><input type="checkbox" data-i="9"><span>防蚊喷雾</span></label>
+    <label><input type="checkbox" data-i="10"><span>舒适步行鞋</span></label>
+    <label><input type="checkbox" data-i="11"><span>薄外套（冷气足）</span></label>
+    <label><input type="checkbox" data-i="12"><span>拖鞋（长洲踩水）</span></label>
+    <label><input type="checkbox" data-i="13"><span>常用药</span></label>
+    <label><input type="checkbox" data-i="14"><span>酒店/船票确认单</span></label>
+    <label><input type="checkbox" data-i="15"><span>离线地图</span></label>
+  </div>
+</section>
+
+<!-- ═══════════ BOTTOM NAV ═══════════ -->
+<footer class="btm">
+  <a href="#tools"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1" opacity=".5"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span class="bl">工具</span></a>
+  <a href="#d1"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="bl">行程</span></a>
+  <a href="#food"><svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg><span class="bl">美食</span></a>
+  <a href="#budget"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="bl">预算</span></a>
+  <a href="#list"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="bl">清单</span></a>
+</footer>
+
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}
+</script>
+<script type="module">
+import*as THREE from'three';
+(()=>{
+const c=document.getElementById('three');if(!c)return;
+const s=new THREE.Scene(),ca=new THREE.PerspectiveCamera(60,c.clientWidth/c.clientHeight,.1,1e3);
+const r=new THREE.WebGLRenderer({alpha:true,antialias:true});
+r.setSize(c.clientWidth,c.clientHeight);r.setPixelRatio(Math.min(devicePixelRatio,2));
+c.appendChild(r.domElement);
+const pool=[new THREE.IcosahedronGeometry(.5,0),new THREE.OctahedronGeometry(.4,0),new THREE.TetrahedronGeometry(.35,0)];
+const clrs=[new THREE.Color('#d4a868'),new THREE.Color('#e06040'),new THREE.Color('#ffffff')];
+for(let i=0;i<10;i++){
+  const g=pool[Math.floor(Math.random()*pool.length)],m=new THREE.MeshBasicMaterial({color:clrs[Math.floor(Math.random()*clrs.length)],wireframe:true,transparent:true,opacity:.04+Math.random()*.04});
+  const m2=new THREE.Mesh(g,m);
+  m2.position.set((Math.random()-.5)*10,(Math.random()-.5)*6,(Math.random()-.5)*4-1);
+  m2.rotation.set(Math.random()*6,Math.random()*6,Math.random()*6);
+  m2.userData={rx:.001+Math.random()*.002,ry:.002+Math.random()*.003,rz:.001+Math.random()*.002};
+  s.add(m2);
+}
+const pn=80,pg=new THREE.BufferGeometry,pa=new Float32Array(pn*3);
+for(let i=0;i<pn*3;i++)pa[i]=(Math.random()-.5)*20;
+pg.setAttribute('position',new THREE.BufferAttribute(pa,3));
+const pm=new THREE.PointsMaterial({color:0xd4a868,size:.02,transparent:true,opacity:.08});
+s.add(new THREE.Points(pg,pm));
+ca.position.z=4;
+let mx=0,my=0;
+document.addEventListener('mousemove',e=>{mx=(e.clientX/window.innerWidth-.5)*.5;my=(e.clientY/window.innerHeight-.5)*.3});
+document.addEventListener('touchmove',e=>{const t=e.touches[0];mx=(t.clientX/window.innerWidth-.5)*.5;my=(t.clientY/window.innerHeight-.5)*.3},{passive:true});
+(function a(){requestAnimationFrame(a);s.children.forEach(ch=>{if(ch.isMesh){ch.rotation.x+=ch.userData.rx;ch.rotation.y+=ch.userData.ry;ch.rotation.z+=ch.userData.rz}});s.rotation.y+=((mx*.3-s.rotation.y)*.02);s.rotation.x+=((my*.15-s.rotation.x)*.02);r.render(s,ca)})();
+window.addEventListener('resize',()=>{ca.aspect=c.clientWidth/c.clientHeight;ca.updateProjectionMatrix();r.setSize(c.clientWidth,c.clientHeight)});
+})();
+</script>
+
+<script>
+const pr=document.getElementById('pr');
+window.addEventListener('scroll',()=>{const h=document.body.scrollHeight-window.innerHeight;pr.style.width=h>0?(window.scrollY/h)*100+'%':'0%'},{passive:true});
+
+function td(){document.body.classList.toggle('light');const l=document.body.classList.contains('light');document.getElementById('dm').textContent=l?'☀️':'🌙';localStorage.setItem('lm',l);document.querySelector('meta[name="theme-color"]').content=l?'#eeebe3':'#070707'}
+document.getElementById('dm').addEventListener('click',td);
+if(localStorage.getItem('lm')==='true'){document.body.classList.add('light');document.querySelector('meta[name="theme-color"]').content='#eeebe3';document.getElementById('dm').textContent='☀️'}
+
+/* Currency */
+const rv=.87;
+const hA=document.getElementById('hkdAmt'),cA=document.getElementById('cnyAmt');
+const cO=document.getElementById('cnyOut'),hO=document.getElementById('hkdOut');
+document.getElementById('rateShow').textContent=rv;
+hA.addEventListener('input',()=>{const v=parseFloat(hA.value)||0;cO.textContent='¥'+(v*rv).toFixed(1);cA.value=(v*rv).toFixed(1)});
+cA.addEventListener('input',()=>{const v=parseFloat(cA.value)||0;hO.textContent='HK$'+(v/rv).toFixed(1);hA.value=(v/rv).toFixed(1)});
+document.getElementById('swapBtn').addEventListener('click',()=>{const a=hA.value,b=cA.value;hA.value=b;cA.value=a;hA.dispatchEvent(new Event('input'))});
+hA.dispatchEvent(new Event('input'));
+
+/* Weather */
+(async()=>{
+  try{
+    const r2=await fetch('https://api.open-meteo.com/v1/forecast?latitude=22.3193&longitude=114.1694&current=temperature_2m,weathercode&daily=temperature_2m_max,weathercode&timezone=Asia/Hong_Kong&forecast_days=7');
+    const d=await r2.json();const map={0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',51:'🌦',53:'🌦',55:'🌦',61:'🌧',63:'🌧',65:'🌧',80:'🌦',81:'🌧',82:'🌧',95:'⛈',96:'⛈',99:'⛈'};
+    const now=d.current;
+    document.getElementById('wxNow').textContent=Math.round(now.temperature_2m)+'° '+(map[now.weathercode]||'☀️');
+    const cw=document.getElementById('chipWx');if(cw)cw.textContent=Math.round(now.temperature_2m)+'°';
+    const trip=[24,25,26,27,28];const today=new Date().getDate();
+    const wx=document.getElementById('wxGrid');wx.innerHTML='';
+    let found=0;
+    d.daily.time.forEach((t,i)=>{
+      const dt=new Date(t+'T12:00'),dd=dt.getDate();
+      if(trip.includes(dd)&&found<5){
+        const isT=dd===today;
+        let lb='';
+        if(isT)lb='今天';
+        else if(dd===today+1)lb='明天';
+        else if(dd===today+2)lb='后天';
+        else lb=dt.getMonth()+1+'/'+dd;
+        wx.innerHTML+=`<div class="wx-d${isT?' active':''}"><div class="wn">${lb}</div><div class="wi">${map[d.daily.weathercode[i]]||'☀️'}</div><div class="wt">${Math.round(d.daily.temperature_2m_max[i])}°</div></div>`;
+        found++;
+      }
+    });
+    if(!found)d.daily.time.forEach((t,i)=>{if(i<5){const dt=new Date(t+'T12:00');wx.innerHTML+=`<div class="wx-d"><div class="wn">${dt.getMonth()+1+'/'+dt.getDate()}</div><div class="wi">${map[d.daily.weathercode[i]]||'☀️'}</div><div class="wt">${Math.round(d.daily.temperature_2m_max[i])}°</div></div>`}});
+  }catch(e){}
+})();
+
+/* Scroll reveal */
+const io=new IntersectionObserver(e=>{e.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('v')})},{threshold:.05});
+document.querySelectorAll('.r,.fc,.bw,.tc,.cw,.wx-c,.cv-c').forEach(el=>io.observe(el));
+
+/* Nav */
+const tl=document.querySelectorAll('.tabs a'),ts=[];
+tl.forEach(a=>{const id=a.getAttribute('href').slice(1),el=document.getElementById(id);if(el)ts.push({id,el})});
+window.addEventListener('scroll',()=>{const y=window.scrollY+100;let a='tools';ts.forEach(s=>{if(y>=s.el.offsetTop)a=s.id});tl.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+a))},{passive:true});
+
+/* Bottom nav active */
+const bl=document.querySelectorAll('.btm a');
+window.addEventListener('scroll',()=>{const y=window.scrollY+200;let a='tools';ts.forEach(s=>{if(y>=s.el.offsetTop)a=s.id});bl.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+a))},{passive:true});
+
+/* Checklist */
+const cbs=document.querySelectorAll('.cw input');
+function ucp(){document.getElementById('cp').textContent=document.querySelectorAll('.cw input:checked').length+'/'+cbs.length}
+cbs.forEach(cb=>{const s=localStorage.getItem('c_'+cb.dataset.i);if(s==='true')cb.checked=true;cb.addEventListener('change',()=>{localStorage.setItem('c_'+cb.dataset.i,cb.checked);ucp()})});ucp();
+
+/* Countdown timer */
+function cd(){
+  const t=new Date('2026-06-24T08:00:00+08:00').getTime()-Date.now();
+  const el=document.getElementById('cdTimer');
+  if(!el)return;
+  if(t>0){const d=Math.floor(t/864e5),h=Math.floor((t%864e5)/36e5),m=Math.floor((t%36e5)/6e4),s=Math.floor((t%6e4)/1e3);el.textContent='距出发 '+d+'天 '+String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+  else el.textContent='🎉 旅途愉快！'
+}
+cd();setInterval(cd,1000);
+
+/* Interactive phone actions */
+const hf=(n)=>{try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}};
+function cp(el){
+  const t=el.dataset.copy||el.textContent;
+  if(navigator.clipboard){navigator.clipboard.writeText(t).then(()=>{el.textContent='✓ 已复制';hf();setTimeout(()=>{el.innerHTML='<span class="ic">📋</span>复制地址'},1500)})}
+}
+function mp(el){
+  const q=el.dataset.map||'';
+  hf();
+  if(/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)){
+    window.open(`maps://app?daddr=${encodeURIComponent(q)}`);
+  }else{
+    window.open(`https://maps.google.com/maps?daddr=${encodeURIComponent(q)}`);
+  }
+}
+function dl(n){hf();window.location.href='tel:'+n}
+</script>
+</body>
+</html>
