@@ -2,10 +2,11 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5.0,user-scalable=no">
 <meta name="theme-color" content="#0e0d0b">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇭🇰</text></svg>">
 <title>港澳五日 · 旅行指南</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,9 +17,9 @@
   --bg:#0e0d0b;--bg2:#161410;--bg3:#1d1a16;--bg4:#25221c;
   --text:#eee8de;--text2:#a89e8e;--text3:#7a7062;--text4:#4e463a;
   --accent:#c97d4a;--amber:#d4a46a;
-  --accent-dim:rgba(201,125,74,.12);--amber-dim:rgba(212,164,106,.08);
-  --border:rgba(255,255,255,.05);--border2:rgba(255,255,255,.1);
-  --glass:rgba(14,13,11,.7);
+  --accent-dim:rgba(201,125,74,.1);--amber-dim:rgba(212,164,106,.08);
+  --border:rgba(255,255,255,.04);--border2:rgba(255,255,255,.08);
+  --glass:rgba(14,13,11,.65);
   --rs:14px;--rsl:22px;
   --serif:'Playfair Display','Noto Serif SC',serif;
   --sans:'Inter',-apple-system,sans-serif;
@@ -29,176 +30,94 @@
 [data-theme=light]{
   --bg:#f2efe6;--bg2:#faf8f2;--bg3:#eeeadf;--bg4:#e4dfd4;
   --text:#1a1814;--text2:#6e6658;--text3:#9e9688;--text4:#b8b0a0;
-  --border:rgba(0,0,0,.04);--border2:rgba(0,0,0,.08);
-  --glass:rgba(242,239,230,.7)
+  --border:rgba(0,0,0,.03);--border2:rgba(0,0,0,.07);
+  --glass:rgba(242,239,230,.65)
 }
-html{overflow-x:hidden;background:var(--bg)}
+html{overflow-x:hidden;background:var(--bg);-webkit-text-size-adjust:100%}
 body{
   font-family:var(--sans);font-size:16px;line-height:1.6;color:var(--text);
-  background:var(--bg);-webkit-font-smoothing:antialiased;
-  overflow-x:hidden;padding-top:0;padding-bottom:0;
-  min-height:100dvh;min-height:100vh
+  background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  min-height:100dvh;padding-top:0;padding-bottom:0
 }
-/* ─── NOISE OVERLAY ─── */
 body::after{
   content:'';position:fixed;inset:0;z-index:99999;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.01'/%3E%3C/svg%3E");
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.008'/%3E%3C/svg%3E");
   background-size:200px 200px;mix-blend-mode:overlay
 }
 ::selection{background:var(--accent-dim)}
 
-/* ─── PROGRESS ─── */
 #pr{position:fixed;top:0;left:0;z-index:9999;height:2px;width:0;background:linear-gradient(90deg,var(--accent),var(--amber));pointer-events:none;will-change:width}
 
-/* ─── NAV ─── */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:1000;
-  padding:16px 0 12px;padding-top:calc(12px + var(--st));
-  transition:transform .35s var(--ease),background .35s var(--ease),padding .35s var(--ease),box-shadow .35s var(--ease);
-  will-change:transform
+  padding:14px 0 12px;padding-top:calc(14px + var(--st));
+  transition:transform .35s var(--ease),background .35s var(--ease),padding .35s var(--ease);will-change:transform
 }
-nav.hide{transform:translateY(-100%)}
-nav.scroll{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);padding:10px 0;padding-top:calc(8px + var(--st));box-shadow:0 1px 0 var(--border)}
+nav.hd{transform:translateY(-100%)}
+nav.sc{background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);padding:10px 0;padding-top:calc(10px + var(--st));box-shadow:0 1px 0 var(--border)}
 nav .in{display:flex;align-items:center;justify-content:space-between;padding:0 20px;max-width:600px;margin:0 auto}
-nav .logo{font-family:var(--mono);font-size:12px;color:var(--text);letter-spacing:1.5px;text-transform:uppercase}
-nav .ls{display:flex;gap:2px;align-items:center}
-nav .ls a{
-  font-family:var(--mono);font-size:11px;color:var(--text3);padding:10px 12px;border-radius:10px;
-  transition:all .2s var(--ease);letter-spacing:.3px;text-transform:uppercase;
-  min-height:48px;display:flex;align-items:center;text-decoration:none;
-  -webkit-touch-callout:none
-}
-nav .ls a:active{transform:scale(.94);background:var(--border2)}
-nav .ls a.act{color:var(--accent);background:var(--accent-dim)}
-#tb{
-  width:48px;height:48px;border-radius:999px;border:1px solid var(--border);background:transparent;
-  color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;
-  font-size:18px;transition:all .2s var(--spring);margin-left:2px;flex-shrink:0;
-  -webkit-touch-callout:none
-}
-#tb:active{transform:scale(.85);background:var(--border)}
+nav .mk{font-family:var(--mono);font-size:12px;color:var(--text);letter-spacing:1.5px;text-transform:uppercase}
+nav .lk{display:flex;gap:2px;align-items:center}
+nav .lk a{font-family:var(--mono);font-size:11px;color:var(--text3);padding:10px 12px;border-radius:10px;transition:all .2s var(--ease);letter-spacing:.3px;text-transform:uppercase;min-height:48px;display:flex;align-items:center;text-decoration:none}
+nav .lk a:active{transform:scale(.92);background:var(--border2)}
+nav .lk a.ac{color:var(--accent);background:var(--accent-dim)}
+#tb{width:48px;height:48px;border-radius:999px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s var(--spring);margin-left:2px;flex-shrink:0}
+#tb:active{transform:scale(.82);background:var(--border)}
 
-/* ─── HERO ─── */
-.hero{
-  position:relative;min-height:90dvh;display:flex;align-items:flex-end;
-  padding:120px 20px 48px;padding-top:calc(100px + var(--st));
-  overflow:hidden;background:linear-gradient(180deg,#0e0d0b 0%,#161410 40%,#1a1712 100%)
-}
-.hero-g{
-  position:absolute;inset:0;pointer-events:none;z-index:0;
-  background-image:linear-gradient(rgba(255,255,255,.005) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.005) 1px,transparent 1px);
-  background-size:44px 44px;
-  mask-image:radial-gradient(ellipse 70% 45% at 50% 50%,black 10%,transparent 70%);
-  -webkit-mask-image:radial-gradient(ellipse 70% 45% at 50% 50%,black 10%,transparent 70%)
-}
-.hero-c{position:relative;z-index:2;width:100%;max-width:600px;margin:0 auto}
-.hero-ey{
-  font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:4px;text-transform:uppercase;
-  color:var(--amber);margin-bottom:14px;opacity:0;transform:translateY(16px);animation:fu .5s .1s forwards
-}
-.hero-h{
-  font-family:var(--serif);font-weight:800;
-  font-size:clamp(3rem,16vw,5rem);line-height:.8;letter-spacing:-.04em;margin-bottom:6px
-}
-.hero-h .c{display:inline-block;opacity:0;transform:translateY(40px);animation:ci .5s .2s var(--spring) forwards}
-.hero-h .c:nth-child(1){animation-delay:.12s}.hero-h .c:nth-child(2){animation-delay:.2s;background:linear-gradient(135deg,var(--amber),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-h .c:nth-child(3){animation-delay:.28s}.hero-h .c:nth-child(4){animation-delay:.36s}
+.hero{position:relative;min-height:90dvh;display:flex;align-items:flex-end;padding:120px 20px 48px;padding-top:calc(100px + var(--st));overflow:hidden;background:linear-gradient(180deg,#0e0d0b,#161410 40%,#1a1712 100%)}
+.hero-g{position:absolute;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(255,255,255,.005) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.005) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 70% 45% at 50% 50%,black 10%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse 70% 45% at 50% 50%,black 10%,transparent 70%)}
+.hero .c{position:relative;z-index:2;width:100%;max-width:600px;margin:0 auto}
+.hero-ey{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:4px;text-transform:uppercase;color:var(--amber);margin-bottom:14px;opacity:0;animation:fu .5s .1s forwards}
+.hero-h{font-family:var(--serif);font-weight:800;font-size:clamp(2.8rem,16vw,4.8rem);line-height:.82;letter-spacing:-.04em;margin-bottom:6px}
+.hero-h .c2{display:inline-block;opacity:0;transform:translateY(40px);animation:ci .5s .2s var(--spring) forwards}
+.hero-h .c2:nth-child(1){animation-delay:.12s}.hero-h .c2:nth-child(2){animation-delay:.2s;background:linear-gradient(135deg,var(--amber),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-h .c2:nth-child(3){animation-delay:.28s}.hero-h .c2:nth-child(4){animation-delay:.36s}
 @keyframes ci{to{opacity:1;transform:translateY(0)}}
-.hero-st{
-  font-family:var(--serif);font-style:italic;font-weight:400;
-  font-size:16px;color:var(--text3);margin-bottom:14px;
-  opacity:0;animation:fu .5s .5s forwards
-}
+.hero-st{font-family:var(--serif);font-style:italic;font-weight:400;font-size:16px;color:var(--text3);margin-bottom:14px;opacity:0;animation:fu .5s .5s forwards}
 .hero-m{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;opacity:0;animation:fu .5s .6s forwards}
-.hero-m span{
-  font-family:var(--mono);font-size:10px;padding:5px 14px;border-radius:999px;
-  border:1px solid var(--border);color:var(--text3);background:rgba(255,255,255,.03)
-}
-.hero-p{
-  font-size:14px;color:var(--text2);max-width:460px;line-height:1.6;font-weight:300;
-  opacity:0;animation:fu .5s .7s forwards
-}
-.hero-stats{display:flex;gap:28px;margin-top:24px;opacity:0;animation:fu .5s .85s forwards}
-.hero-stats .s .n{font-family:var(--serif);font-size:24px;font-weight:700;color:#fff;display:block;line-height:1}
-.hero-stats .s .l{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.hero-m span{font-family:var(--mono);font-size:10px;padding:5px 14px;border-radius:999px;border:1px solid var(--border);color:var(--text3);background:rgba(255,255,255,.03)}
+.hero-p{font-size:14px;color:var(--text2);max-width:460px;line-height:1.65;font-weight:300;opacity:0;animation:fu .5s .7s forwards}
+.hero-st2{display:flex;gap:28px;margin-top:24px;opacity:0;animation:fu .5s .85s forwards}
+.hero-st2 .s .n{font-family:var(--serif);font-size:24px;font-weight:700;color:#fff;display:block;line-height:1}
+.hero-st2 .s .l{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
 @keyframes fu{to{opacity:1;transform:translateY(0)}}
+[data-theme=light] .hero-st2 .s .n{color:var(--text)}
 
-/* ─── WRAPPER ─── */
-.w{max-width:600px;margin:0 auto;padding:0 20px}
-.sec{padding:44px 0}
-.sh{margin-bottom:22px}
-.sh .k{
-  font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;
-  color:var(--amber);margin-bottom:6px;display:block
-}
-.sh h2{font-family:var(--serif);font-size:28px;font-weight:800;line-height:1.05;margin-bottom:4px}
-.sh p{font-size:14px;color:var(--text3);font-weight:300}
-
-/* ─── REVEAL ─── */
+.w{max-width:600px;margin:0 auto;padding:0 20px}.sec{padding:44px 0}
+.sh{margin-bottom:22px}.sh .k{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--amber);margin-bottom:6px;display:block}
+.sh h2{font-family:var(--serif);font-size:28px;font-weight:800;line-height:1.05;margin-bottom:4px}.sh p{font-size:14px;color:var(--text3);font-weight:300}
 .r{opacity:0;transform:translateY(30px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .r.v{opacity:1;transform:translateY(0)}
+.gg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gc{background:rgba(22,20,16,.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:var(--rs);padding:18px;transition:all .25s var(--ease)}
+.gc:active{transform:scale(.96);background:rgba(30,28,22,.55)}
+.gc .k{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.gc .v{font-family:var(--serif);font-size:20px;font-weight:700;color:#fff;line-height:1.1}.gc .d{font-size:13px;color:var(--text2);margin-top:2px;font-weight:300}
+[data-theme=light] .gc .v{color:var(--text)}
 
-/* ─── OVERVIEW GRID ─── */
-.og{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.oc{
-  background:rgba(22,20,16,.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid var(--border);border-radius:var(--rs);padding:18px;
-  transition:all .25s var(--ease);touch-action:manipulation
-}
-.oc:active{transform:scale(.96);background:rgba(30,28,22,.6)}
-.oc .k{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
-.oc .v{font-family:var(--serif);font-size:20px;font-weight:700;color:#fff;line-height:1.1}
-.oc .d{font-size:13px;color:var(--text2);margin-top:2px;font-weight:300}
-[data-theme=light] .oc .v{color:var(--text)}
-[data-theme=light] .hero-stats .s .n{color:var(--text)}
-
-/* ─── TOOLS ─── */
 .tg{display:grid;gap:10px}
-.tc{
-  background:rgba(22,20,16,.45);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border:1px solid var(--border);border-radius:var(--rs);padding:18px
-}
+.tc{background:rgba(22,20,16,.45);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--border);border-radius:var(--rs);padding:18px}
 .tc .h{font-size:14px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px;margin-bottom:12px}
 .tc .h .tl{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-left:auto}
-.wg{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
-.wg .wi{text-align:center;padding:8px 4px;border-radius:8px;background:var(--bg3);transition:all .2s var(--ease)}
+.wg{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.wg .wi{text-align:center;padding:7px 2px;border-radius:8px;background:var(--bg3)}
 .wg .wi .d{font-family:var(--mono);font-size:10px;color:var(--text4);font-weight:500}
 .wg .wi .t{font-family:var(--mono);font-size:14px;color:var(--amber);font-weight:500;margin-top:2px}
 .wg .wi.ac{background:var(--accent-dim);border:1px solid rgba(201,125,74,.15)}
 .wg .wi.ac .t{color:var(--accent)}
 .ci{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.ci input{
-  flex:1;min-width:0;background:var(--bg3);border:1px solid var(--border);border-radius:10px;
-  padding:14px;font-size:17px;color:var(--text);font-family:var(--mono);
-  outline:none;transition:all .25s var(--ease);min-height:48px
-}
+.ci input{flex:1;min-width:0;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px;font-size:17px;color:var(--text);font-family:var(--mono);outline:none;transition:all .25s var(--ease);min-height:48px}
 .ci input:focus{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-dim)}
-.ci input::placeholder{color:var(--text4)}
-.ci .lb{font-family:var(--mono);font-size:13px;color:var(--text3);flex-shrink:0;width:48px;text-align:right}
+.ci input::placeholder{color:var(--text4)}.ci .lb{font-family:var(--mono);font-size:13px;color:var(--text3);flex-shrink:0;width:48px;text-align:right}
 .ci .rv{font-family:var(--mono);font-size:18px;color:var(--amber);font-weight:500;min-width:70px;text-align:right}
-.cv-sw{
-  text-align:center;padding:8px;font-family:var(--mono);font-size:11px;color:var(--text3);
-  border:1px dashed var(--border);border-radius:10px;margin:10px 0 4px;min-height:48px;
-  display:flex;align-items:center;justify-content:center;transition:all .15s var(--ease)
-}
-.cv-sw:active{background:var(--amber-dim);color:var(--amber);transform:scale(.97)}
-
-.cs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-top:12px;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+.cv{text-align:center;padding:10px;font-family:var(--mono);font-size:12px;color:var(--text3);border:1px dashed var(--border);border-radius:10px;margin:10px 0 4px;min-height:48px;display:flex;align-items:center;justify-content:center;transition:all .15s var(--ease)}
+.cv:active{background:var(--amber-dim);color:var(--amber);transform:scale(.97)}
+.cs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-top:12px;-webkit-overflow-scrolling:touch;padding-bottom:2px}
 .cs::-webkit-scrollbar{display:none}
-.cs .c{
-  flex-shrink:0;font-family:var(--mono);font-size:12px;padding:10px 18px;border-radius:999px;
-  border:1px solid var(--border);color:var(--text3);white-space:nowrap;letter-spacing:.2px;
-  background:rgba(22,20,16,.35);min-height:48px;display:flex;align-items:center;
-  transition:all .2s var(--ease);backdrop-filter:blur(6px)
-}
-.cs .c:active{transform:scale(.95);background:var(--bg3);color:var(--text2)}
+.cs .c{flex-shrink:0;font-family:var(--mono);font-size:12px;padding:10px 18px;border-radius:999px;border:1px solid var(--border);color:var(--text3);white-space:nowrap;letter-spacing:.2px;background:rgba(22,20,16,.35);min-height:48px;display:flex;align-items:center;transition:all .2s var(--ease);backdrop-filter:blur(6px)}
+.cs .c:active{transform:scale(.95);background:var(--bg3)}
 
-/* ─── DAY CARDS ─── */
-.dc{
-  background:rgba(22,20,16,.45);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
-  border:1px solid var(--border);border-radius:var(--rsl);padding:20px;margin-bottom:12px;
-  transition:all .25s var(--ease)
-}
+.dc{background:rgba(22,20,16,.45);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:var(--rsl);padding:20px;margin-bottom:12px;transition:all .25s var(--ease)}
 .dc:active{transform:scale(.98);background:rgba(30,28,22,.5)}
 .dh{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .dh .b{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:20px;font-weight:700;flex-shrink:0}
@@ -208,36 +127,28 @@ nav .ls a.act{color:var(--accent);background:var(--accent-dim)}
 .di{padding:14px 0;border-bottom:1px solid var(--border);display:flex;gap:10px}.di:last-child{border-bottom:none;padding-bottom:0}
 .di .ic{flex-shrink:0;width:28px;font-size:17px;margin-top:2px}.di .bd{flex:1;min-width:0}
 .di .bd .tm{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:.8px;text-transform:uppercase;margin-bottom:2px}
-.di .bd h4{font-size:16px;font-weight:600;margin-bottom:1px;line-height:1.25}
-.di .bd p{font-size:14px;color:var(--text2);line-height:1.6;font-weight:300}
-.di .bd .m{margin-top:6px;display:flex;gap:4px;flex-wrap:wrap}
-.di .bd .m .tt{background:var(--bg3);padding:3px 8px;border-radius:6px;font-family:var(--mono);font-size:9px;color:var(--text3)}
+.di .bd h4{font-size:16px;font-weight:600;margin-bottom:1px;line-height:1.25}.di .bd p{font-size:14px;color:var(--text2);line-height:1.65;font-weight:300}
+.di .bd .m{margin-top:6px;display:flex;gap:4px;flex-wrap:wrap}.di .bd .m .tt{background:var(--bg3);padding:3px 8px;border-radius:6px;font-family:var(--mono);font-size:9px;color:var(--text3)}
 
-/* ─── FOOD ─── */
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .fc{background:rgba(22,20,16,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:var(--rs);padding:18px}
 .fc h3{font-family:var(--serif);font-size:16px;font-weight:700;margin-bottom:10px}
 .fi{font-size:14px;color:var(--text2);padding:5px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-weight:300}
 .fi:last-child{border-bottom:none}.fi .nn{color:var(--text);font-weight:500}.fi .nt{color:var(--text3);font-family:var(--mono);font-size:11px}
 
-/* ─── BUDGET ─── */
 .bw{background:rgba(22,20,16,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:var(--rs);overflow:hidden}
 .bt{width:100%;border-collapse:collapse;font-size:14px}
 .bt th{padding:12px 16px;text-align:left;font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--text3);background:var(--bg3);border-bottom:1px solid var(--border)}
 .bt td{padding:10px 16px;border-bottom:1px solid var(--border);color:var(--text2);font-weight:300}
 .bt .mo{font-family:var(--mono);font-size:14px;color:var(--text);font-variant-numeric:tabular-nums}
-.bt .tt td{background:linear-gradient(135deg,var(--accent-dim),transparent);font-weight:500;border-bottom:none}
-.bt .tt .mo{color:var(--accent);font-weight:600}
+.bt .tt td{background:linear-gradient(135deg,var(--accent-dim),transparent);font-weight:500;border-bottom:none}.bt .tt .mo{color:var(--accent);font-weight:600}
 
-/* ─── TIPS ─── */
-.tc2{background:rgba(22,20,16,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:var(--rs);padding:16px 18px;margin-bottom:8px;transition:all .2s var(--ease)}
-.tc2:active{transform:scale(.98);background:var(--bg3)}
-.tc2 h3{font-family:var(--mono);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;color:var(--text)}
-.tc2 ul{padding-left:14px}.tc2 li{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:3px;font-weight:300}
-.tc2 p{font-size:14px;color:var(--text2);line-height:1.6;font-weight:300}
-.tc2.w{border-left:3px solid #d94f22}.tc2.i{border-left:3px solid var(--amber)}.tc2.e{border-left:3px solid var(--accent)}
+.tp{background:rgba(22,20,16,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:var(--rs);padding:16px 18px;margin-bottom:8px;transition:all .2s var(--ease)}
+.tp:active{transform:scale(.98);background:var(--bg3)}
+.tp h3{font-family:var(--mono);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;color:var(--text)}
+.tp ul{padding-left:14px}.tp li{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:3px;font-weight:300}.tp p{font-size:14px;color:var(--text2);line-height:1.6;font-weight:300}
+.tp.w{border-left:3px solid #d94f22}.tp.i{border-left:3px solid var(--amber)}.tp.e{border-left:3px solid var(--accent)}
 
-/* ─── CHECKLIST ─── */
 .cw{background:rgba(22,20,16,.45);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:var(--rsl);padding:18px}
 .cw .ch{font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:12px;display:flex;justify-content:space-between}
 .cw label{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:15px;cursor:pointer;min-height:48px;transition:all .15s var(--ease);font-weight:300}
@@ -245,97 +156,68 @@ nav .ls a.act{color:var(--accent);background:var(--accent-dim)}
 .cw input[type=checkbox]{width:22px;height:22px;flex-shrink:0;margin-top:2px;accent-color:var(--accent);border-radius:6px;cursor:pointer}
 .cw input:checked+span{text-decoration:line-through;opacity:.3}
 
-/* ─── BOTTOM BAR ─── */
-.bn{
-  position:fixed;bottom:0;left:0;right:0;z-index:999;
-  height:calc(48px + var(--sb));padding-bottom:var(--sb);
-  display:flex;
-  background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  border-top:1px solid var(--border);
-  transition:transform .35s var(--ease);will-change:transform
-}
-.bn.hide{transform:translateY(100%)}
-.bn a{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-  text-decoration:none;color:var(--text3);font-family:var(--mono);
-  font-size:9px;letter-spacing:.3px;text-transform:uppercase;
-  transition:all .15s var(--ease);position:relative
-}
-.bn a:active{transform:scale(.9);color:var(--text)}
-.bn a.act{color:var(--accent)}
-
-/* ─── FOOTER ─── */
+.bn{position:fixed;bottom:0;left:0;right:0;z-index:999;height:calc(48px + var(--sb));padding-bottom:var(--sb);display:flex;background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border);transition:transform .35s var(--ease);will-change:transform}
+.bn.hd{transform:translateY(100%)}
+.bn a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;text-decoration:none;color:var(--text3);font-family:var(--mono);font-size:9px;letter-spacing:.3px;text-transform:uppercase;transition:all .15s var(--ease)}
+.bn a:active{transform:scale(.88);color:var(--text)}.bn a.ac{color:var(--accent)}
 .ft{padding:40px 20px 80px;text-align:center}.ft p{font-size:12px;color:var(--text3);font-weight:300}
 
-/* ─── RESPONSIVE TWEAKS ─── */
-@media(max-width:400px){
-  .hero-h{font-size:clamp(2.2rem,14vw,3.2rem)}.og{grid-template-columns:1fr}
-  .sh h2{font-size:24px}.fg{grid-template-columns:1fr}
-}
-@media(min-width:640px){
-  .w{max-width:680px;padding:0 32px}
-  .tg{grid-template-columns:1fr 1fr}
-}
+@media(max-width:400px){.hero-h{font-size:clamp(2.2rem,14vw,3.2rem)}.gg{grid-template-columns:1fr}.sh h2{font-size:24px}.fg{grid-template-columns:1fr}}
+@media(min-width:640px){.w{max-width:680px;padding:0 32px}.tg{grid-template-columns:1fr 1fr}}
 
-[data-theme=light] .oc{background:rgba(250,248,242,.5)}
-[data-theme=light] .tc,[data-theme=light] .dc,[data-theme=light] .fc,[data-theme=light] .tc2,[data-theme=light] .cw{background:rgba(250,248,242,.5)}
-[data-theme=light] #tb{background:rgba(0,0,0,.02)}
-[data-theme=light] .cs .c{background:rgba(250,248,242,.35)}
-[data-theme=light] .oc:active{background:rgba(238,234,223,.6)}
-
-/* ─── SCROLLBAR ─── */
+[data-theme=light] .gc{background:rgba(250,248,242,.5)}[data-theme=light] .gc:active{background:rgba(238,234,223,.55)}
+[data-theme=light] .tc,[data-theme=light] .dc,[data-theme=light] .fc,[data-theme=light] .tp,[data-theme=light] .cw{background:rgba(250,248,242,.5)}
+[data-theme=light] #tb{background:rgba(0,0,0,.02)}[data-theme=light] .cs .c{background:rgba(250,248,242,.35)}
 ::-webkit-scrollbar{display:none}
 </style>
 </head>
 <body>
 <div id="pr"></div>
-
-<nav id="nav">
+<nav id="nv">
   <div class="in">
-    <span class="logo">港澳·五日</span>
-    <div class="ls">
-      <a href="#ov" class="act">概览</a><a href="#d1">行程</a><a href="#fd">美食</a>
+    <span class="mk">港澳·五日</span>
+    <div class="lk">
+      <a href="#ov" class="ac">概览</a><a href="#d1">行程</a><a href="#fd">美食</a>
       <button id="tb" aria-label="切换主题">☀️</button>
     </div>
   </div>
 </nav>
 
-<header class="hero">
-  <div class="hero-g"></div>
-  <div class="hero-c">
-    <div class="hero-ey">Travel · 2026</div>
-    <h1 class="hero-h"><span class="c">港</span><span class="c">澳</span><span class="c">五</span><span class="c">日</span></h1>
-    <p class="hero-st">Hong Kong · Macao — Personal Guide</p>
-    <div class="hero-m"><span>赣州出发</span><span>6.24→6.28</span><span>8:00抵港</span></div>
-    <p class="hero-p">早班高铁约8点到西九龙。先香港后澳门。所有价格核实至2026年6月。</p>
-    <div class="hero-stats">
-      <div class="s"><span class="n">5</span><span class="l">天</span></div>
-      <div class="s"><span class="n">2</span><span class="l">城</span></div>
-      <div class="s"><span class="n">赣州</span><span class="l">高铁</span></div>
-      <div class="s"><span class="n">¥5k</span><span class="l">预算</span></div>
-    </div>
+<header class="hero"><div class="hero-g"></div>
+<div class="c">
+  <div class="hero-ey">Travel · 2026</div>
+  <h1 class="hero-h"><span class="c2">港</span><span class="c2">澳</span><span class="c2">五</span><span class="c2">日</span></h1>
+  <p class="hero-st">Hong Kong · Macao — Personal Guide</p>
+  <div class="hero-m"><span>赣州出发</span><span>6.24→6.28</span><span>8:00抵港</span></div>
+  <p class="hero-p">早班高铁约8点到西九龙。先香港后澳门。所有价格核实至2026年6月。</p>
+  <div class="hero-st2">
+    <div class="s"><span class="n">5</span><span class="l">天</span></div>
+    <div class="s"><span class="n">2</span><span class="l">城</span></div>
+    <div class="s"><span class="n">赣州</span><span class="l">高铁</span></div>
+    <div class="s"><span class="n">¥5k</span><span class="l">预算</span></div>
   </div>
-</header>
+</div></header>
 
 <section class="sec" id="ov"><div class="w">
-  <div class="sh r"><span class="k">Overview</span><h2>行程总览</h2><p>五天两城，串联所有你想去的地方</p></div>
-  <div class="og">
-    <div class="oc r"><div class="k">一天·6.24 Wed</div><div class="v">尖沙咀</div><div class="d">抵港·维港夜景</div></div>
-    <div class="oc r"><div class="k">四–五天</div><div class="v">澳门</div><div class="d">大三巴·威尼斯人</div></div>
-    <div class="oc r"><div class="k">二天·6.25 Thu</div><div class="v">长洲</div><div class="d">离岛一日漫游</div></div>
-    <div class="oc r"><div class="k">三天·6.26 Fri</div><div class="v">坚尼地城</div><div class="d">海边咖啡·西环</div></div>
+  <div class="sh r"><span class="k">Overview</span><h2>行程总览</h2><p>五天两城，串联你想去的地方</p></div>
+  <div class="gg">
+    <div class="gc r"><div class="k">一天·6.24</div><div class="v">尖沙咀</div><div class="d">抵港·维港夜景</div></div>
+    <div class="gc r"><div class="k">四–五天</div><div class="v">澳门</div><div class="d">大三巴·威尼斯人</div></div>
+    <div class="gc r"><div class="k">二天·6.25</div><div class="v">长洲</div><div class="d">离岛一日漫游</div></div>
+    <div class="gc r"><div class="k">三天·6.26</div><div class="v">坚尼地城</div><div class="d">海边咖啡·西环</div></div>
   </div>
 </div></section>
 
 <section class="sec"><div class="w">
   <div class="sh r"><span class="k">Tools</span><h2>出行工具箱</h2></div>
   <div class="tg">
-    <div class="tc r"><div class="h">🌤 实时天气 <span class="tl" id="wx">--°</span></div><div class="wg" id="wg"><div class="wi ac"><div class="d">今天</div><div class="t">--°</div></div><div class="wi"><div class="d">明天</div><div class="t">--°</div></div><div class="wi"><div class="d">后天</div><div class="t">--°</div></div><div class="wi"><div class="d">--</div><div class="t">--°</div></div><div class="wi"><div class="d">--</div><div class="t">--°</div></div></div></div>
-    <div class="tc r"><div class="h">💱 汇率换算 <span class="tl" id="sl">HKD→CNY</span></div>
+    <div class="tc r"><div class="h">🌤 实时天气 <span class="tl" id="wx">--°</span></div>
+      <div class="wg" id="wg"><div class="wi ac"><div class="d">今天</div><div class="t">--°</div></div><div class="wi"><div class="d">明天</div><div class="t">--°</div></div><div class="wi"><div class="d">后天</div><div class="t">--°</div></div><div class="wi"><div class="d">--</div><div class="t">--°</div></div><div class="wi"><div class="d">--</div><div class="t">--°</div></div></div></div>
+    <div class="tc r"><div class="h">💱 汇率 <span class="tl" id="sl">HKD→CNY</span></div>
       <div class="ci"><input type="number" id="fa" placeholder="0" value="100"><span class="lb" id="fl">HKD</span></div>
       <div style="text-align:center;padding:2px 0;color:var(--text4);font-size:16px">↓</div>
-      <div class="ci"><div style="flex:1;background:var(--bg3);border-radius:10px;padding:14px;font-size:17px;color:var(--amber);font-family:var(--mono);font-weight:500;min-height:48px;display:flex;align-items:center" id="rd">¥87.0</div><span class="lb" id="tl">CNY</span></div>
-      <div class="cv-sw" id="sb">🔄 互换</div>
+      <div class="ci"><div style="flex:1;background:var(--bg3);border-radius:10px;padding:14px;font-size:17px;color:var(--amber);font-family:var(--mono);font-weight:500;display:flex;align-items:center;min-height:48px" id="rd">¥87.0</div><span class="lb" id="tl">CNY</span></div>
+      <div class="cv" id="sb">🔄 互换</div>
     </div>
   </div>
   <div class="cs"><span class="c">🎫 八达通 HK$50</span><span class="c">🚢 港澳船 HK$209</span><span class="c">🔌 英标三脚</span><span class="c">💵 现金 HK$2000</span><span class="c">📞 紧急 999</span></div>
@@ -439,10 +321,10 @@ nav .ls a.act{color:var(--accent);background:var(--accent-dim)}
 
 <section class="sec" id="tp"><div class="w">
   <div class="sh r"><span class="k">Tips</span><h2>出行贴士</h2></div>
-  <div class="tc2 r"><h3>🚇 交通</h3><ul><li><strong>八达通</strong> 押金HK$50·退卡扣~HK$11·地铁巴士通用</li><li><strong>港澳船</strong> 2026.4涨价·周末HK$209/平日HK$192</li><li>澳门发财车免费坐</li></ul></div>
-  <div class="tc2 i r"><h3>📱 通讯</h3><ul><li>港澳流量卡¥30–50/5天·备HK$2000现金</li><li>汇率 1HK$≈¥0.87（2026.6）</li></ul></div>
-  <div class="tc2 w r"><h3>⚠️ 重要</h3><ul><li><strong>港澳通行证+签注</strong>（香港一次+澳门一次）</li><li>微信"海关旅客指尖服务"提前填申报</li><li>英标转换插头·赌场21–</li></ul></div>
-  <div class="tc2 e r"><h3>🆘 紧急</h3><p>香港 <strong>999</strong> · 澳门 <strong>999</strong>/<strong>110</strong> · 外交部 <strong>+86 10 12308</strong></p></div>
+  <div class="tp r"><h3>🚇 交通</h3><ul><li><strong>八达通</strong> 押金HK$50·退卡扣~HK$11·地铁巴士通用</li><li><strong>港澳船</strong> 2026.4涨价·周末HK$209/平日HK$192</li><li>澳门发财车免费坐</li></ul></div>
+  <div class="tp i r"><h3>📱 通讯</h3><ul><li>港澳流量卡¥30–50/5天·备HK$2000现金</li><li>汇率 1HK$≈¥0.87（2026.6）</li></ul></div>
+  <div class="tp w r"><h3>⚠️ 重要</h3><ul><li><strong>港澳通行证+签注</strong>（香港一次+澳门一次）</li><li>微信"海关旅客指尖服务"提前填申报</li><li>英标转换插头·赌场21–</li></ul></div>
+  <div class="tp e r"><h3>🆘 紧急</h3><p>香港 <strong>999</strong> · 澳门 <strong>999</strong>/<strong>110</strong> · 外交部 <strong>+86 10 12308</strong></p></div>
 </div></section>
 
 <section class="sec" id="ck"><div class="w">
@@ -470,37 +352,31 @@ nav .ls a.act{color:var(--accent);background:var(--accent-dim)}
 <footer class="ft"><p>港澳五日 · 完整攻略 · 价格核实至2026年6月</p></footer>
 
 <nav class="bn" id="bn">
-  <a href="#ov" class="act">概览</a><a href="#d1">行程</a><a href="#fd">美食</a><a href="#bd">预算</a><a href="#tp">贴士</a><a href="#ck">清单</a>
+  <a href="#ov" class="ac">概览</a><a href="#d1">行程</a><a href="#fd">美食</a><a href="#bd">预算</a><a href="#tp">贴士</a><a href="#ck">清单</a>
 </nav>
 
 <script>
-/* ─── PROGRESS BAR ─── */
-window.addEventListener('scroll',()=>{
-  const h=document.body.scrollHeight-window.innerHeight;
-  document.getElementById('pr').style.width=h>0?(window.scrollY/h)*100+'%':'0%'
-},{passive:true});
+/* ─── PROGRESS ─── */
+window.addEventListener('scroll',()=>{const h=document.body.scrollHeight-window.innerHeight;document.getElementById('pr').style.width=h>0?(window.scrollY/h)*100+'%':'0%'},{passive:true});
 
-/* ─── NAV HIDE/SHOW ON SCROLL ─── */
-const nav=document.getElementById('nav'),bn=document.getElementById('bn');
-let ls=0;
+/* ─── NAV HIDE/SHOW ─── */
+const nv=document.getElementById('nv'),bn2=document.getElementById('bn');let ls=0;
 window.addEventListener('scroll',()=>{
-  const y=window.scrollY;
-  nav.classList.toggle('scroll',y>40);
-  if(y>ls&&y>100){nav.classList.add('hide');bn.classList.add('hide')}
-  else if(y<ls){nav.classList.remove('hide');bn.classList.remove('hide')}
+  const y=window.scrollY;nv.classList.toggle('sc',y>40);
+  if(y>ls&&y>100){nv.classList.add('hd');bn2.classList.add('hd')}
+  else if(y<ls){nv.classList.remove('hd');bn2.classList.remove('hd')}
   ls=y;
 },{passive:true});
 
 /* ─── THEME ─── */
 let isDark=localStorage.getItem('theme')!=='light';
-function toggleTheme(){
-  isDark=!isDark;
-  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+function tg(){
+  isDark=!isDark;document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
   document.getElementById('tb').textContent=isDark?'☀️':'🌙';
   localStorage.setItem('theme',isDark?'dark':'light');
   document.querySelector('meta[name="theme-color"]').content=isDark?'#0e0d0b':'#f2efe6';
 }
-document.getElementById('tb').addEventListener('click',toggleTheme);
+document.getElementById('tb').addEventListener('click',tg);
 if(!isDark){document.documentElement.setAttribute('data-theme','light');document.getElementById('tb').textContent='🌙';document.querySelector('meta[name="theme-color"]').content='#f2efe6'}
 
 /* ─── CURRENCY ─── */
@@ -513,27 +389,24 @@ fa.dispatchEvent(new Event('input'));
 
 /* ─── WEATHER ─── */
 (async()=>{
+  const wx=document.getElementById('wx'),wg=document.getElementById('wg');wx.textContent='…';
   try{
     const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=22.3193&longitude=114.1694&current=temperature_2m&daily=temperature_2m_max,weathercode&timezone=Asia/Hong_Kong&forecast_days=7');
-    const d=await r.json();
-    document.getElementById('wx').textContent=Math.round(d.current.temperature_2m)+'°';
-    const trip=[24,25,26,27,28];const today=new Date().getDate();
-    const wg=document.getElementById('wg');wg.innerHTML='';let f=0;
+    if(!r.ok)throw Error('e');const d=await r.json();
+    wx.textContent=Math.round(d.current.temperature_2m)+'°';
+    const tp=[24,25,26,27,28];const td=new Date().getDate();
+    wg.innerHTML='';let f=0;
     d.daily.time.forEach((t,i)=>{
       const dt=new Date(t+'T12:00'),dd=dt.getDate();
-      if(trip.includes(dd)&&f<5){
-        const isT=dd===today;
-        let lb='';
-        if(isT)lb='今天';else if(dd===today+1)lb='明天';else if(dd===today+2)lb='后天';else lb=(dt.getMonth()+1)+'/'+dd;
-        wg.innerHTML+=`<div class="wi${isT?' ac':''}"><div class="d">${lb}</div><div class="t">${Math.round(d.daily.temperature_2m_max[i])}°</div></div>`;f++;
-      }
+      if(tp.includes(dd)&&f<5){const isT=dd===td;let lb='';if(isT)lb='今天';else if(dd===td+1)lb='明天';else if(dd===td+2)lb='后天';else lb=(dt.getMonth()+1)+'/'+dd;
+        wg.innerHTML+=`<div class="wi${isT?' ac':''}"><div class="d">${lb}</div><div class="t">${Math.round(d.daily.temperature_2m_max[i])}°</div></div>`;f++}
     });
     if(f===0)d.daily.time.forEach((t,i)=>{if(i<5){const dt=new Date(t+'T12:00');wg.innerHTML+=`<div class="wi"><div class="d">${dt.getMonth()+1+'/'+dt.getDate()}</div><div class="t">${Math.round(d.daily.temperature_2m_max[i])}°</div></div>`}});
-  }catch(e){}
+  }catch(e){wx.textContent='--°';wg.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:8px;color:var(--text4);font-family:var(--mono);font-size:11px">暂无数据</div>'}
 })();
 
-/* ─── SCROLL REVEAL ─── */
-const io=new IntersectionObserver(e=>{e.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('v')})},{threshold:.08});
+/* ─── REVEAL ─── */
+const io=new IntersectionObserver(e=>{e.forEach(p=>{if(p.isIntersecting)p.target.classList.add('v')})},{threshold:.08});
 document.querySelectorAll('.r').forEach(el=>io.observe(el));
 
 /* ─── NAV ACTIVE ─── */
@@ -541,7 +414,7 @@ const ss=[];document.querySelectorAll('.sec[id]').forEach(el=>ss.push({id:el.id,
 window.addEventListener('scroll',()=>{
   const y=window.scrollY+120;let a='ov';
   ss.forEach(s=>{if(y>=s.el.offsetTop)a=s.id});
-  document.querySelectorAll('.ls a,.bn a').forEach(l=>l.classList.toggle('act',l.getAttribute('href')==='#'+a));
+  document.querySelectorAll('.lk a,.bn a').forEach(l=>l.classList.toggle('ac',l.getAttribute('href')==='#'+a));
 },{passive:true});
 
 /* ─── CHECKLIST ─── */
@@ -550,13 +423,7 @@ function uc(){document.getElementById('cp').textContent=document.querySelectorAl
 cb.forEach(c=>{const s=localStorage.getItem('c_'+c.dataset.i);if(s==='true')c.checked=true;c.addEventListener('change',()=>{localStorage.setItem('c_'+c.dataset.i,c.checked);uc()})});uc();
 
 /* ─── SMOOTH SCROLL ─── */
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-  a.addEventListener('click',e=>{
-    e.preventDefault();
-    const el=document.querySelector(a.getAttribute('href'));
-    if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
-  });
-});
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const el=document.querySelector(a.getAttribute('href'));if(el)el.scrollIntoView({behavior:'smooth',block:'start'})})});
 </script>
 </body>
 </html>
