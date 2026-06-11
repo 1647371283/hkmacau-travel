@@ -161,7 +161,7 @@ body::after{
 /* ═══ 点线面几何特效 ═══ */
 .geo{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 /* ── 面 Plane: 漂浮几何形状 ── */
-.geo-plane{position:absolute;border-radius:50%;opacity:.025;will-change:transform}
+.geo-plane{position:absolute;border-radius:50%;opacity:.07;will-change:transform}
 .geo-plane.p1{width:420px;height:420px;top:8%;left:-8%;background:radial-gradient(circle,var(--amber) 0%,transparent 70%);animation:gf2 28s ease-in-out infinite}
 .geo-plane.p2{width:320px;height:320px;top:55%;right:-6%;background:radial-gradient(circle,var(--accent) 0%,transparent 70%);animation:gf2 32s ease-in-out infinite reverse}
 .geo-plane.p3{width:260px;height:260px;bottom:10%;left:15%;background:radial-gradient(circle,rgba(212,164,106,.6) 0%,transparent 70%);animation:gf3 24s ease-in-out infinite}
@@ -170,52 +170,81 @@ body::after{
 @keyframes gf3{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,-40px)}}
 
 /* ── 线 Line: 装饰性斜线 ── */
-.geo-line{position:absolute;opacity:.03;pointer-events:none}
+.geo-line{position:absolute;opacity:.08;pointer-events:none}
 .geo-line.l1{top:15%;right:5%;width:1px;height:200px;background:linear-gradient(180deg,transparent,var(--amber),transparent);transform:rotate(25deg);animation:gl1 18s ease-in-out infinite}
 .geo-line.l2{top:50%;left:3%;width:1px;height:160px;background:linear-gradient(180deg,transparent,var(--accent),transparent);transform:rotate(-15deg);animation:gl1 22s ease-in-out infinite reverse}
 .geo-line.l3{bottom:20%;right:12%;width:1px;height:120px;background:linear-gradient(180deg,transparent,var(--amber),transparent);transform:rotate(40deg);animation:gl1 16s ease-in-out infinite}
-@keyframes gl1{0%,100%{opacity:.02;transform:rotate(25deg) translateY(0)}50%{opacity:.05;transform:rotate(25deg) translateY(-20px)}}
+@keyframes gl1{0%,100%{opacity:.04;transform:rotate(25deg) translateY(0)}50%{opacity:.12;transform:rotate(25deg) translateY(-20px)}}
 
 /* ── 点 Point: 散布光点 ── */
 .geo-dot{position:absolute;border-radius:50%;background:var(--amber);animation:gd1 6s ease-in-out infinite}
-.geo-dot.d1{width:4px;height:4px;top:12%;left:20%;animation-delay:0s;opacity:.15}
-.geo-dot.d2{width:2px;height:2px;top:25%;right:15%;animation-delay:1.2s;opacity:.12}
-.geo-dot.d3{width:3px;height:3px;top:45%;left:8%;animation-delay:2.4s;opacity:.1}
-.geo-dot.d4{width:2px;height:2px;top:60%;right:25%;animation-delay:3.6s;opacity:.14}
-.geo-dot.d5{width:5px;height:5px;bottom:18%;left:30%;animation-delay:4.8s;opacity:.08}
-.geo-dot.d6{width:3px;height:3px;top:35%;left:65%;animation-delay:1.8s;opacity:.11}
-.geo-dot.d7{width:2px;height:2px;top:70%;right:8%;animation-delay:3s;opacity:.13}
-.geo-dot.d8{width:4px;height:4px;bottom:30%;right:35%;animation-delay:4.2s;opacity:.09}
-@keyframes gd1{0%,100%{opacity:.08;transform:scale(1)}50%{opacity:.22;transform:scale(1.8)}}
+.geo-dot.d1{width:5px;height:5px;top:12%;left:20%;animation-delay:0s;opacity:.35}
+.geo-dot.d2{width:3px;height:3px;top:25%;right:15%;animation-delay:1.2s;opacity:.28}
+.geo-dot.d3{width:4px;height:4px;top:45%;left:8%;animation-delay:2.4s;opacity:.25}
+.geo-dot.d4{width:3px;height:3px;top:60%;right:25%;animation-delay:3.6s;opacity:.3}
+.geo-dot.d5{width:6px;height:6px;bottom:18%;left:30%;animation-delay:4.8s;opacity:.2}
+.geo-dot.d6{width:4px;height:4px;top:35%;left:65%;animation-delay:1.8s;opacity:.26}
+.geo-dot.d7{width:3px;height:3px;top:70%;right:8%;animation-delay:3s;opacity:.3}
+.geo-dot.d8{width:5px;height:5px;bottom:30%;right:35%;animation-delay:4.2s;opacity:.22}
+@keyframes gd1{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.4;transform:scale(2)}}
 
 /* ── 三角面 ── */
-.geo-tri{position:absolute;width:0;height:0;opacity:.02;pointer-events:none}
+.geo-tri{position:absolute;width:0;height:0;opacity:.06;pointer-events:none}
 .geo-tri.t1{top:20%;left:10%;border-left:30px solid transparent;border-right:30px solid transparent;border-bottom:52px solid var(--amber);animation:gt1 26s ease-in-out infinite}
 .geo-tri.t2{bottom:25%;right:8%;border-left:22px solid transparent;border-right:22px solid transparent;border-bottom:38px solid var(--accent);animation:gt1 22s ease-in-out infinite reverse}
-@keyframes gt1{0%,100%{transform:translateY(0) rotate(0deg);opacity:.015}50%{transform:translateY(-25px) rotate(8deg);opacity:.035}}
+@keyframes gt1{0%,100%{transform:translateY(0) rotate(0deg);opacity:.04}50%{transform:translateY(-25px) rotate(8deg);opacity:.1}}
 
 /* ── 菱形 ── */
-.geo-dia{position:absolute;width:16px;height:16px;background:var(--amber);opacity:.02;transform:rotate(45deg);pointer-events:none}
+.geo-dia{position:absolute;width:20px;height:20px;background:var(--amber);opacity:.06;transform:rotate(45deg);pointer-events:none}
 .geo-dia.dm1{top:18%;right:20%;animation:gd2 14s ease-in-out infinite}
 .geo-dia.dm2{bottom:22%;left:18%;animation:gd2 18s ease-in-out infinite .7s}
 .geo-dia.dm3{top:55%;left:45%;animation:gd2 16s ease-in-out infinite 1.4s}
-@keyframes gd2{0%,100%{transform:rotate(45deg) scale(1);opacity:.015}50%{transform:rotate(90deg) scale(1.6);opacity:.04}}
+@keyframes gd2{0%,100%{transform:rotate(45deg) scale(1);opacity:.04}50%{transform:rotate(90deg) scale(1.6);opacity:.12}}
 
 /* ── 环形 ── */
-.geo-ring{position:absolute;border-radius:50%;border:1px solid var(--amber);opacity:.02;pointer-events:none}
+.geo-ring{position:absolute;border-radius:50%;border:1px solid var(--amber);opacity:.06;pointer-events:none}
 .geo-ring.r1{width:100px;height:100px;top:28%;right:12%;animation:gr1 20s linear infinite}
 .geo-ring.r2{width:70px;height:70px;bottom:18%;left:22%;animation:gr1 24s linear infinite reverse}
 @keyframes gr1{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
 
 /* ── 亮色模式适配 ── */
-[data-theme=light] .geo-plane{opacity:.018}
+[data-theme=light] .geo-plane{opacity:.05}
 [data-theme=light] .geo-dot{background:var(--accent)}
-[data-theme=light] .geo-line{opacity:.025}
-[data-theme=light] .geo-tri{opacity:.015}
-[data-theme=light] .geo-ring{border-color:var(--accent);opacity:.015}
+[data-theme=light] .geo-line{opacity:.06}
+[data-theme=light] .geo-tri{opacity:.04}
+[data-theme=light] .geo-ring{border-color:var(--accent);opacity:.04}
 
 /* ── 鼠标视差 ── */
 @media(hover:hover){.geo-plane,.geo-tri,.geo-ring,.geo-dia{transition:transform .8s cubic-bezier(.22,1,.36,1)}}
+
+/* ═══ Hero 标题区专属点线面 ═══ */
+.hero-geo{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+/* Hero 大面: 标题后琥珀光晕 */
+.hero-geo .hp1{position:absolute;width:500px;height:300px;top:5%;left:50%;transform:translateX(-50%);background:radial-gradient(ellipse,var(--amber-dim) 0%,transparent 70%);animation:hp1 8s ease-in-out infinite}
+@keyframes hp1{0%,100%{opacity:.6;transform:translateX(-50%) scale(1)}50%{opacity:1;transform:translateX(-50%) scale(1.08)}}
+/* Hero 线: 金色横线装饰 */
+.hero-geo .hl1{position:absolute;top:28%;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--amber),transparent);opacity:.15;animation:hl1 6s ease-in-out infinite}
+.hero-geo .hl2{position:absolute;top:52%;left:20%;right:20%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,125,74,.5),transparent);opacity:.1;animation:hl1 7s ease-in-out infinite .5s}
+@keyframes hl1{0%,100%{opacity:.08}50%{opacity:.18}}
+/* Hero 点: 标题周围光点 */
+.hero-geo .hd1,.hero-geo .hd2,.hero-geo .hd3,.hero-geo .hd4,.hero-geo .hd5,.hero-geo .hd6{position:absolute;border-radius:50%;background:var(--amber);animation:hd1 5s ease-in-out infinite}
+.hero-geo .hd1{width:6px;height:6px;top:20%;left:15%;animation-delay:0s}
+.hero-geo .hd2{width:4px;height:4px;top:18%;right:18%;animation-delay:.8s}
+.hero-geo .hd3{width:5px;height:5px;top:45%;left:8%;animation-delay:1.6s}
+.hero-geo .hd4{width:3px;height:3px;top:42%;right:10%;animation-delay:2.4s}
+.hero-geo .hd5{width:5px;height:5px;bottom:15%;left:22%;animation-delay:3.2s}
+.hero-geo .hd6{width:4px;height:4px;bottom:18%;right:20%;animation-delay:4s}
+@keyframes hd1{0%,100%{opacity:.15;transform:scale(1)}50%{opacity:.45;transform:scale(2.2)}}
+/* Hero 大环 */
+.hero-geo .hr1{position:absolute;width:180px;height:180px;top:15%;left:50%;transform:translateX(-50%);border-radius:50%;border:1px solid rgba(201,125,74,.1);animation:hr1 30s linear infinite}
+@keyframes hr1{0%{transform:translateX(-50%) rotate(0deg)}100%{transform:translateX(-50%) rotate(360deg)}}
+/* Hero 三角箭头 */
+.hero-geo .ht1{position:absolute;top:60%;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid rgba(201,125,74,.08);animation:ht1 4s ease-in-out infinite}
+@keyframes ht1{0%,100%{opacity:.3;transform:translateX(-50%) translateY(0)}50%{opacity:.6;transform:translateX(-50%) translateY(-8px)}}
+/* 亮色适配 */
+[data-theme=light] .hero-geo .hp1{background:radial-gradient(ellipse,rgba(201,125,74,.06) 0%,transparent 70%)}
+[data-theme=light] .hero-geo .hl1,.hero-geo .hl2{opacity:.06}
+[data-theme=light] .hero-geo .hd1,.hero-geo .hd2,.hero-geo .hd3,.hero-geo .hd4,.hero-geo .hd5,.hero-geo .hd6{background:var(--accent)}
 
 /* ═══ 主题切换按钮 ═══ */
 .th{position:fixed;z-index:1000;bottom:calc(56px + var(--sb));right:16px;
@@ -258,6 +287,15 @@ body::after{
 <button class="th" id="th" aria-label="切换深浅色"><span class="ic">☀️</span></button>
 
 <header class="hero"><div class="hero-g"></div>
+<!-- Hero 专属点线面 -->
+<div class="hero-geo">
+  <div class="hp1"></div>
+  <div class="hl1"></div><div class="hl2"></div>
+  <div class="hd1"></div><div class="hd2"></div><div class="hd3"></div>
+  <div class="hd4"></div><div class="hd5"></div><div class="hd6"></div>
+  <div class="hr1"></div>
+  <div class="ht1"></div>
+</div>
 <div class="c">
   <div class="hero-ey">Travel · 2026</div>
   <h1 class="hero-h"><span class="c2">港</span><span class="c2">澳</span><span class="c2">五</span><span class="c2">日</span></h1>
