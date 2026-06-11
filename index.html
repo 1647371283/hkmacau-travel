@@ -306,6 +306,9 @@ body::after{
   <div class="tp e r"><h3>🆘 紧急</h3><p>香港 <strong>999</strong> · 澳门 <strong>999</strong>/<strong>110</strong> · 外交部 <strong>+86 10 12308</strong></p></div>
 </div></section>
 
+<section class="sec" id="ck"><div class="w">
+  <div class="sh r"><span class="k">Checklist</span><h2>出行清单</h2></div>
+  <div class="cw r">
     <div class="ch"><span>勾选自动保存</span><span id="cp">0/15</span></div>
     <label><input type="checkbox" data-i="1"><span>港澳通行证+有效签注</span></label>
     <label><input type="checkbox" data-i="2"><span>身份证</span></label>
@@ -322,13 +325,13 @@ body::after{
     <label><input type="checkbox" data-i="13"><span>常用药</span></label>
     <label><input type="checkbox" data-i="14"><span>酒店/船票确认单</span></label>
     <label><input type="checkbox" data-i="15"><span>离线地图</span></label>
-  </div>
+  </div></div>
 </div></section>
 
 <footer class="ft"><p>港澳五日 · 完整攻略 · 价格核实至2026年6月</p></footer>
 
 <nav class="bn" id="bn">
-  <a href="#ov" class="ac">概览</a><a href="#d1">行程</a><a href="#fd">美食</a><a href="#bd">预算</a><a href="#tp">贴士</a><a href="#hotels">酒店</a><a href="#ck">清单</a>
+  <a href="#ov" class="ac">概览</a><a href="#d1">行程</a><a href="#fd">美食</a><a href="#bd">预算</a><a href="#tp">贴士</a><a href="#ck">清单</a>
 </nav>
 
 <script>
@@ -336,11 +339,11 @@ body::after{
 window.addEventListener('scroll',()=>{const h=document.body.scrollHeight-window.innerHeight;document.getElementById('pr').style.width=h>0?(window.scrollY/h)*100+'%':'0%'},{passive:true});
 
 /* ─── NAV HIDE/SHOW ─── */
-const nv=document.getElementById('nv'),bn2=document.getElementById('bn');let ls=0;
+const bn2=document.getElementById('bn');let ls=0;
 window.addEventListener('scroll',()=>{
-  const y=window.scrollY;nv.classList.toggle('sc',y>40);
-  if(y>ls&&y>100){nv.classList.add('hd');bn2.classList.add('hd')}
-  else if(y<ls){nv.classList.remove('hd');bn2.classList.remove('hd')}
+  const y=window.scrollY;
+  if(y>ls&&y>200){bn2.classList.add('hd')}
+  else if(y<ls){bn2.classList.remove('hd')}
   ls=y;
 },{passive:true});
 
@@ -393,7 +396,7 @@ const ss=[];document.querySelectorAll('.sec[id]').forEach(el=>ss.push({id:el.id,
 window.addEventListener('scroll',()=>{
   const y=window.scrollY+120;let a='ov';
   ss.forEach(s=>{if(y>=s.el.offsetTop)a=s.id});
-  document.querySelectorAll('.lk a,.bn a').forEach(l=>l.classList.toggle('ac',l.getAttribute('href')==='#'+a));
+  document.querySelectorAll('.bn a').forEach(l=>l.classList.toggle('ac',l.getAttribute('href')==='#'+a));
 },{passive:true});
 
 /* ─── CHECKLIST ─── */
