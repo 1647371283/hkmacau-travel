@@ -67,7 +67,7 @@ body::after{
 .hero-m span{font-family:var(--mono);font-size:10px;padding:5px 14px;border-radius:999px;border:1px solid var(--border);color:var(--text3);background:rgba(255,255,255,.03)}
 .hero-p{font-size:14px;color:var(--text2);max-width:460px;line-height:1.65;font-weight:300;opacity:0;animation:fu .5s .7s forwards}
 .hero-st2{display:flex;gap:28px;margin-top:24px;opacity:0;animation:fu .5s .85s forwards}
-.hero-st2 .s .n{font-family:var(--serif);font-size:24px;font-weight:700;color:#fff;display:block;line-height:1}
+.hero-st2 .s .n{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--text);display:block;line-height:1}
 .hero-st2 .s .l{font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
 @keyframes fu{to{opacity:1;transform:translateY(0)}}
 [data-theme=light] .hero-st2 .s .n{color:var(--text)}
@@ -81,7 +81,7 @@ body::after{
 .gc{background:rgba(22,20,16,.5);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:var(--rs);padding:18px;transition:all .25s var(--ease)}
 .gc:active{transform:scale(.96);background:rgba(30,28,22,.55)}
 .gc .k{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
-.gc .v{font-family:var(--serif);font-size:20px;font-weight:700;color:#fff;line-height:1.1}.gc .d{font-size:13px;color:var(--text2);margin-top:2px;font-weight:300}
+.gc .v{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--text);line-height:1.1}.gc .d{font-size:13px;color:var(--text2);margin-top:2px;font-weight:300}
 [data-theme=light] .gc .v{color:var(--text)}
 
 .tg{display:grid;gap:10px}
@@ -349,11 +349,7 @@ window.addEventListener('scroll',()=>{
 
 /* ─── THEME ─── */
 let isDark=localStorage.getItem('theme')!=='light';
-function tg(){
-  isDark=!isDark;document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
-  localStorage.setItem('theme',isDark?'dark':'light');
-  document.querySelector('meta[name="theme-color"]').content=isDark?'#0e0d0b':'#f2efe6';
-}
+if(!isDark){document.documentElement.setAttribute('data-theme','light');document.querySelector('meta[name="theme-color"]').content='#f2efe6'}
 
 /* ─── CURRENCY ─── */
 const rv=.87,fa=document.getElementById('fa'),rd=document.getElementById('rd');
