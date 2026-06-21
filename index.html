@@ -4,9 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5.0,user-scalable=no">
 <meta name="theme-color" content="#0e0d0b">
+<meta name="application-name" content="香港澳门五日游">
+<meta name="apple-mobile-web-app-title" content="香港澳门五日游">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇭🇰</text></svg>">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icon.svg">
+<link rel="manifest" href="./manifest.webmanifest">
 <title>港澳五日 · 旅行指南</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -558,6 +563,24 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click'
 if(localStorage.getItem('sp')){const sp=parseInt(localStorage.getItem('sp'));if(sp>100)setTimeout(()=>window.scrollTo(0,sp),80)}
 let _st;
 window.addEventListener('scroll',()=>{clearTimeout(_st);_st=setTimeout(()=>{localStorage.setItem('sp',window.scrollY)},300)},{passive:true});
+
+/* Service worker keeps the mobile shell fresh while still allowing offline fallback. */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js').then(reg=>{
+      reg.addEventListener('updatefound',()=>{
+        const sw=reg.installing;
+        if(!sw)return;
+        sw.addEventListener('statechange',()=>{
+          if(sw.state==='installed'&&navigator.serviceWorker.controller){
+            sw.postMessage({type:'SKIP_WAITING'});
+          }
+        });
+      });
+    }).catch(()=>{});
+  });
+  navigator.serviceWorker.addEventListener('controllerchange',()=>window.location.reload());
+}
 </script>
 </body>
 </html>
