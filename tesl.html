@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>港澳五日 · 奢华私享志</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+SC:wght@300;400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #F8F9FA; --bg-card: #FFFFFF; --text: #1A1A1A; --text-dim: #6C757D;
+            --gold: #C5A059; --gold-dark: #A6843E; --line: rgba(0, 0, 0, 0.06);
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
+            --safe-top: env(safe-area-inset-top); --safe-bottom: env(safe-area-inset-bottom);
+            --mtr-red: #E60012; --mtr-orange: #F38B00; --mtr-blue: #0075C2;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', 'Noto Serif SC', sans-serif; overflow-x: hidden; line-height: 1.6; font-size: 15px; padding-bottom: var(--safe-bottom); }
+
+        .nav-bar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; padding: calc(var(--safe-top) + 12px) 1.2rem 12px; background: rgba(248, 249, 250, 0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border-bottom: 1px solid var(--line); transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .nav-bar.visible { transform: translateY(0); }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--text); letter-spacing: 1px; font-weight: 600; }
+        .logo em { color: var(--gold); font-style: normal; }
+        .nav-progress { font-size: 0.75rem; color: var(--gold); font-weight: 500; background: rgba(197, 160, 89, 0.1); padding: 0.3rem 0.8rem; border-radius: 20px; }
+
+        .section { padding: 3rem 1.2rem; position: relative; }
+        .section-header { margin-bottom: 2rem; opacity: 0; transform: translateY(20px); transition: all 0.8s ease; }
+        .section-header.visible { opacity: 1; transform: translateY(0); }
+        .section-label { font-family: 'Cormorant Garamond', serif; font-size: 0.85rem; color: var(--gold); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 0.2rem; display: block; }
+        .section-title { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 500; line-height: 1; color: var(--text); }
+        .section-title em { font-style: italic; color: var(--gold); }
+
+        .hero { height: 100svh; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; text-align: center; background: linear-gradient(180deg, #fff, #F8F9FA); }
+        #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        .hero-content { z-index: 2; padding: 0 1.5rem; opacity: 0; transform: translateY(40px); animation: heroReveal 1.5s ease 0.3s forwards; }
+        @keyframes heroReveal { to { opacity: 1; transform: translateY(0); } }
+        .hero-sub { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.2rem; color: var(--gold); margin-bottom: 0.5rem; }
+        .hero-title { font-family: 'Cormorant Garamond', serif; font-size: 4.2rem; font-weight: 500; line-height: 0.9; background: linear-gradient(135deg, #1A1A1A, #6C757D); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1.5rem; }
+        .hero-meta { display: flex; justify-content: center; gap: 2rem; font-size: 0.7rem; color: var(--text-dim); }
+        .hero-meta strong { color: var(--text); font-weight: 500; display: block; font-size: 0.9rem; font-family: 'Cormorant Garamond', serif; }
+
+        .card-base { background: var(--bg-card); border-radius: 16px; padding: 1.2rem; box-shadow: var(--shadow); opacity: 0; transform: translateY(20px); transition: all 0.6s ease; margin-bottom: 1rem; }
+        .card-base.visible { opacity: 1; transform: translateY(0); }
+
+        .weather-container { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        .weather-main-card { text-align: center; }
+        .w-city { font-size: 0.8rem; color: var(--text-dim); margin-bottom: 0.5rem; font-weight: 500; }
+        .w-icon { font-size: 2rem; color: var(--gold); margin-bottom: 0.5rem; }
+        .w-temp { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--text); font-weight: 600; }
+        .w-desc { font-size: 0.7rem; color: var(--text-dim); margin-top: 0.2rem; }
+        .w-details { display: flex; justify-content: center; gap: 1rem; margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--line); font-size: 0.65rem; color: var(--text-dim); }
+        .w-details span i { color: var(--gold); margin-right: 2px; }
+
+        .forecast-scroll { display: flex; gap: 1.5rem; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 5px; }
+        .forecast-scroll::-webkit-scrollbar { display: none; }
+        .forecast-day { flex-shrink: 0; text-align: center; min-width: 65px; }
+        .f-day { font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.5rem; }
+        .f-icon { font-size: 1.2rem; color: var(--gold); margin-bottom: 0.5rem; }
+        .f-temp { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; color: var(--text); }
+        .f-temp span { color: var(--text-dim); font-size: 0.75rem; }
+        .f-details { font-size: 0.6rem; color: var(--text-dim); margin-top: 0.3rem; line-height: 1.4; }
+
+        .exchange-input-group { display: flex; align-items: center; gap: 0.8rem; border-bottom: 1px solid var(--line); padding-bottom: 0.8rem; margin-bottom: 0.8rem; }
+        .exchange-input-group span { font-weight: 600; color: var(--gold); font-size: 0.9rem; width: 40px; }
+        .exchange-input { flex: 1; border: none; outline: none; font-size: 1.5rem; font-family: 'Cormorant Garamond', serif; color: var(--text); background: transparent; }
+        .exchange-result { display: flex; justify-content: space-between; gap: 1rem; }
+        .result-box { flex: 1; background: #F8F9FA; padding: 0.8rem; border-radius: 8px; text-align: center; }
+        .result-box span { display: block; font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.2rem; }
+        .result-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text); }
+
+        /* 紧急指南与App推荐 */
+        .guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+        .guide-item { background: #F8F9FA; padding: 1rem; border-radius: 10px; text-decoration: none; color: var(--text); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.3rem; }
+        .guide-item i { font-size: 1.5rem; color: var(--gold-dark); }
+        .guide-item h4 { font-size: 0.85rem; font-weight: 600; }
+        .guide-item p { font-size: 0.65rem; color: var(--text-dim); }
+        .app-scroll { display: flex; gap: 1rem; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
+        .app-card { flex-shrink: 0; width: 100px; background: #F8F9FA; padding: 0.8rem; border-radius: 10px; text-align: center; text-decoration: none; color: var(--text); }
+        .app-card i { font-size: 1.8rem; color: var(--gold); margin-bottom: 0.5rem; }
+        .app-card h4 { font-size: 0.75rem; font-weight: 600; margin-bottom: 0.2rem; }
+        .app-card p { font-size: 0.6rem; color: var(--text-dim); }
+
+        /* 地图与行程 */
+        #map { height: 350px; border-radius: 12px; z-index: 1; }
+        .map-legend { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1rem; font-size: 0.7rem; color: var(--text-dim); }
+        .legend-item { display: flex; align-items: center; gap: 0.3rem; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+        .day-card { background: var(--bg-card); border: 1px solid var(--line); margin-bottom: 1.5rem; border-radius: 16px; overflow: hidden; box-shadow: var(--shadow); opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .day-card.visible { opacity: 1; transform: translateY(0); }
+        .day-header { padding: 1.5rem 1.2rem; background: linear-gradient(135deg, rgba(197, 160, 89, 0.08), transparent); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-end; }
+        .day-num { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; line-height: 0.8; color: transparent; -webkit-text-stroke: 1.5px var(--gold); }
+        .day-info { text-align: right; }
+        .day-info h3 { font-family: 'Noto Serif SC', serif; font-size: 1.3rem; color: var(--text); }
+        .day-info p { font-size: 0.75rem; color: var(--text-dim); }
+        .day-body { padding: 1.5rem 1.2rem; }
+
+        .event-item { position: relative; padding-left: 1.8rem; padding-bottom: 1.8rem; border-left: 1px solid var(--line); }
+        .event-item:last-child { border-left: none; padding-bottom: 0; }
+        .event-dot { position: absolute; left: -5px; top: 0; width: 9px; height: 9px; background: var(--bg-card); border: 2px solid var(--gold); border-radius: 50%; }
+        .event-time { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold-dark); margin-bottom: 0.2rem; }
+        .event-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .event-title { font-size: 1.1rem; font-weight: 600; color: var(--text); }
+        .event-item.completed .event-title { text-decoration: line-through; opacity: 0.5; }
+        
+        .nav-btn { background: rgba(197, 160, 89, 0.1); color: var(--gold-dark); border: none; padding: 0.3rem 0.7rem; border-radius: 20px; font-size: 0.7rem; font-weight: 500; display: flex; align-items: center; gap: 0.3rem; cursor: pointer; transition: all 0.2s; }
+        .nav-btn:active { transform: scale(0.95); background: rgba(197, 160, 89, 0.2); }
+        
+        .event-desc { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 0.8rem; line-height: 1.5; }
+        .route-box { background: #F8F9FA; border-radius: 8px; padding: 0.8rem 1rem; margin-top: 0.5rem; border-left: 3px solid var(--gold); }
+        .route-step { display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.8rem; color: var(--text); margin-bottom: 0.6rem; }
+        .route-step:last-child { margin-bottom: 0; }
+        .route-step i { color: var(--text-dim); margin-top: 3px; width: 14px; text-align: center; }
+        .mtr-line { display: flex; align-items: center; gap: 0.5rem; margin: 0.5rem 0; }
+        .mtr-line-name { font-weight: 600; font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 4px; color: white; }
+        .mtr-stations { flex: 1; font-size: 0.75rem; color: var(--text-dim); }
+        .mtr-direction { font-size: 0.7rem; color: var(--gold-dark); font-weight: 500; }
+
+        .recommend-box { margin-top: 0.8rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+        .rec-card { padding: 0.8rem; border-radius: 8px; font-size: 0.75rem; }
+        .rec-play { background: rgba(79, 195, 247, 0.08); border: 1px solid rgba(79, 195, 247, 0.15); }
+        .rec-food { background: rgba(230, 126, 34, 0.08); border: 1px solid rgba(230, 126, 34, 0.15); }
+        .rec-title { font-weight: 600; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.3rem; }
+        .rec-play .rec-title { color: #0288D1; } .rec-food .rec-title { color: #E67E22; }
+        .rec-desc { color: var(--text-dim); line-height: 1.4; }
+
+        /* 打卡与笔记功能 */
+        .event-actions { margin-top: 1rem; display: flex; flex-direction: column; gap: 0.8rem; }
+        .action-row { display: flex; gap: 0.8rem; align-items: center; }
+        .check-btn { background: transparent; border: 1px solid var(--line); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.7rem; color: var(--text-dim); display: flex; align-items: center; gap: 0.4rem; cursor: pointer; transition: all 0.2s; }
+        .check-btn.checked { background: rgba(0, 132, 61, 0.1); border-color: #00843D; color: #00843D; }
+        .note-input { flex: 1; background: #F8F9FA; border: 1px solid var(--line); border-radius: 8px; padding: 0.4rem 0.8rem; font-size: 0.75rem; color: var(--text); font-family: inherit; outline: none; }
+        .note-input::placeholder { color: #aaa; }
+
+        .tag { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 4px; background: #fff; }
+        .tag-price { color: var(--gold-dark); border: 1px solid rgba(197, 160, 89, 0.2); }
+        .tag-tip { color: #E67E22; border: 1px solid rgba(230, 126, 34, 0.2); background: rgba(230, 126, 34, 0.05); }
+
+        .budget-card { padding: 1.5rem; }
+        .form-group { margin-bottom: 1.2rem; }
+        .form-label { display: block; font-size: 0.75rem; color: var(--text-dim); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px; }
+        .form-select { width: 100%; background: #F8F9FA; border: 1px solid var(--line); color: var(--text); padding: 0.8rem; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 0.9rem; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C5A059' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 0.8rem center; }
+        .total-display { text-align: center; margin: 1.5rem 0; padding: 1.5rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+        .total-value { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; color: var(--gold-dark); font-weight: 600; }
+        .breakdown-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .breakdown-item { background: #F8F9FA; padding: 0.8rem; border-radius: 8px; }
+        .breakdown-item h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--text); font-weight: 600; }
+
+        .checklist-progress-container { margin-bottom: 1.5rem; background: var(--line); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--gold), var(--gold-dark)); transition: width 0.4s ease; }
+        .checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+        .check-item { display: flex; align-items: center; gap: 0.6rem; background: var(--bg-card); padding: 0.8rem; border-radius: 8px; border: 1px solid var(--line); font-size: 0.8rem; color: var(--text); transition: all 0.3s ease; cursor: pointer; }
+        .check-item.checked { opacity: 0.4; text-decoration: line-through; }
+        .custom-checkbox { width: 20px; height: 20px; border: 1.5px solid var(--gold); border-radius: 4px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.3s; }
+        .check-item.checked .custom-checkbox { background: var(--gold); }
+        .custom-checkbox i { font-size: 0.7rem; color: #fff; opacity: 0; transition: opacity 0.2s; }
+        .check-item.checked .custom-checkbox i { opacity: 1; }
+
+        footer { padding: 3rem 1.2rem; text-align: center; }
+        .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--text); font-weight: 600; }
+        .footer-logo em { color: var(--gold); font-style: normal; }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-bar" id="navBar">
+        <div class="nav-content">
+            <div class="logo">HK <em>&</em> MACAU</div>
+            <div class="nav-progress" id="progressText">准备出行</div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-content">
+            <p class="hero-sub">A Luxury Private Journey</p>
+            <h1 class="hero-title">HONG KONG<br>& MACAU</h1>
+            <div class="hero-meta">
+                <span><strong>05 DAYS</strong>赣州出发</span>
+                <span><strong>06.22-26</strong>春末夏初</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="section" id="tools">
+        <div class="section-header">
+            <span class="section-label">01 — Smart Tools</span>
+            <h2 class="section-title">实用 <em>工具</em></h2>
+        </div>
+
+        <div class="weather-container">
+            <div class="weather-main-card card-base">
+                <div class="w-city">香港 HK</div><i class="fas fa-sun w-icon"></i><div class="w-temp">26°-31°</div><div class="w-desc">晴朗炎热</div>
+                <div class="w-details"><span><i class="fas fa-droplet"></i> 75%</span><span><i class="fas fa-wind"></i> 4级</span><span><i class="fas fa-sun"></i> 紫外线强</span></div>
+            </div>
+            <div class="weather-main-card card-base" style="transition-delay: 0.1s;">
+                <div class="w-city">澳门 MO</div><i class="fas fa-cloud-sun w-icon"></i><div class="w-temp">25°-30°</div><div class="w-desc">多云有阵雨</div>
+                <div class="w-details"><span><i class="fas fa-droplet"></i> 80%</span><span><i class="fas fa-wind"></i> 3级</span><span><i class="fas fa-sun"></i> 紫外线中等</span></div>
+            </div>
+        </div>
+
+        <div class="card-base">
+            <div class="forecast-title"><i class="fas fa-calendar-week" style="color:var(--gold)"></i> 行程天气预报</div>
+            <div class="forecast-scroll">
+                <div class="forecast-day"><div class="f-day">06.22</div><i class="fas fa-sun f-icon"></i><div class="f-temp">31°<span>26°</span></div><div class="f-details">晴朗炎热<br>湿度65-85%</div></div>
+                <div class="forecast-day"><div class="f-day">06.23</div><i class="fas fa-cloud-sun f-icon"></i><div class="f-temp">30°<span>25°</span></div><div class="f-details">部分有阳光<br>有几阵骤雨</div></div>
+                <div class="forecast-day"><div class="f-day">06.24</div><i class="fas fa-cloud f-icon"></i><div class="f-temp">29°<span>25°</span></div><div class="f-details">大致多云<br>有几阵雷雨</div></div>
+                <div class="forecast-day"><div class="f-day">06.25</div><i class="fas fa-cloud-showers-heavy f-icon"></i><div class="f-temp">28°<span>24°</span></div><div class="f-details">雷雨<br>雨势有时较大</div></div>
+                <div class="forecast-day"><div class="f-day">06.26</div><i class="fas fa-sun f-icon"></i><div class="f-temp">30°<span>26°</span></div><div class="f-details">大致天晴<br>日间酷热</div></div>
+            </div>
+        </div>
+
+        <div class="card-base">
+            <div class="exchange-title"><i class="fas fa-coins" style="color:var(--gold)"></i> 实时汇率换算</div>
+            <div class="exchange-input-group"><span>CNY</span><input type="number" class="exchange-input" id="cnyInput" value="1000" placeholder="输入人民币"></div>
+            <div class="exchange-result">
+                <div class="result-box"><span>港币 HKD</span><h3 id="hkdResult">0</h3></div>
+                <div class="result-box"><span>澳门币 MOP</span><h3 id="mopResult">0</h3></div>
+            </div>
+        </div>
+
+        <!-- 新增：紧急指南与必备App -->
+        <div class="card-base">
+            <div class="forecast-title"><i class="fas fa-shield-halved" style="color:var(--gold)"></i> 紧急指南与实用入口</div>
+            <div class="guide-grid">
+                <a href="tel:999" class="guide-item"><i class="fas fa-phone-volume"></i><h4>999</h4><p>香港紧急报警/急救</p></a>
+a href="tel:12308" class="guide-item"><i class="fas fa-globe"></i><h4>12308</h4><p>外交部领事保护</p></a>
+                <a href="weixin://" class="guide-item"><i class="fab fa-weixin"></i><h4>海关申报码</h4><p>点击打开微信申报</p></a>
+                <a href="https://www.octopus.com.hk" class="guide-item"><i class="fas fa-credit-card"></i><h4>八达通</h4><p>购买与退卡指南</p></a>
+            </div>
+        </div>
+
+        <div class="card-base">
+            <div class="forecast-title"><i class="fas fa-mobile-screen" style="color:var(--gold)"></i> 港澳必备 App 速查</div>
+            <div class="app-scroll">
+                <a href="https://apps.apple.com/hk/app/mtr-mobile/id442383944" class="app-card"><i class="fas fa-train-subway"></i><h4>MTR Mobile</h4><p>查港铁时刻表</p></a>
+                <a href="https://apps.apple.com/hk/app/kmb-lwb/id332577506" class="app-card"><i class="fas fa-bus"></i><h4>KMB</h4><p>九巴到站时间</p></a>
+                <a href="https://apps.apple.com/hk/app/uber/id368677368" class="app-card"><i class="fas fa-car"></i><h4>Uber</h4><p>打车比出租车便宜</p></a>
+                <a href="https://apps.apple.com/hk/app/openrice/id402121310" class="app-card"><i class="fas fa-utensils"></i><h4>OpenRice</h4><p>港澳版大众点评</p></a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="itinerary" style="background: #F1F3F5;">
+        <div class="section-header">
+            <span class="section-label">02 — Itinerary</span>
+            <h2 class="section-title">行程 <em>详录</em></h2>
+        </div>
+
+        <div class="card-base">
+            <div class="forecast-title"><i class="fas fa-map-marked-alt" style="color:var(--gold)"></i> 行程路线模拟图</div>
+            <div id="map"></div>
+            <div class="map-legend">
+                <div class="legend-item"><div class="legend-dot" style="background: #E60012"></div> Day 1 尖沙咀</div>
+                <div class="legend-item"><div class="legend-dot" style="background: #F38B00"></div> Day 2 坚尼地城</div>
+                <div class="legend-item"><div class="legend-dot" style="background: #0075C2"></div> Day 3 长洲岛</div>
+                <div class="legend-item"><div class="legend-dot" style="background: #00843D"></div> Day 4 澳门半岛</div>
+                <div class="legend-item"><div class="legend-dot" style="background: #A6843E"></div> Day 5 氹仔返程</div>
+            </div>
+        </div>
+
+        <!-- Day 1 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-num">01</div>
+                <div class="day-info"><h3>初见维港</h3><p>06.22 SAT · 尖沙咀</p></div>
+            </div>
+            <div class="day-body">
+                <div class="event-item" data-id="d1e1">
+                    <div class="event-dot"></div><div class="event-time">08:00 AM</div>
+                    <div class="event-title-row"><div class="event-title">抵达香港西九龙</div><button class="nav-btn" data-lat="22.1429" data-lng="114.1584" data-name="香港西九龙站"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">赣州西乘高铁直达香港西九龙站，出站后过海关。</div>
+                    <div class="route-box">
+                        <div class="route-step"><i class="fas fa-train"></i> 赣州西 <span>➡</span> 香港西九龙 (高铁G311，约4小时)</div>
+                        <div class="route-step"><i class="fas fa-person-walking"></i> 西九龙站 <span>➡</span> 柯士甸站 (步行5分钟换乘)</div>
+                    </div>
+                    <div class="event-actions">
+                        <div class="action-row">
+                            <button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button>
+                            <input type="text" class="note-input" placeholder="随手记：比如车票花了多少钱">
+                        </div>
+                    </div>
+                </div>
+                <div class="event-item" data-id="d1e2">
+                    <div class="event-dot"></div><div class="event-time">09:30 AM</div>
+                    <div class="event-title-row"><div class="event-title">尖沙咀酒店寄存</div><button class="nav-btn" data-lat="22.2945" data-lng="114.1718" data-name="尖沙咀地铁站"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="route-box">
+                        <div class="mtr-line"><span class="mtr-line-name" style="background: var(--mtr-orange)">屯马线</span><span class="mtr-stations">柯士甸 → 尖沙咀</span><span class="mtr-direction">1站 · 3分钟</span></div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：酒店寄存行李情况"></div></div>
+                </div>
+                <div class="event-item" data-id="d1e3">
+                    <div class="event-dot"></div><div class="event-time">02:00 PM</div>
+                    <div class="event-title-row"><div class="event-title">星光大道与 K11</div><button class="nav-btn" data-lat="22.2939" data-lng="114.1712" data-name="星光大道"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">漫步维港畔寻找明星手印，随后探访 K11 感受艺术建筑美学。</div>
+                    <div class="recommend-box">
+                        <div class="rec-card rec-play"><div class="rec-title"><i class="fas fa-camera"></i> 打卡推荐</div><div class="rec-desc">星光大道李小龙铜像，K11 MUSEA 4楼观景台拍维港。</div></div>
+                        <div class="rec-card rec-food"><div class="rec-title"><i class="fas fa-utensils"></i> 必尝美食</div><div class="rec-desc">K11内的 % Arabica 海景咖啡，华嫂冰室番茄猪扒翼。</div></div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：拍了什么好照片"></div></div>
+                </div>
+                <div class="event-item" data-id="d1e4">
+                    <div class="event-dot"></div><div class="event-time">08:00 PM</div>
+                    <div class="event-title-row"><div class="event-title">庙街夜市宵夜</div><button class="nav-btn" data-lat="22.3051" data-lng="114.1697" data-name="庙街夜市"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">观赏8点维港灯光秀，后乘船至中环换叮叮车去庙街吃宵夜。</div>
+                    <div class="route-box">
+                        <div class="route-step"><i class="fas fa-ship"></i> 尖沙咀天星码头 <span>➡</span> 中环码头 (天星小轮 1站，约8分钟)</div>
+                        <div class="route-step"><i class="fas fa-train-tram"></i> 中环码头 <span>➡</span> 油麻地 (叮叮车转乘)</div>
+                    </div>
+                    <div class="recommend-box"><div class="rec-card rec-food"><div class="rec-title"><i class="fas fa-utensils"></i> 必尝美食</div><div class="rec-desc">庙街兴记煲仔饭，美都餐室焗排骨饭。</div></div></div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：宵夜味道评价"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 2 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-num">02</div>
+                <div class="day-info"><h3>海隅文艺</h3><p>06.23 SUN · 坚尼地城</p></div>
+            </div>
+            <div class="day-body">
+                <div class="event-item" data-id="d2e1">
+                    <div class="event-dot"></div><div class="event-time">10:00 AM</div>
+                    <div class="event-title-row"><div class="event-title">澳洲牛奶公司</div><button class="nav-btn" data-lat="22.3051" data-lng="114.1697" data-name="澳洲牛奶公司"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">佐敦名店，体验极速上菜与浓郁港味。</div>
+                    <div class="route-box"><div class="mtr-line"><span class="mtr-line-name" style="background: var(--mtr-red)">荃湾线</span><span class="mtr-stations">尖沙咀 → 佐敦</span><span class="mtr-direction">1站 · 3分钟</span></div></div>
+                    <div class="recommend-box"><div class="rec-card rec-food"><div class="rec-title"><i class="fas fa-utensils"></i> 必尝美食</div><div class="rec-desc">炒蛋多士、炖奶、蛋白炖鲜牛奶。</div></div></div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：排队人多不多"></div></div>
+                </div>
+                <div class="event-item" data-id="d2e2">
+                    <div class="event-dot"></div><div class="event-time">12:30 PM</div>
+                    <div class="event-title-row"><div class="event-title">前往坚尼地城</div><button class="nav-btn" data-lat="22.2854" data-lng="114.1293" data-name="坚尼地城地铁站"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">前往港岛最西端，感受海风与文艺气息。</div>
+                    <div class="route-box">
+                        <div class="mtr-line"><span class="mtr-line-name" style="background: var(--mtr-red)">荃湾线</span><span class="mtr-stations">佐敦 → 中环</span><span class="mtr-direction">5站 · 8分钟</span></div>
+                        <div class="mtr-line"><span class="mtr-line-name" style="background: var(--mtr-blue)">港岛线</span><span class="mtr-stations">中环 → 坚尼地城</span><span class="mtr-direction">4站 · 10分钟</span></div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记："></div></div>
+                </div>
+                <div class="event-item" data-id="d2e3">
+                    <div class="event-dot"></div><div class="event-time">02:00 PM</div>
+                    <div class="event-title-row"><div class="event-title">% Arabica 与西环泳棚</div><button class="nav-btn" data-lat="22.2867" data-lng="114.1258" data-name="西环泳棚"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">海边玻璃屋喝咖啡，沿海边步行至西环泳栏打卡。</div>
+                    <div class="route-box">
+                        <div class="route-step"><i class="fas fa-person-walking"></i> 坚尼地城站 <span>➡</span> % Arabica (步行5分钟)</div>
+                        <div class="route-step"><i class="fas fa-person-walking"></i> % Arabica <span>➡</span> 西环泳棚 (步行15分钟)</div>
+                    </div>
+                    <div class="recommend-box">
+                        <div class="rec-card rec-play"><div class="rec-title"><i class="fas fa-camera"></i> 打卡推荐</div><div class="rec-desc">《春娇与志明》取景地，泳棚木桥拍海景大片。</div></div>
+                        <div class="rec-card rec-food"><div class="rec-title"><i class="fas fa-utensils"></i> 必尝美食</div><div class="rec-desc">% Arabica 海景咖啡，堀江茶室的日本茶。</div></div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：海风大不大"></div></div>
+                </div>
+                <div class="event-item" data-id="d2e4">
+                    <div class="event-dot"></div><div class="event-time">06:00 PM</div>
+                    <div class="event-title-row"><div class="event-title">香港大学日落与晚餐</div><button class="nav-btn" data-lat="22.2838" data-lng="114.1376" data-name="香港大学本部大楼"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">漫步港大本部大楼感受历史，后乘叮叮车去新兴食家吃流沙包。</div>
+                    <div class="route-box">
+                        <div class="route-step"><i class="fas fa-bus"></i> 西环泳棚 <span>➡</span> 香港大学 (城巴40M，约10分钟)</div>
+                        <div class="route-step"><i class="fas fa-train-tram"></i> 香港大学 <span>➡</span> 坚尼地城新兴食家 (叮叮车 2站)</div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：流沙包好吃吗"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 3 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-num">03</div>
+                <div class="day-info"><h3>离岛风情</h3><p>06.24 MON · 长洲岛</p></div>
+            </div>
+            <div class="day-body">
+                <div class="event-item" data-id="d3e1">
+                    <div class="event-dot"></div><div class="event-time">09:00 AM</div>
+                    <div class="event-title-row"><div class="event-title">前往中环5号码头</div><button class="nav-btn" data-lat="22.2855" data-lng="114.1546" data-name="中环5号码头"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="route-box">
+                        <div class="mtr-line"><span class="mtr-line-name" style="background: var(--mtr-red)">荃湾线</span><span class="mtr-stations">尖沙咀 → 中环</span><span class="mtr-direction">5站 · 8分钟</span></div>
+                        <div class="route-step"><i class="fas fa-person-walking"></i> 中环站A出口 <span>➡</span> 中环5号码头 (步行10分钟)</div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记："></div></div>
+                </div>
+                <div class="event-item" data-id="d3e2">
+                    <div class="event-dot"></div><div class="event-time">10:00 AM</div>
+                    <div class="event-title-row"><div class="event-title">乘船前往长洲</div><button class="nav-btn" data-lat="22.2081" data-lng="114.0279" data-name="长洲码头"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="route-box"><div class="route-step"><i class="fas fa-ship"></i> 中环5号码头 <span>➡</span> 长洲码头 (新渡轮快船，约35分)</div></div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：船票多少钱"></div></div>
+                </div>
+                <div class="event-item" data-id="d3e3">
+                    <div class="event-dot"></div><div class="event-time">11:00 AM</div>
+                    <div class="event-title-row"><div class="event-title">长洲自由探索</div><button class="nav-btn" data-lat="22.2081" data-lng="114.0279" data-name="长洲岛东湾泳滩"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">租单车或徒步环岛，品尝巨型鱼蛋和西瓜冰。</div>
+                    <div class="recommend-box">
+                        <div class="rec-card rec-play"><div class="rec-title"><i class="fas fa-camera"></i> 打卡推荐</div><div class="rec-desc">东湾泳滩、小长城步道、张保仔洞。</div></div>
+                        <div class="rec-card rec-food"><div class="rec-title"><i class="fas fa-utensils"></i> 必尝美食</div><div class="rec-desc">甘永泰大鱼蛋、平记西瓜冰、芒果糯米糍。</div></div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：租车花了多少钱"></div></div>
+                </div>
+                <div class="event-item" data-id="d3e4">
+                    <div class="event-dot"></div><div class="event-time">06:00 PM</div>
+                    <div class="event-title-row"><div class="event-title">九记牛腩晚餐</div><button class="nav-btn" data-lat="22.2855" data-lng="114.1515" data-name="九记牛腩"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">乘慢船看日落，抵中环后步行至九记牛腩品尝清汤牛腩。</div>
+                    <div class="route-box">
+                        <div class="route-step"><i class="fas fa-ship"></i> 长洲码头 <span>➡</span> 中环5号码头 (慢船，约55分)</div>
+                        <div class="route-step"><i class="fas fa-person-walking"></i> 中环码头 <span>➡</span> 九记牛腩 (步行15分钟)</div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：牛腩入味吗"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 4 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-num">04</div>
+                <div class="day-info"><h3>过海赴澳</h3><p>06.25 TUE · 澳门半岛</p></div>
+            </div>
+            <div class="day-body">
+                <div class="event-item" data-id="d4e1">
+                    <div class="event-dot"></div><div class="event-time">09:00 AM</div>
+                    <div class="event-title-row"><div class="event-title">上环信德中心</div><button class="nav-btn" data-lat="22.2872" data-lng="114.1502" data-name="上环信德中心"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="route-box">
+                        <div class="mtr-line"><span class="mtr-line-name" style="background: var(--mtr-red)">荃湾线</span><span class="mtr-stations">尖沙咀 → 金钟</span><span class="mtr-direction">1站 · 3分钟</span></div>
+                        <div class="mtr-line"><span class="mtr-line-name" style="background: var(--mtr-blue)">港岛线</span><span class="mtr-stations">金钟 → 上环</span><span class="mtr-direction">3站 · 6分钟</span></div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记："></div></div>
+                </div>
+                <div class="event-item" data-id="d4e2">
+                    <div class="event-dot"></div><div class="event-time">10:30 AM</div>
+                    <div class="event-title-row"><div class="event-title">乘船赴澳 · 葡京酒店</div><button class="nav-btn" data-lat="22.1934" data-lng="113.5479" data-name="葡京酒店"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="route-box">
+                        <div class="route-step"><i class="fas fa-ship"></i> 上环信德中心 <span>➡</span> 澳门氹仔客运码头 (金光飞航，约1小时)</div>
+                        <div class="route-step"><i class="fas fa-bus"></i> 码头 <span>➡</span> 葡京酒店 (酒店免费发财车)</div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：船票HK$209"></div></div>
+                </div>
+                <div class="event-item" data-id="d4e3">
+                    <div class="event-dot"></div><div class="event-time">02:00 PM</div>
+                    <div class="event-title-row"><div class="event-title">大三巴与恋爱巷</div><button class="nav-btn" data-lat="22.1999" data-lng="113.5433" data-name="大三巴牌坊"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="recommend-box">
+                        <div class="rec-card rec-play"><div class="rec-title"><i class="fas fa-camera"></i> 打卡推荐</div><div class="rec-desc">大三巴牌坊侧面拍全景，恋爱巷粉色街道。</div></div>
+                        <div class="rec-card rec-food"><div class="rec-title"><i class="fas fa-utensils"></i> 必尝美食</div><div class="rec-desc">玛嘉烈蛋挞(仅收现金)、义顺牛奶双皮奶。</div></div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：蛋挞排队长不长"></div></div>
+                </div>
+                <div class="event-item" data-id="d4e4">
+                    <div class="event-dot"></div><div class="event-time">08:00 PM</div>
+                    <div class="event-title-row"><div class="event-title">新葡京与夜景</div><button class="nav-btn" data-lat="22.1934" data-lng="113.5479" data-name="新葡京娱乐场"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">参观新葡京大厅，夜游大三巴（人少好拍），晚餐番茄屋。</div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：夜景出片率"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Day 5 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-num">05</div>
+                <div class="day-info"><h3>满载而归</h3><p>06.26 WED · 氹仔 → 赣州</p></div>
+            </div>
+            <div class="day-body">
+                <div class="event-item" data-id="d5e1">
+                    <div class="event-dot"></div><div class="event-time">10:00 AM</div>
+                    <div class="event-title-row"><div class="event-title">威尼斯人度假区</div><button class="nav-btn" data-lat="22.1480" data-lng="113.5588" data-name="威尼斯人购物中心"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">乘免费发财车游览威尼斯人、巴黎人、伦敦人。</div>
+                    <div class="route-box"><div class="route-step"><i class="fas fa-bus"></i> 澳门半岛 <span>➡</span> 氹仔威尼斯人 (酒店免费发财车)</div></div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：买了什么手信"></div></div>
+                </div>
+                <div class="event-item" data-id="d5e2">
+                    <div class="event-dot"></div><div class="event-time">12:30 PM</div>
+                    <div class="event-title-row"><div class="event-title">官也街美食冲刺</div><button class="nav-btn" data-lat="22.1517" data-lng="113.5651" data-name="官也街"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">短小精悍的美食街，将澳式美味一网打尽。</div>
+                    <div class="route-box"><div class="route-step"><i class="fas fa-person-walking"></i> 威尼斯人 <span>➡</span> 官也街 (步行15分钟)</div></div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：水蟹粥味道"></div></div>
+                </div>
+                <div class="event-item" data-id="d5e3">
+                    <div class="event-dot"></div><div class="event-time">02:30 PM</div>
+                    <div class="event-title-row"><div class="event-title">拱北口岸过关</div><button class="nav-btn" data-lat="22.2081" data-lng="113.5433" data-name="拱北口岸"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="route-box">
+                        <div class="route-step"><i class="fas fa-taxi"></i> 官也街 <span>➡</span> 拱北口岸 (打车约MOP$80)</div>
+                        <div class="route-step"><i class="fas fa-person-walking"></i> 拱北口岸 <span>➡</span> 珠海站 (过关后步行5分钟)</div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：过关排队多久"></div></div>
+                </div>
+                <div class="event-item" data-id="d5e4">
+                    <div class="event-dot"></div><div class="event-time">04:00 PM</div>
+                    <div class="event-title-row"><div class="event-title">高铁返赣</div><button class="nav-btn" data-lat="22.2081" data-lng="113.5433" data-name="珠海站"><i class="fas fa-location-arrow"></i> 导航</button></div>
+                    <div class="event-desc">珠海站乘城轨至广州南，换高铁返回赣州西，圆满收官。</div>
+                    <div class="route-box">
+                        <div class="route-step"><i class="fas fa-train"></i> 珠海站 <span>➡</span> 广州南站 (广珠城际，约1小时)</div>
+                        <div class="route-step"><i class="fas fa-train"></i> 广州南站 <span>➡</span> 赣州西站 (高铁，约4小时)</div>
+                    </div>
+                    <div class="event-actions"><div class="action-row"><button class="check-btn"><i class="fas fa-check"></i> 打卡完成</button><input type="text" class="note-input" placeholder="随手记：安全到家！"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="budget">
+        <div class="section-header">
+            <span class="section-label">03 — Budget</span>
+            <h2 class="section-title">财务 <em>规划</em></h2>
+        </div>
+        <div class="budget-card card-base">
+            <div class="form-group"><label class="form-label">行程天数</label><select class="form-select" id="days"><option value="3">3 天 2 晚</option><option value="4">4 天 3 晚</option><option value="5" selected>5 天 4 晚</option><option value="7">7 天 6 晚</option></select></div>
+            <div class="form-group"><label class="form-label">出行规格</label><select class="form-select" id="style"><option value="economy">经济实惠</option><option value="comfort" selected>舒适豪华</option></select></div>
+            <div class="total-display"><div class="total-label">ESTIMATED TOTAL</div><div class="total-value" id="total">¥0</div></div>
+            <div class="breakdown-list">
+                <div class="breakdown-item"><span>高铁往返</span><h4 id="c-train">¥0</h4></div>
+                <div class="breakdown-item"><span>酒店住宿</span><h4 id="c-hotel">¥0</h4></div>
+                <div class="breakdown-item"><span>港澳船票</span><h4 id="c-ferry">¥0</h4></div>
+                <div class="breakdown-item"><span>市内交通</span><h4 id="c-trans">¥0</h4></div>
+                <div class="breakdown-item"><span>餐饮美食</span><h4 id="c-food">¥0</h4></div>
+                <div class="breakdown-item"><span>门票手信</span><h4 id="c-misc">¥0</h4></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="checklist" style="background: #F1F3F5;">
+        <div class="section-header">
+            <span class="section-label">04 — Checklist</span>
+            <h2 class="section-title">出行 <em>清单</em></h2>
+        </div>
+        <div class="checklist-progress-container"><div class="progress-bar" id="progressBar"></div></div>
+        <div class="checklist-grid">
+            <div class="check-item"><div class="custom-checkbox"><i class="fas fa-check"></i></div>港澳通行证</div>
+            <div class="check-item"><div class="custom-checkbox"><i class="fas fa-check"></i></div>身份证</div>
+            <div class="check-item"><div class="custom-checkbox"><i class="fas fa-check"></i></div>海关申报码</div>
+            <div class="check-item"><div class="custom-checkbox"><i class="fas fa-check"></i></div>流量卡</div>
+            <div class="check-item"><div class="custom-checkbox"><i class="fas fa-check"></i></div>港币现金</div>
+            <div class="check-item"><div class="custom-checkbox"><i class="fas fa-check"></i></div>转换插头</div>
+            <div class="check-item"><div class="custom-checkbox"><i class="fas fa-check"></i></div>充电宝</div>
+            <div class="check-item"><div class="custom-checkbox"><i class="fas fa-check"></i></div>薄外套</div>
+            <div class="check-item"><div class="custom-checkbox"><i class="fas fa-check"></i></div>防晒霜</div>
+            <div class="check-item"><div class="custom-checkbox"><i class="fas fa-check"></i></div>雨伞</div>
+            <div class="check-item"><div class="custom-checkbox"><i class="fas fa-check"></i></div>拖鞋</div>
+            <div class="check-item"><div class="custom-checkbox"><i class="fas fa-check"></i></div>常用药</div>
+        </div>
+    </section>
+
+    <footer>
+        <h2 class="footer-logo">Bon <em>Voyage</em></h2>
+        <p class="footer-text">HAVE A LUXURY TRIP IN HONG KONG & MACAU</p>
+    </footer>
+
+    <script>
+        // 1. 滚动显隐导航栏与动画
+        const navBar = document.getElementById('navBar');
+        const hero = document.querySelector('.hero');
+        window.addEventListener('scroll', () => { if (window.scrollY > hero.offsetHeight - 100) navBar.classList.add('visible'); else navBar.classList.remove('visible'); });
+        const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1 });
+        document.querySelectorAll('.card-base, .day-card, .section-header').forEach(el => observer.observe(el));
+
+        // 2. 汇率换算
+        const rates = { HKD: 1.08, MOP: 1.11 };
+        const cnyInput = document.getElementById('cnyInput');
+        function calcExchange() {
+            const cny = parseFloat(cnyInput.value) || 0;
+            document.getElementById('hkdResult').textContent = (cny * rates.HKD).toFixed(1);
+            document.getElementById('mopResult').textContent = (cny * rates.MOP).toFixed(1);
+            localStorage.setItem('hkmacau_cny', cny);
+        }
+        cnyInput.addEventListener('input', calcExchange);
+        if (localStorage.getItem('hkmacau_cny')) cnyInput.value = localStorage.getItem('hkmacau_cny');
+
+        // 3. 导航按钮逻辑
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const lat = btn.dataset.lat, lng = btn.dataset.lng, name = btn.dataset.name;
+                if ('vibrate' in navigator) navigator.vibrate(10);
+                const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+                let mapUrl = isIOS ? `https://maps.apple.com/?daddr=${lat},${lng}&name=${name}` : `https://uri.amap.com/marker?position=${lng},${lat}&name=${name}`;
+                window.open(mapUrl, '_blank');
+            });
+        });
+
+        // 4. 初始化 Leaflet 地图
+        const map = L.map('map', { scrollWheelZoom: false }).setView([22.2, 113.8], 11);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+        const routeData = [
+            { day: 1, color: '#E60012', points: [{lat: 22.142, lng: 114.158, name: '香港西九龙站'}, {lat: 22.294, lng: 114.171, name: '尖沙咀'}, {lat: 22.293, lng: 114.171, name: '星光大道'}, {lat: 22.305, lng: 114.169, name: '庙街夜市'}] },
+            { day: 2, color: '#F38B00', points: [{lat: 22.305, lng: 114.169, name: '佐敦澳洲牛奶'}, {lat: 22.285, lng: 114.129, name: '坚尼地城'}, {lat: 22.286, lng: 114.125, name: '西环泳棚'}, {lat: 22.283, lng: 114.137, name: '香港大学'}] },
+            { day: 3, color: '#0075C2', points: [{lat: 22.285, lng: 114.154, name: '中环码头'}, {lat: 22.208, lng: 114.027, name: '长洲岛'}, {lat: 22.285, lng: 114.151, name: '九记牛腩'}] },
+            { day: 4, color: '#00843D', points: [{lat: 22.287, lng: 114.150, name: '上环码头'}, {lat: 22.149, lng: 113.558, name: '澳门氹仔码头'}, {lat: 22.193, lng: 113.547, name: '葡京/新葡京'}, {lat: 22.199, lng: 113.543, name: '大三巴'}] },
+            { day: 5, color: '#A6843E', points: [{lat: 22.148, lng: 113.558, name: '威尼斯人'}, {lat: 22.151, lng: 113.565, name: '官也街'}, {lat: 22.208, lng: 113.543, name: '拱北口岸'}] }
+        ];
+        routeData.forEach(route => {
+            const latlngs = route.points.map(p => [p.lat, p.lng]);
+            L.polyline(latlngs, { color: route.color, weight: 3, opacity: 0.7 }).addTo(map);
+            route.points.forEach(p => {
+                L.circleMarker([p.lat, p.lng], { radius: 5, fillColor: route.color, color: '#fff', weight: 2, fillOpacity: 1 })
+                .bindPopup(`<b>${p.name}</b><br>Day ${route.day}`).addTo(map);
+            });
+        });
+        map.fitBounds(routeData.flatMap(r => r.points.map(p => [p.lat, p.lng])), { padding: [30, 30] });
+
+        // 5. 行程节点打卡与笔记功能 (新增核心逻辑)
+        document.querySelectorAll('.event-item').forEach(item => {
+            const itemId = item.dataset.id;
+            const checkBtn = item.querySelector('.check-btn');
+            const noteInput = item.querySelector('.note-input');
+
+            // 读取历史打卡状态
+            if (localStorage.getItem('hkmacau_event_' + itemId) === 'done') {
+                item.classList.add('completed');
+                checkBtn.classList.add('checked');
+                checkBtn.innerHTML = '<i class="fas fa-check"></i> 已完成';
+            }
+            // 读取历史笔记
+            if (localStorage.getItem('hkmacau_note_' + itemId)) {
+                noteInput.value = localStorage.getItem('hkmacau_note_' + itemId);
+            }
+
+            // 打卡点击事件
+            checkBtn.addEventListener('click', () => {
+                item.classList.toggle('completed');
+                if (item.classList.contains('completed')) {
+                    checkBtn.classList.add('checked');
+                    checkBtn.innerHTML = '<i class="fas fa-check"></i> 已完成';
+                    localStorage.setItem('hkmacau_event_' + itemId, 'done');
+                    if ('vibrate' in navigator) navigator.vibrate(15);
+                } else {
+                    checkBtn.classList.remove('checked');
+                    checkBtn.innerHTML = '<i class="fas fa-check"></i> 打卡完成';
+                    localStorage.removeItem('hkmacau_event_' + itemId);
+                }
+            });
+
+            // 笔记输入保存
+            noteInput.addEventListener('input', () => {
+                localStorage.setItem('hkmacau_note_' + itemId, noteInput.value);
+            });
+        });
+
+        // 6. Canvas 背景
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        let w, h;
+        function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; }
+        resize(); window.addEventListener('resize', resize);
+        let time = 0;
+        function drawLines() {
+            ctx.clearRect(0, 0, w, h);
+            for (let i = 0; i < 3; i++) {
+                ctx.beginPath(); ctx.moveTo(0, h / 2);
+                for (let x = 0; x <= w; x += 10) {
+                    let y = h / 2 + Math.sin(x * 0.005 + time + i) * 80 + Math.cos(x * 0.01 + time + i) * 40;
+                    ctx.lineTo(x, y);
+                }
+                ctx.strokeStyle = `rgba(197, 160, 89, ${0.15 - i * 0.04})`;
+                ctx.lineWidth = 2; ctx.stroke();
+            }
+            time += 0.005; requestAnimationFrame(drawLines);
+        }
+        drawLines();
+
+        // 7. 预算计算
+        const data = {
+            3: { e: { t:700, h:1200, f:182, tr:300, fd:900, m:500 }, c: { t:800, h:2400, f:182, tr:600, fd:1500, m:800 } },
+            4: { e: { t:700, h:1600, f:182, tr:300, fd:1200, m:500 }, c: { t:800, h:3200, f:182, tr:600, fd:2000, m:1000 } },
+            5: { e: { t:700, h:2000, f:182, tr:300, fd:1500, m:500 }, c: { t:800, h:4000, f:182, tr:600, fd:2500, m:1500 } },
+            7: { e: { t:700, h:2800, f:182, tr:300, fd:2100, m:500 }, c: { t:800, h:5600, f:182, tr:600, fd:3500, m:2000 } }
+        };
+        function calcBudget() {
+            const d = document.getElementById('days').value;
+            const s = document.getElementById('style').value;
+            const val = data[d][s === 'economy' ? 'e' : 'c'];
+            const total = val.t + val.h + val.f + val.tr + val.fd + val.m;
+            animateNum('total', total); animateNum('c-train', val.t); animateNum('c-hotel', val.h);
+            animateNum('c-ferry', val.f); animateNum('c-trans', val.tr); animateNum('c-food', val.fd); animateNum('c-misc', val.m);
+            localStorage.setItem('hkmacau_days', d); localStorage.setItem('hkmacau_style', s);
+        }
+        function animateNum(id, end) {
+            const obj = document.getElementById(id);
+            let start = parseInt(obj.textContent.replace(/[^\d]/g, '')) || 0;
+            let startTime = null;
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = Math.min((timestamp - startTime) / 800, 1);
+                obj.textContent = `¥${Math.floor(progress * (end - start) + start).toLocaleString()}`;
+                if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+        if (localStorage.getItem('hkmacau_days')) document.getElementById('days').value = localStorage.getItem('hkmacau_days');
+        if (localStorage.getItem('hkmacau_style')) document.getElementById('style').value = localStorage.getItem('hkmacau_style');
+        document.getElementById('days').addEventListener('change', calcBudget);
+        document.getElementById('style').addEventListener('change', calcBudget);
+
+        // 8. 出行清单逻辑
+        const checkItems = document.querySelectorAll('.check-item');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        checkItems.forEach(item => {
+            const itemId = item.textContent.trim();
+            if (localStorage.getItem('hkmacau_check_' + itemId) === 'true') item.classList.add('checked');
+            item.addEventListener('click', () => {
+                item.classList.toggle('checked');
+                if ('vibrate' in navigator) navigator.vibrate(item.classList.contains('checked') ? 15 : 5);
+                localStorage.setItem('hkmacau_check_' + itemId, item.classList.contains('checked'));
+                updateProgress();
+            });
+        });
+        function updateProgress() {
+            const checkedCount = document.querySelectorAll('.check-item.checked').length;
+            const percent = (checkedCount / checkItems.length) * 100;
+            progressBar.style.width = `${percent}%`;
+            if (percent === 0) progressText.textContent = "准备出行";
+            else if (percent === 100) { progressText.textContent = "准备就绪!"; if ('vibrate' in navigator) navigator.vibrate([20, 40, 20]); }
+            else progressText.textContent = `清单 ${Math.round(percent)}%`;
+        }
+        
+        window.addEventListener('load', () => { calcExchange(); calcBudget(); updateProgress(); });
+    </script>
+</body>
+</html>
